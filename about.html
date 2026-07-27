@@ -217,7 +217,7 @@ iframe.vid__frame{position:absolute;inset:0;width:100%;height:100%;border:0;}
 footer{padding-block:70px 120px;}
 .foot__cta{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--mut);margin-bottom:16px;}
 .foot__mail{font-weight:800;letter-spacing:-.02em;text-transform:lowercase;
-  font-size:clamp(26px,6vw,84px);line-height:1;display:inline-block;transition:transform .4s cubic-bezier(.16,1,.3,1);}
+  font-size:clamp(16px,6.2vw,88px);line-height:1;display:inline-block;white-space:nowrap;transition:transform .4s cubic-bezier(.16,1,.3,1);}
 .foot__mail:hover{transform:skewX(-7deg);}
 .foot__row{display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px;margin-top:54px;
   font-size:12px;color:var(--mut);text-transform:uppercase;letter-spacing:.1em;}
@@ -433,6 +433,17 @@ function flip(n){
   const target=(n+leaves.length)%leaves.length;
   if(target===cur)return;
   if(cur===-1){showInstant(target);return;}
+  // The sheet turn models a two-page spread rotating about its spine. Below
+  // 840px the book collapses to one column, so there is no spine — the sheet
+  // rendered as a half-width, page-tall sliver sweeping across the text.
+  // Fade instead, and bring the top of the new page into view: the controls
+  // sit under a very tall page, so after tapping Next you would otherwise be
+  // left at the bottom of content you have not seen.
+  if(window.matchMedia('(max-width:840px)').matches){
+    showInstant(target);
+    bookEl.scrollIntoView({behavior:'smooth',block:'start'});
+    return;
+  }
   animateTurn(cur,target,n>cur);
 }
 document.getElementById('bPrev').addEventListener('click',()=>flip(cur-1));
@@ -450,8 +461,11 @@ const fsBtn=document.getElementById('bFull');
 function setFs(on){
   bookEl.classList.toggle('is-fs',on);
   document.body.classList.toggle('book-fs-lock',on);
-  fsBtn.textContent=on?'\u2921':'\u2922';
+  // A plain cross reads as "close" on a phone; the diagonal arrow it replaced
+  // did not, and there is no Escape key to fall back on.
+  fsBtn.textContent=on?'\u2715':'\u2922';
   fsBtn.title=on?'Exit fullscreen':'Fullscreen';
+  fsBtn.setAttribute('aria-label',on?'Exit fullscreen':'Fullscreen');
 }
 fsBtn.addEventListener('click',()=>setFs(!bookEl.classList.contains('is-fs')));
 window.addEventListener('keydown',e=>{if(e.key==='Escape'&&bookEl.classList.contains('is-fs'))setFs(false);});
