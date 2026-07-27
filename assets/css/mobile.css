@@ -140,6 +140,21 @@ html { -webkit-text-size-adjust: 100%; }
                 env(safe-area-inset-bottom) env(safe-area-inset-left); }
 }
 
+/* ------------------------------------------- urban3d: live demo embed ----
+   The demo frame is 16/9, which on a 375px phone leaves the embedded app just
+   211px of height — 26% of the screen. The app's own panels then run off the
+   bottom of the frame (its "Geographic Domain Extractor" dialog gets cut mid
+   control). 16/9 suits the video below it, but an interactive tool needs
+   height, so give it a portrait frame here. Capped at 78vh so page remains
+   visible above and below it — the embed is a cross-origin iframe and will
+   swallow touch drags, so the visitor needs somewhere else to start a scroll. */
+@media (max-width: 780px) {
+  .frame--demo {
+    aspect-ratio: 3 / 4;
+    max-height: 78vh;
+  }
+}
+
 /* -------------------------------------------- about: chapter index strip --
    Ten chapters, whose titles run up to 39 characters ("Sustainability,
    Calculations & Analysis"). Rendered in full, two pills fill a phone screen
