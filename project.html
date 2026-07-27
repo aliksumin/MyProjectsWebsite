@@ -558,12 +558,20 @@ if(proj.clips&&proj.clips.length){
 
 function beforeAfterEl(item){
   const wrap=document.createElement('div');wrap.className='ba reveal';
+  // Not every comparison is a before/after. The Ski Resort slider compares two
+  // design variants of the same proposal, so labelling the sides "Before" and
+  // "After" stated something untrue about the project. Items may name their own
+  // sides; only those that omit them fall back to Before/After.
+  const bl=item.beforeLabel||'Before', al=item.afterLabel||'After';
+  // Likewise the frame: the default 3/2 crops a near-square source by about a
+  // third under object-fit:cover, so let an item declare its own ratio.
+  const ar=item.ar?` style="aspect-ratio:${item.ar}"`:'';
   wrap.innerHTML=`
-    <div class="ba__frame">
-      <img class="ba__img ba__after" ${window.imgAttrs(item.after,'100vw')} alt="After — ${item.label||''}" draggable="false" loading="lazy">
-      <span class="ba__tag ba__tag--after">After</span>
-      <div class="ba__beforeWrap"><img class="ba__img" ${window.imgAttrs(item.before,'100vw')} alt="Before — ${item.label||''}" draggable="false" loading="lazy"></div>
-      <span class="ba__tag ba__tag--before">Before</span>
+    <div class="ba__frame"${ar}>
+      <img class="ba__img ba__after" ${window.imgAttrs(item.after,'100vw')} alt="${al} — ${item.label||''}" draggable="false" loading="lazy">
+      <span class="ba__tag ba__tag--after">${al}</span>
+      <div class="ba__beforeWrap"><img class="ba__img" ${window.imgAttrs(item.before,'100vw')} alt="${bl} — ${item.label||''}" draggable="false" loading="lazy"></div>
+      <span class="ba__tag ba__tag--before">${bl}</span>
       <div class="ba__handle"><span class="ba__grip"></span></div>
     </div>
     ${item.label?`<div class="ba__cap"><span>// ${item.label}</span><span>drag to compare ↔</span></div>`:''}`;
