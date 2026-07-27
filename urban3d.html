@@ -71,14 +71,28 @@ header{position:fixed;top:0;left:0;right:0;z-index:500;
 .frame--demo.is-fs{position:fixed;inset:0;z-index:9000;width:100vw;height:100vh;
   max-height:none;aspect-ratio:auto;border:0;}
 body.demo-fs-lock{overflow:hidden;}
-.demo-fs{position:absolute;z-index:5;
+/* Resting state: the control sits in the caption line under the frame. It used
+   to float over the top-right corner of the embed, which is fine on a desktop
+   where the app's toolbar is only ~625px wide, but the app wraps that toolbar
+   across the full width on a phone — leaving no free corner, so the button
+   landed on top of "Analysis Modules". Outside the frame it cannot collide
+   with the app at any width. */
+.demo-fs{display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--mono,ui-monospace,monospace);font-size:11px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--mut);background:none;
+  border:1px solid var(--line);border-radius:100px;padding:7px 14px;cursor:pointer;
+  transition:color .25s,border-color .25s;}
+.demo-fs:hover{color:var(--ink);border-color:var(--ink);}
+
+/* Fullscreen state: the button moves inside the overlay, which is the only
+   place it can still be reached once the frame covers the viewport. */
+.frame--demo .demo-fs{position:absolute;z-index:5;
   top:calc(12px + env(safe-area-inset-top));right:calc(12px + env(safe-area-inset-right));
-  display:flex;align-items:center;gap:8px;height:40px;padding:0 15px;border-radius:100px;
-  font-family:var(--mono,ui-monospace,monospace);font-size:10px;letter-spacing:.16em;
-  text-transform:uppercase;color:#fff;background:rgba(10,14,22,.72);
+  height:40px;padding:0 15px;font-size:10px;letter-spacing:.16em;
+  color:#fff;background:rgba(10,14,22,.72);
   border:1px solid rgba(255,255,255,.3);backdrop-filter:blur(8px);
-  -webkit-backdrop-filter:blur(8px);cursor:pointer;}
-.demo-fs:hover{background:rgba(10,14,22,.92);}
+  -webkit-backdrop-filter:blur(8px);}
+.frame--demo .demo-fs:hover{color:#fff;background:rgba(10,14,22,.92);border-color:rgba(255,255,255,.5);}
 .facade{position:absolute;inset:0;cursor:pointer;display:flex;align-items:center;justify-content:center;
   background-size:cover;background-position:center;}
 .facade::after{content:"";position:absolute;inset:0;background:rgba(6,10,18,.5);transition:background .3s;}
@@ -203,7 +217,7 @@ footer{padding-block:70px 130px;}
         </div>
       </div>
     </div>
-    <div class="wrap"><div class="cap"><span>// live build — aliksumin.github.io/Urban3DAnalysis</span><span>Drag to orbit · scroll to zoom</span></div></div>
+    <div class="wrap"><div class="cap" id="demoCap"><span>// live build — aliksumin.github.io/Urban3DAnalysis</span><span>Drag to orbit · scroll to zoom</span></div></div>
   </section>
 
   <section class="wrap">
@@ -358,7 +372,12 @@ document.getElementById('demoFacade').addEventListener('click',function(){
   label.textContent='Fullscreen';
   btn.append('⤢',label);
   btn.setAttribute('aria-label','View demo fullscreen');
-  holder.appendChild(btn);
+  // Parked in the caption line while resting so it can never sit on top of the
+  // embedded app's own controls, and moved into the overlay for fullscreen,
+  // where the caption is off-screen. Only the button moves — never the iframe,
+  // which would reload the app and lose whatever the visitor had set up.
+  const cap=document.getElementById('demoCap');
+  (cap||holder).appendChild(btn);
 
   // A transformed ancestor becomes the containing block for position:fixed
   // descendants, so the overlay would anchor to that element instead of the
@@ -393,6 +412,7 @@ document.getElementById('demoFacade').addEventListener('click',function(){
     }
     holder.classList.toggle('is-fs',on);
     document.body.classList.toggle('demo-fs-lock',on);
+    (on?holder:(cap||holder)).appendChild(btn);
     label.textContent=on?'Exit':'Fullscreen';
     btn.firstChild.nodeValue=on?'✕':'⤢';   // a cross reads as close; a phone has no Escape key
     btn.setAttribute('aria-label',on?'Exit fullscreen':'View demo fullscreen');
