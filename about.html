@@ -282,8 +282,12 @@ document.getElementById('heroMeta').innerHTML=
    <div style="margin-top:10px">${A.chapters.length} chapters</div>`;
 
 // chapter index
+// The title sits in its own span so the mobile stylesheet can drop it: ten
+// chapters whose names run to 39 characters cannot fit a phone's width, and
+// the full title of the current chapter is already shown in the page head
+// directly below this strip.
 document.getElementById('cidx').innerHTML=A.chapters.map(c=>
-  `<a href="#c-${c.key}" data-c="${c.key}"><em>${c.code}</em>${c.title}</a>`).join('');
+  `<a href="#c-${c.key}" data-c="${c.key}"><em>${c.code}</em><span class="cidx__t">${c.title}</span></a>`).join('');
 
 const body=document.getElementById('body');
 const lbItems=[];
@@ -391,6 +395,29 @@ function setMeta(i){
   cidxLinks.forEach((a,k)=>a.classList.toggle('on',k===i));
   const c=A.chapters[i];
   bCount.innerHTML=`<b>${String(i+1).padStart(2,'0')}</b> / ${String(leaves.length).padStart(2,'0')} — ${c.title}`;
+  centreChapter(i);
+}
+// Keep the current chapter — and its neighbours — in view. On a narrow phone
+// the strip can still overflow, and without this the active chapter drifts off
+// the edge as you page through, leaving no clue where you are.
+// scrollIntoView is avoided deliberately: it would also scroll the page
+// vertically to this sticky bar on every page turn.
+function centreChapter(i){
+  const strip=document.getElementById('cidx'),a=cidxLinks[i];
+  if(!strip||!a)return;
+  const max=strip.scrollWidth-strip.clientWidth;
+  if(max<=0)return;                       // everything already fits
+  // Measured from bounding rects rather than offsetLeft: the badges'
+  // offsetParent is the sticky .cidx wrapper, not this scrolling element, so
+  // offsetLeft would be relative to the wrong box and the strip never moved.
+  const sr=strip.getBoundingClientRect(),ar=a.getBoundingClientRect();
+  const delta=(ar.left-sr.left)-(strip.clientWidth-ar.width)/2;
+  const target=Math.max(0,Math.min(strip.scrollLeft+delta,max));
+  // Assigned directly rather than scrollTo({behavior:'smooth'}): smooth
+  // scrolling on this element proved unreliable — the animation could fail to
+  // land, leaving the strip at 0 and the active chapter off-screen. Over the
+  // ~170px this ever moves, an instant snap is imperceptible and always works.
+  strip.scrollLeft=target;
 }
 function showInstant(i){
   leaves.forEach((l,k)=>{l.classList.toggle('on',k===i);l.style.zIndex='';l.style.animation='';});

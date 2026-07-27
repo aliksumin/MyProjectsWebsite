@@ -140,6 +140,45 @@ html { -webkit-text-size-adjust: 100%; }
                 env(safe-area-inset-bottom) env(safe-area-inset-left); }
 }
 
+/* -------------------------------------------- about: chapter index strip --
+   Ten chapters, whose titles run up to 39 characters ("Sustainability,
+   Calculations & Analysis"). Rendered in full, two pills fill a phone screen
+   and the rest sit off the edge with no sign they exist.
+
+   The title is redundant here on mobile: the page head immediately below this
+   bar already reads "A — Chapter 1 / 10" with the chapter name. So drop the
+   titles and keep the lettered badges, which fits all ten at once — the whole
+   structure visible, current position filled in, every chapter one tap away.
+   about.html still centres the active badge, for phones narrow enough that
+   even the badges overflow.                                                  */
+@media (max-width: 780px) {
+  .cidx__in {
+    gap: 3px;
+    padding: 8px 0;
+    /* No scroll-behavior:smooth here — it makes even a direct scrollLeft
+       assignment animate, and the animation does not always land, leaving the
+       strip stuck at 0. about.html sets scrollLeft directly instead.
+       Deliberately NOT justify-content:space-between either. On a flex scroll
+       container, any justify-content other than flex-start pushes overflowing
+       items past the start edge where scrolling cannot reach them — scrollLeft
+       silently stays 0. The badges fit unspread on any phone from ~340px up,
+       and narrower screens need the scrolling to actually work. */
+  }
+  .cidx a {
+    padding: 5px;
+    gap: 0;
+  }
+  .cidx a .cidx__t { display: none; }
+  .cidx a em {
+    width: 20px;
+    height: 20px;
+    font-size: 10px;
+    border-width: 1px;
+  }
+  /* the filled active state is the only position cue left, so make it read */
+  .cidx a.on em { border-color: transparent; }
+}
+
 /* ------------------------------------------------- about: portfolio book --
    Below 840px about.html collapses the two-page spread into a single column.
    Three things break there, all fixed here.
