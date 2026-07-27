@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Urban 3D Analysis — Albert Sumin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;0,800;1,400&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+  --paper:oklch(0.962 0.004 95);
+  --paper2:oklch(0.93 0.006 95);
+  --ink:oklch(0.18 0.01 95);
+  --mut:oklch(0.45 0.01 95);
+  --line:oklch(0.18 0.01 95 / .16);
+  --accent:#2a6fdb;
+  --switch-bg:#15140f;--switch-fg:#f7f5ee;--switch-mut:rgba(247,245,238,.55);--switch-bd:rgba(247,245,238,.18);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--mono);background:var(--paper);color:var(--ink);
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;}
+a{color:inherit;text-decoration:none;}
+.wrap{max-width:1400px;margin:0 auto;padding:0 clamp(20px,4vw,64px);}
+.mono-label{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--mut);}
+
+header{position:fixed;top:0;left:0;right:0;z-index:500;
+  border-bottom:1px solid var(--line);background:color-mix(in oklch,var(--paper) 82%,transparent);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);}
+.hd{display:flex;justify-content:space-between;align-items:center;height:58px;}
+.hd__name{font-weight:800;letter-spacing:.04em;font-size:14px;}
+.hd__nav{display:flex;gap:26px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;}
+.hd__nav a{color:var(--mut);transition:color .25s;}
+.hd__nav a:hover{color:var(--ink);}
+@media(max-width:680px){.hd__nav a.opt{display:none;}}
+
+.crumb{display:flex;justify-content:space-between;align-items:center;padding-block:80px 0;}
+.crumb a{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut);transition:color .25s;}
+.crumb a:hover{color:var(--ink);}
+
+.ph{padding-block:34px 8px;}
+.ph__n{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--mut);margin-bottom:18px;}
+.ph__title{font-weight:800;line-height:.9;letter-spacing:-.02em;text-transform:uppercase;
+  font-size:clamp(44px,8vw,120px);}
+.ph__lead{font-size:clamp(18px,2.2vw,28px);line-height:1.42;letter-spacing:-.01em;
+  font-weight:500;max-width:46ch;margin-top:26px;}
+.ph__lead b{font-weight:800;}
+.ph__meta{display:flex;flex-wrap:wrap;gap:36px;margin-top:34px;border-top:1px solid var(--line);padding-top:22px;}
+.ph__meta .fact h3{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--mut);margin-bottom:6px;}
+.ph__meta .fact p{font-size:14px;}
+.ph__links{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px;}
+.ph__links a{font-size:11px;letter-spacing:.12em;text-transform:uppercase;border:1px solid var(--ink);
+  border-radius:100px;padding:11px 18px;display:inline-flex;align-items:center;gap:8px;transition:background .25s,color .25s;}
+.ph__links a:hover{background:var(--ink);color:var(--paper);}
+.ph__links a.ghost{border-color:var(--line);color:var(--mut);}
+.ph__links a.ghost:hover{border-color:var(--ink);color:var(--ink);background:none;}
+
+/* full-bleed media frames (demo + video) */
+.bleed{position:relative;width:100vw;left:50%;margin-left:-50vw;margin-top:34px;}
+.frame{position:relative;width:100%;background:#0a0e16;overflow:hidden;border-block:1px solid var(--ink);}
+.frame--demo{aspect-ratio:16/9;max-height:88vh;}
+.frame--video{aspect-ratio:16/9;}
+.frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block;}
+.facade{position:absolute;inset:0;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  background-size:cover;background-position:center;}
+.facade::after{content:"";position:absolute;inset:0;background:rgba(6,10,18,.5);transition:background .3s;}
+.facade:hover::after{background:rgba(6,10,18,.34);}
+.facade__inner{position:relative;z-index:2;text-align:center;color:#fff;display:flex;flex-direction:column;align-items:center;gap:16px;padding:24px;}
+.facade__play{width:74px;height:74px;border-radius:50%;border:1.5px solid rgba(255,255,255,.85);
+  display:flex;align-items:center;justify-content:center;transition:transform .3s,background .3s;}
+.facade:hover .facade__play{transform:scale(1.08);background:rgba(255,255,255,.14);}
+.facade__play svg{width:26px;height:26px;fill:#fff;margin-left:3px;}
+.facade__t{font-size:13px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;}
+.facade__s{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.7);max-width:42ch;line-height:1.6;}
+.cap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;padding-top:13px;
+  font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut);}
+
+.sec-head{display:flex;justify-content:space-between;align-items:baseline;
+  border-bottom:1px solid var(--ink);padding-bottom:12px;margin:56px 0 26px;}
+.sec-head h2{font-size:13px;letter-spacing:.2em;text-transform:uppercase;font-weight:700;}
+.sec-head span{font-size:11px;color:var(--mut);}
+.prose{max-width:78ch;}
+.prose p{font-size:15.5px;line-height:1.8;color:oklch(0.30 0.01 95);margin-bottom:22px;}
+.prose p:last-child{margin-bottom:0;}
+
+.mech{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);
+  border:1px solid var(--line);margin-top:14px;}
+.mech__cell{background:var(--paper);padding:26px 22px;display:flex;flex-direction:column;gap:10px;}
+.mech__n{font-size:11px;letter-spacing:.14em;color:var(--accent);font-weight:700;filter:saturate(.8) brightness(.9);}
+.mech__t{font-size:15px;font-weight:700;letter-spacing:-.01em;}
+.mech__b{font-size:13px;line-height:1.62;color:var(--mut);}
+@media(max-width:760px){.mech{grid-template-columns:1fr;}}
+
+.refs{margin:30px 0 0;}
+.refs__grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.refs figure{margin:0;background:#0a0e16;border:1px solid var(--line);overflow:hidden;cursor:zoom-in;position:relative;}
+.refs figure.wide{grid-column:1/-1;aspect-ratio:16/9;}
+.refs figure.tall{aspect-ratio:16/10;}
+.refs img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s cubic-bezier(.16,1,.3,1);}
+.refs figure:hover img{transform:scale(1.03);}
+.refs figcaption{position:absolute;left:12px;bottom:10px;font-size:10px;letter-spacing:.1em;
+  text-transform:uppercase;color:rgba(255,255,255,.85);text-shadow:0 1px 6px rgba(0,0,0,.8);max-width:82%;}
+@media(max-width:680px){.refs__grid{grid-template-columns:1fr;}.refs figure.tall{aspect-ratio:16/10;}}
+
+.credits{margin-top:54px;border-top:1px solid var(--line);padding-top:26px;display:flex;flex-wrap:wrap;gap:40px;}
+.credit h3{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--mut);margin-bottom:8px;}
+.credit p{font-size:13.5px;line-height:1.7;}
+
+.next{border-top:1px solid var(--ink);padding-block:46px 0;margin-top:64px;}
+.next__lab{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--mut);margin-bottom:14px;}
+.next__link{display:flex;justify-content:space-between;align-items:center;gap:20px;
+  padding:24px 0;border-bottom:1px solid var(--line);transition:padding-left .4s cubic-bezier(.16,1,.3,1);}
+.next__link:hover{padding-left:18px;}
+.next__t{font-weight:800;letter-spacing:-.02em;text-transform:uppercase;font-size:clamp(28px,5vw,72px);line-height:1;}
+.next__arrow{font-size:clamp(28px,5vw,64px);color:var(--mut);}
+
+footer{padding-block:70px 130px;}
+.foot__cta{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--mut);margin-bottom:16px;}
+.foot__mail{font-weight:800;letter-spacing:-.02em;text-transform:lowercase;
+  font-size:clamp(26px,6vw,84px);line-height:1;display:inline-block;transition:transform .4s cubic-bezier(.16,1,.3,1);}
+.foot__mail:hover{transform:skewX(-7deg);}
+.foot__row{display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px;
+  margin-top:54px;font-size:12px;color:var(--mut);text-transform:uppercase;letter-spacing:.1em;}
+
+.lb{position:fixed;inset:0;z-index:9000;background:rgba(0,0,0,.94);
+  display:flex;align-items:center;justify-content:center;padding:30px;opacity:0;pointer-events:none;transition:opacity .35s;}
+.lb.on{opacity:1;pointer-events:auto;}
+.lb img{max-width:100%;max-height:100%;object-fit:contain;border:1px solid rgba(255,255,255,.18);}
+.lb__x{position:absolute;top:20px;right:24px;color:#fff;font-size:13px;letter-spacing:.1em;
+  border:1px solid rgba(255,255,255,.3);border-radius:100px;padding:9px 16px;cursor:pointer;text-transform:uppercase;}
+
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1);}
+.reveal.in{opacity:1;transform:none;}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none;}}
+</style>
+<link rel="stylesheet" href="assets/css/mobile.css" />
+</head>
+<body>
+<header>
+  <div class="wrap hd">
+    <a href="about.html" class="hd__name" data-name>Albert Sumin</a>
+    <nav class="hd__nav">
+      <a class="opt" href="about.html">About</a>
+      <a href="index.html">Projects</a>
+      <a class="opt" href="collaborations.html">Team Works</a>
+      <a class="opt" href="contact.html">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <div class="crumb">
+      <a href="index.html#work">◄ All projects</a>
+      <span class="mono-label">04 / Urban 3D Analysis</span>
+    </div>
+  </div>
+
+  <section class="ph wrap">
+    <div class="ph__n">Software · Urban Analytics · 2026</div>
+    <h1 class="ph__title">Urban 3D Analysis</h1>
+    <p class="ph__lead reveal">An interactive 3D analytics platform that reads any neighbourhood from OpenStreetMap and evaluates how <b>walkable</b> and how <b>well-ventilated</b> it really is — entirely in the browser, backed by local AI.</p>
+    <div class="ph__meta reveal">
+      <div class="fact"><h3>Type</h3><p>Web Application</p></div>
+      <div class="fact"><h3>Role</h3><p>Concept, design &amp; build</p></div>
+      <div class="fact"><h3>Stack</h3><p>React-Three-Fiber · FastAPI · ONNX</p></div>
+      <div class="fact"><h3>Data</h3><p>OpenStreetMap · Overture</p></div>
+      <div class="fact"><h3>Year</h3><p>2026</p></div>
+    </div>
+    <div class="ph__links reveal">
+      <a href="https://aliksumin.github.io/Urban3DAnalysis/" target="_blank" rel="noopener">Open live demo ↗</a>
+      <a class="ghost" href="https://github.com/aliksumin/Urban3DAnalysis" target="_blank" rel="noopener">Source on GitHub ↗</a>
+      <a class="ghost" href="https://youtu.be/EM2fr4sFSOQ" target="_blank" rel="noopener">Watch tutorial ↗</a>
+    </div>
+  </section>
+
+  <!-- LIVE INTERACTIVE DEMO -->
+  <section class="bleed reveal">
+    <div class="frame frame--demo">
+      <div class="facade" id="demoFacade" style="background-image:url('content/projects/04-urban3d/urban3d-02-network-glow.png')">
+        <div class="facade__inner">
+          <span class="facade__play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
+          <span class="facade__t">Launch the interactive demo</span>
+          <span class="facade__s">Loads the live WebGL app in-page · best viewed fullscreen — or open it in a new tab ↗</span>
+        </div>
+      </div>
+    </div>
+    <div class="wrap"><div class="cap"><span>// live build — aliksumin.github.io/Urban3DAnalysis</span><span>Drag to orbit · scroll to zoom</span></div></div>
+  </section>
+
+  <section class="wrap">
+    <div class="sec-head reveal"><h2>Overview</h2><span>A · What it is</span></div>
+    <div class="prose reveal">
+      <p>Urban 3D Analysis is a self-contained urban-analytics environment that pairs a modern WebGL interface with locally-accelerated AI. It pulls a city's real geometry — buildings, streets, terrain and water — straight from OpenStreetMap, voxelises it into an explorable 3D model, and then runs two analytical pipelines over it without sending anything to the cloud.</p>
+      <p>The whole toolchain is designed to run offline and dependency-free: a portable Python sandbox boots a FastAPI + ONNX backend while a React-Three-Fiber front end renders the city, so the heavy computation stays on the user's own machine.</p>
+    </div>
+  </section>
+
+  <section class="wrap">
+    <div class="sec-head reveal"><h2>Analytical Modules</h2><span>B · Two pipelines</span></div>
+    <div class="mech reveal">
+      <div class="mech__cell">
+        <span class="mech__n">01 / WALKABILITY</span>
+        <span class="mech__t">Isochrone walkability engine</span>
+        <span class="mech__b">Dijkstra pathfinding over the real pedestrian network computes true 15-minute-city reach — snapping to terrain height rather than drawing flat radii. A target-tracking HUD drops an agent that arcs to its nearest amenities to reveal where functions are missing.</span>
+      </div>
+      <div class="mech__cell">
+        <span class="mech__n">02 / AI PARAMETERISATION</span>
+        <span class="mech__t">Semantic building inference</span>
+        <span class="mech__b">An AI agent (Gemini over the OpenStreetMap tag space) reads native OSM metadata across hundreds of buildings at once and deduces each one's function — shop, hotel, clinic, school — replacing tedious manual data entry before the analysis runs.</span>
+      </div>
+      <div class="mech__cell">
+        <span class="mech__n">03 / MICROCLIMATE</span>
+        <span class="mech__t">Wind surrogate (Eddy3D GAN)</span>
+        <span class="mech__b">A generative neural model outputs fluid-dynamic wind fields directly from the city's heightmap, bypassing slow CFD meshing. Velocity and wake turbulence are projected back into the scene as an animated particle field that responds to wind speed, gusts and 360° direction.</span>
+      </div>
+      <div class="mech__cell">
+        <span class="mech__n">04 / ENVIRONMENT</span>
+        <span class="mech__t">Live conditions &amp; before/after</span>
+        <span class="mech__b">Date, time of day and weather drive the scene's light and shading, while a Before/After toggle and per-building editing (height override, function assignment) let you test design interventions and read their effect on the analysis in real time.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- VIDEO TUTORIAL -->
+  <section class="bleed reveal">
+    <div class="frame frame--video">
+      <div class="facade" id="vidFacade" style="background-image:url('https://i.ytimg.com/vi/EM2fr4sFSOQ/maxresdefault.jpg')">
+        <div class="facade__inner">
+          <span class="facade__play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
+          <span class="facade__t">Watch the tutorial</span>
+          <span class="facade__s">A full walkthrough of the walkability &amp; microclimate workflow</span>
+        </div>
+      </div>
+    </div>
+    <div class="wrap"><div class="cap"><span>// video tutorial</span><span>16:9</span></div></div>
+  </section>
+
+  <section class="wrap">
+    <div class="sec-head reveal"><h2>Architecture</h2><span>C · How it's built</span></div>
+    <div class="prose reveal">
+      <p>The front end is built on React-Three-Fiber, rendering the city through instanced WebGL meshes with Zustand driving background AI chunking and app-wide state, bundled by Vite with a Tailwind-styled, data-dense interface. The back end wraps ONNX model predictions in a FastAPI/Uvicorn service, with the <em>astral-uv</em> package manager sandboxing every Python dependency so the app installs and runs without touching the user's system.</p>
+    </div>
+    <div class="credits reveal">
+      <div class="credit"><h3>Role</h3><p>Albert Sumin — concept, UX, 3D pipeline &amp; implementation</p></div>
+      <div class="credit"><h3>Frontend</h3><p>React-Three-Fiber · Zustand<br/>Vite · TailwindCSS</p></div>
+      <div class="credit"><h3>Backend</h3><p>FastAPI · ONNX Runtime · astral-uv</p></div>
+      <div class="credit"><h3>Data &amp; AI</h3><p>OpenStreetMap · Overture Maps<br/>Gemini tag inference · Eddy3D GAN</p></div>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section class="wrap">
+    <div class="sec-head reveal"><h2>Interface</h2><span>D · Screens</span></div>
+    <div class="refs reveal">
+      <div class="refs__grid">
+        <figure class="wide" data-full="content/projects/04-urban3d/urban3d-01-voxel-city.png">
+          <img src="content/projects/04-urban3d/urban3d-01-voxel-city.png" srcset="content-xs/projects/04-urban3d/urban3d-01-voxel-city.png 400w, content-sm/projects/04-urban3d/urban3d-01-voxel-city.png 900w, content/projects/04-urban3d/urban3d-01-voxel-city.png 2000w" sizes="(max-width:780px) 100vw, 50vw" alt="Voxelised city with AI-tagged building functions" loading="lazy" />
+          <figcaption>Voxelised city terrain with AI-assigned building functions &amp; target tracking</figcaption>
+        </figure>
+        <figure class="tall" data-full="content/projects/04-urban3d/urban3d-02-network-glow.png">
+          <img src="content/projects/04-urban3d/urban3d-02-network-glow.png" srcset="content-xs/projects/04-urban3d/urban3d-02-network-glow.png 400w, content-sm/projects/04-urban3d/urban3d-02-network-glow.png 900w, content/projects/04-urban3d/urban3d-02-network-glow.png 2000w" sizes="(max-width:780px) 100vw, 50vw" alt="Pedestrian network isochrone" loading="lazy" />
+          <figcaption>Pedestrian network — the 15-minute reachability field</figcaption>
+        </figure>
+        <figure class="tall" data-full="content/projects/04-urban3d/urban3d-03-walkability-map.png">
+          <img src="content/projects/04-urban3d/urban3d-03-walkability-map.png" srcset="content-xs/projects/04-urban3d/urban3d-03-walkability-map.png 400w, content-sm/projects/04-urban3d/urban3d-03-walkability-map.png 900w, content/projects/04-urban3d/urban3d-03-walkability-map.png 2000w" sizes="(max-width:780px) 100vw, 50vw" alt="Walkability overlay" loading="lazy" />
+          <figcaption>Walkability overlay across the street network</figcaption>
+        </figure>
+        <figure class="tall" data-full="content/projects/04-urban3d/urban3d-04-heat-terrain.png">
+          <img src="content/projects/04-urban3d/urban3d-04-heat-terrain.png" srcset="content-xs/projects/04-urban3d/urban3d-04-heat-terrain.png 400w, content-sm/projects/04-urban3d/urban3d-04-heat-terrain.png 900w, content/projects/04-urban3d/urban3d-04-heat-terrain.png 2000w" sizes="(max-width:780px) 100vw, 50vw" alt="Accessibility heat surface" loading="lazy" />
+          <figcaption>Accessibility heat surface over the terrain</figcaption>
+        </figure>
+        <figure class="tall" data-full="content/projects/04-urban3d/urban3d-05-building-select.png">
+          <img src="content/projects/04-urban3d/urban3d-05-building-select.png" srcset="content-xs/projects/04-urban3d/urban3d-05-building-select.png 400w, content-sm/projects/04-urban3d/urban3d-05-building-select.png 900w, content/projects/04-urban3d/urban3d-05-building-select.png 2000w" sizes="(max-width:780px) 100vw, 50vw" alt="Per-building inspection" loading="lazy" />
+          <figcaption>Per-building inspection — height override &amp; function assignment</figcaption>
+        </figure>
+        <figure class="wide" data-full="content/projects/04-urban3d/urban3d-06-isochrone-night.png">
+          <img src="content/projects/04-urban3d/urban3d-06-isochrone-night.png" srcset="content-xs/projects/04-urban3d/urban3d-06-isochrone-night.png 400w, content-sm/projects/04-urban3d/urban3d-06-isochrone-night.png 900w, content/projects/04-urban3d/urban3d-06-isochrone-night.png 2000w" sizes="(max-width:780px) 100vw, 50vw" alt="Isochrone matrix heatmap at night" loading="lazy" />
+          <figcaption>Isochrone matrix — walkable-radius heatmap</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="next wrap">
+    <div class="next__lab">Next project</div>
+    <a class="next__link" href="project.html?p=01">
+      <span class="next__t">Science City</span>
+      <span class="next__arrow">→</span>
+    </a>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot__cta">Start a conversation</div>
+    <a class="foot__mail" data-mail href="mailto:whitebirds2009@gmail.com">whitebirds2009@gmail.com</a>
+    <div class="foot__row">
+      <span data-name>Albert Sumin</span>
+      <a href="contact.html">Full contact ↗</a>
+      <span>© 2026</span>
+    </div>
+  </div>
+</footer>
+
+<div class="lb" id="lb"><span class="lb__x" id="lbx">Close ✕</span><img id="lbimg" alt="" /></div>
+
+<script src="assets/js/responsive.js"></script>
+<script src="assets/js/content.js"></script>
+<script src="assets/js/about-data.js"></script>
+<script src="assets/js/switcher.js"></script>
+<script>
+(function(){
+  const P=window.PORTFOLIO;
+  if(P){document.querySelectorAll('[data-name]').forEach(e=>e.textContent=P.name);
+    const m=document.querySelector('[data-mail]');if(m){m.textContent=P.email;m.href='mailto:'+P.email;}}
+})();
+
+// reveal
+const io=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);}}),{threshold:.12});
+document.querySelectorAll('.reveal').forEach(e=>io.observe(e));
+
+// click-to-load demo iframe (keeps the heavy WebGL app off the initial load)
+document.getElementById('demoFacade').addEventListener('click',function(){
+  const f=document.createElement('iframe');
+  f.src='https://aliksumin.github.io/Urban3DAnalysis/';
+  f.title='Urban 3D Analysis — live demo';
+  f.allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; fullscreen; xr-spatial-tracking';
+  f.setAttribute('allowfullscreen','');
+  this.parentNode.appendChild(f);this.remove();
+});
+
+// click-to-load YouTube tutorial
+document.getElementById('vidFacade').addEventListener('click',function(){
+  const id='EM2fr4sFSOQ';
+  const origin=/^https?:\/\//.test(location.origin)?'&origin='+encodeURIComponent(location.origin):'';
+  const f=document.createElement('iframe');
+  f.src='https://www.youtube-nocookie.com/embed/'+id+'?autoplay=1&rel=0&modestbranding=1&playsinline=1'+origin;
+  f.title='Urban 3D Analysis — tutorial';
+  f.allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+  f.setAttribute('allowfullscreen','');
+  this.parentNode.appendChild(f);this.remove();
+});
+
+// lightbox
+const lb=document.getElementById('lb'),lbimg=document.getElementById('lbimg');
+document.querySelectorAll('.refs figure').forEach(f=>f.addEventListener('click',()=>{lbimg.src=f.dataset.full;lb.classList.add('on');}));
+function closeLb(){lb.classList.remove('on');}
+document.getElementById('lbx').addEventListener('click',closeLb);
+lb.addEventListener('click',e=>{if(e.target===lb)closeLb();});
+window.addEventListener('keydown',e=>{if(e.key==='Escape')closeLb();});
+
+window.mountSwitcher('index');
+</script>
+</body>
+</html>

@@ -1,0 +1,148 @@
+/* ============================================================================
+   mobile.css — phone + tablet adaptations for every page.
+
+   Loaded AFTER each page's inline <style>, so equal-specificity rules here win.
+   Several selectors below look redundantly written (e.g. `:not(.hd__clock)`)
+   purely to match the specificity of the inline rule they need to override —
+   the pages hide their nav three different ways:
+
+     index / collaborations : .hd__nav a:not(.hd__clock) { display:none }
+     about / contact / project : .hd__nav a:not(.is-back) { display:none }
+     urban3d / wavy-square  : .hd__nav a.opt { display:none }
+
+   All three are (0,0,2,1); the override must be too.
+   ========================================================================== */
+
+/* iOS: stop Safari inflating text in landscape */
+html { -webkit-text-size-adjust: 100%; }
+
+/* Never let a stray wide element sideways-scroll the page */
+@media (max-width: 900px) {
+  img, video, canvas, svg, table { max-width: 100%; }
+}
+
+/* ---------------------------------------------------------------- header --
+   The header previously collapsed to nothing but a clock on phones, leaving
+   no way to reach About / Team Works / Contact. Give it two rows instead:
+   name on top, full navigation underneath.                                  */
+@media (max-width: 680px) {
+  .hd {
+    height: auto;
+    flex-wrap: wrap;
+    align-items: center;
+    row-gap: 1px;
+    padding-top: 9px;
+    padding-bottom: 5px;
+  }
+  .hd__name { font-size: 13px; }
+
+  .hd__nav a:not(.hd__clock) { display: inline-flex; align-items: center; }
+  .hd__clock { display: none; }          /* decorative; the space is better spent */
+
+  .hd__nav {
+    width: 100%;
+    gap: 0;
+    justify-content: space-between;
+    font-size: 10px;
+    letter-spacing: .1em;
+  }
+  .hd__nav a { padding: 12px 2px; }      /* ~37px tap target (WCAG AA needs 24) */
+}
+
+/* ------------------------------------------------------------------ hero --
+   The longest headline line, "COMPUTATIONAL", measures 7.54em in JetBrains
+   Mono at the tracking used here. A 320px phone offers 280px of content width,
+   so the type must stay under 280/7.54 = 37px there — the inline 44px floor
+   would need 332px and clip inside .ln{overflow:hidden}. 9.6vw gives 30.7px
+   at 320px (232px line) and 36px at 375px (271px line).                      */
+@media (max-width: 480px) {
+  .hero { padding-top: 128px; }
+  .hero__title { font-size: clamp(28px, 9.6vw, 148px); }
+  .hero__sub p { font-size: 13px; }
+}
+
+/* ------------------------------------------------------- project index ----
+   Applies to index.html and collaborations.html.
+   The three preview thumbnails were hidden below 780px, which left an
+   architecture portfolio showing no architecture. Restore them as a
+   full-width three-up strip beneath the project title.                      */
+@media (max-width: 780px) {
+  .row {
+    grid-template-columns: 40px 1fr;
+    gap: 4px 12px;
+    padding: 20px 2px;
+  }
+  .row__t  { font-size: clamp(19px, 5.6vw, 30px); }
+  .row__ty { white-space: normal; }
+
+  .row__circles {
+    display: flex;
+    grid-column: 1 / -1;
+    justify-self: stretch;
+    gap: 8px;
+    margin-top: 13px;
+  }
+  .row__circles .circ {
+    flex: 1 1 0;
+    width: auto;
+    height: auto;
+    aspect-ratio: 1 / 1;
+  }
+}
+
+/* --------------------------------------------------------- touch devices --
+   :hover sticks on touch screens — a tapped row would stay indented and
+   keep its accent bar after navigation. Neutralise the hover-only styling. */
+@media (hover: none) {
+  .row:hover { padding-left: 2px; }
+  .row:hover::before { transform: scaleY(0); }
+  .foot__mail:hover { transform: none; }
+  .about__more:hover { background: transparent; color: inherit; }
+}
+
+/* --------------------------------------------------------- project page --
+   Horizontal strips (chapter index, floor-plan tabs) must scroll under a
+   finger rather than widen the document.                                    */
+@media (max-width: 780px) {
+  .cidx__in,
+  .floors__tabs {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .cidx__in::-webkit-scrollbar,
+  .floors__tabs::-webkit-scrollbar { display: none; }
+
+  .ph__title { font-size: clamp(30px, 8.4vw, 96px); }
+  .gal { gap: 12px; }
+}
+
+/* ------------------------------------------------- interactive canvases --
+   wavy-square.html's stage is `height: clamp(560px, 90vh, 1080px)` and its
+   canvas sets `touch-action: none`, which tells the browser to handle no
+   touch gestures at all. On a phone that combination fills the screen and
+   traps the visitor — a swipe anywhere on the stage scrolls nothing.
+
+   `pan-y` hands vertical panning back to the page while leaving horizontal
+   gestures to the simulation. The selector must be `.ix canvas` to match the
+   specificity of the inline rule (0,0,1,1); a bare `canvas` would lose.
+   Shortening the stage also leaves page visible above and below it.         */
+@media (max-width: 900px) {
+  .ix canvas { touch-action: pan-y; }
+}
+@media (max-width: 680px) {
+  .ix { height: clamp(340px, 56vh, 620px); }
+}
+
+/* Lightbox: keep the close control clear of notches and home indicators */
+@media (max-width: 680px) {
+  .lb { padding: env(safe-area-inset-top) env(safe-area-inset-right)
+                env(safe-area-inset-bottom) env(safe-area-inset-left); }
+}
+
+/* ------------------------------------------------------------------ foot --
+   Respect the home-indicator area on notched phones.                        */
+@media (max-width: 680px) {
+  footer { padding-bottom: calc(90px + env(safe-area-inset-bottom)); }
+  .foot__row { font-size: 11px; gap: 10px; }
+}

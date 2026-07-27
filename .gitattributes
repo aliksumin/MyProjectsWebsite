@@ -1,0 +1,18 @@
+# Normalise text files to LF inside the repository. Without this, every HTML/JS
+# file gets rewritten whenever it moves between a Windows and a non-Windows
+# checkout, producing whole-file diffs that hide the real change.
+* text=auto
+
+# Binary assets — never line-ending converted, never diffed as text.
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.gif   binary
+*.webp  binary
+*.ico   binary
+*.mp4   binary
+*.webm  binary
+*.mov   binary
+*.pdf   binary
+*.woff  binary
+*.woff2 binary

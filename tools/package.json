@@ -1,0 +1,13 @@
+{
+  "name": "portfolio-tools",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Build-time helpers. The site itself has no dependencies; these live here so node_modules never lands next to the published files.",
+  "scripts": {
+    "optimize": "node optimize-media.js",
+    "optimize:apply": "node optimize-media.js --apply"
+  },
+  "dependencies": {
+    "sharp": "^0.34.4"
+  }
+}

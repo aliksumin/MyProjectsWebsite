@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Team Works — Architecture Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;0,800;1,400&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+  --paper:oklch(0.962 0.004 95);
+  --paper2:oklch(0.93 0.006 95);
+  --ink:oklch(0.18 0.01 95);
+  --mut:oklch(0.45 0.01 95);
+  --line:oklch(0.18 0.01 95 / .16);
+  --switch-bg:#15140f;--switch-fg:#f7f5ee;--switch-mut:rgba(247,245,238,.55);--switch-bd:rgba(247,245,238,.18);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--mono);background:var(--paper);color:var(--ink);
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;}
+a{color:inherit;text-decoration:none;}
+.wrap{max-width:1400px;margin:0 auto;padding:0 clamp(20px,4vw,64px);}
+.mono-label{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--mut);}
+
+/* header */
+header{position:fixed;top:0;left:0;right:0;z-index:500;
+  border-bottom:1px solid var(--line);background:color-mix(in oklch,var(--paper) 82%,transparent);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);}
+.hd{display:flex;justify-content:space-between;align-items:center;height:58px;}
+.hd__name{font-weight:800;letter-spacing:.04em;font-size:14px;}
+.hd__nav{display:flex;gap:26px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;}
+.hd__nav a{color:var(--mut);transition:color .25s;}
+.hd__nav a:hover{color:var(--ink);}
+.hd__nav a.is-cur{color:var(--ink);}
+.hd__clock{font-variant-numeric:tabular-nums;}
+@media(max-width:680px){.hd__nav a:not(.hd__clock){display:none;}}
+
+/* hero */
+.hero{padding-top:160px;padding-bottom:70px;}
+.hero__meta{display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;
+  border-bottom:1px solid var(--line);padding-bottom:18px;margin-bottom:42px;}
+.hero__title{font-weight:800;line-height:.92;letter-spacing:-.02em;
+  font-size:clamp(44px,9.2vw,148px);text-transform:uppercase;}
+.hero__title .ln{display:block;overflow:hidden;}
+.hero__title .ln span{display:block;}
+.hero__sub{display:flex;justify-content:space-between;flex-wrap:wrap;gap:24px;
+  margin-top:34px;border-top:1px solid var(--line);padding-top:18px;}
+.hero__sub p{max-width:52ch;font-size:14px;line-height:1.7;color:var(--mut);}
+
+/* section heads */
+.sec-head{display:flex;justify-content:space-between;align-items:baseline;
+  border-bottom:1px solid var(--ink);padding-bottom:12px;margin-bottom:8px;}
+.sec-head h2{font-size:13px;letter-spacing:.2em;text-transform:uppercase;font-weight:700;}
+.sec-head span{font-size:11px;color:var(--mut);}
+
+/* work list */
+.work{margin-bottom:120px;}
+.row{display:grid;grid-template-columns:64px minmax(0,1fr) minmax(0,1fr) 303px 150px;gap:18px;align-items:center;
+  padding:26px 4px;border-bottom:1px solid var(--line);position:relative;
+  transition:padding-left .4s cubic-bezier(.16,1,.3,1),color .3s;}
+.row:hover{padding-left:22px;}
+.row::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;
+  background:var(--ink);transform:scaleY(0);transform-origin:bottom;transition:transform .4s cubic-bezier(.16,1,.3,1);}
+.row:hover::before{transform:scaleY(1);}
+.row__n{font-size:12px;color:var(--mut);font-variant-numeric:tabular-nums;}
+.row__t{font-size:clamp(20px,2.6vw,34px);font-weight:700;letter-spacing:-.01em;
+  min-width:0;
+  display:flex;align-items:center;gap:14px;}
+.row__vtag{font-size:9.5px;font-weight:500;letter-spacing:.16em;color:var(--mut);
+  border:1px solid var(--line);border-radius:100px;padding:4px 9px 4px 7px;
+  display:inline-flex;align-items:center;gap:6px;flex:none;transform:translateY(-2px);
+  transition:border-color .3s,color .3s;}
+.row:hover .row__vtag{border-color:var(--ink);color:var(--ink);}
+.row__vtag i{width:0;height:0;border-left:6px solid currentColor;
+  border-top:4px solid transparent;border-bottom:4px solid transparent;}
+.row__ty{font-size:12px;color:var(--mut);text-transform:uppercase;letter-spacing:.1em;
+  min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.row__m{font-size:12px;color:var(--mut);text-align:right;display:flex;flex-direction:column;gap:3px;}
+.row__circles{display:flex;gap:12px;justify-self:end;}
+.row__circles .circ{width:93px;height:93px;border-radius:50%;overflow:hidden;
+  border:1px solid var(--line);background:var(--paper2);flex:none;
+  transition:border-color .35s,transform .4s cubic-bezier(.16,1,.3,1);}
+.row:hover .row__circles .circ{border-color:var(--ink);}
+.row__circles .circ img{width:100%;height:100%;object-fit:cover;display:block;}
+@media(max-width:780px){
+  .row{grid-template-columns:42px 1fr;gap:6px 14px;}
+  .row__ty{grid-column:2;}
+  .row__m{grid-column:2;text-align:left;flex-direction:row;gap:14px;}
+  .row__circles{display:none;}
+}
+/* cursor preview */
+.preview{position:fixed;top:0;left:0;width:208px;height:264px;pointer-events:none;
+  z-index:400;opacity:0;transform:translate(-50%,-50%) scale(.98);
+  transition:opacity .1s linear;
+  border:1px solid var(--ink);overflow:hidden;will-change:transform;background:var(--paper2);}
+.preview.on{opacity:1;}
+.preview img,.preview video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;}
+.preview video{opacity:0;transition:opacity .3s;}
+.preview.has-real-video video{opacity:1;}
+.preview.has-real-video img{opacity:0;}
+/* motion hint shown over video-backed previews */
+.preview__badge{position:absolute;top:10px;left:10px;z-index:3;font-size:9.5px;
+  letter-spacing:.16em;color:#fff;background:rgba(0,0,0,.55);backdrop-filter:blur(4px);
+  padding:4px 9px 4px 7px;border-radius:100px;display:none;align-items:center;gap:6px;}
+.preview.is-video .preview__badge{display:inline-flex;}
+.preview__badge i{width:0;height:0;border-left:6px solid #fff;
+  border-top:4px solid transparent;border-bottom:4px solid transparent;}
+.preview__scan{position:absolute;inset:0;z-index:2;pointer-events:none;opacity:0;
+  background:linear-gradient(rgba(255,255,255,0) 0,rgba(255,255,255,.14) 50%,rgba(255,255,255,0) 100%);
+  background-size:100% 220%;}
+.preview.is-video .preview__scan{opacity:1;animation:scan 2.4s linear infinite;}
+@keyframes scan{from{background-position:0 -110%;}to{background-position:0 110%;}}
+@media(max-width:900px){.preview{display:none;}}
+
+/* about */
+.about{display:grid;grid-template-columns:1.3fr 1fr;gap:60px;margin-bottom:120px;}
+.about__lead{font-size:clamp(22px,3vw,40px);line-height:1.32;letter-spacing:-.01em;font-weight:500;}
+.about__lead b{font-weight:800;}
+.about__info{display:flex;flex-direction:column;gap:24px;align-self:end;}
+.info-block h3{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--mut);margin-bottom:8px;}
+.info-block p{font-size:14px;line-height:1.6;}
+.info-block ul{list-style:none;font-size:14px;line-height:1.9;}
+.about__more{font-size:11px;letter-spacing:.14em;text-transform:uppercase;border:1px solid var(--ink);
+  border-radius:100px;padding:11px 18px;display:inline-flex;transition:background .25s,color .25s;}
+.about__more:hover{background:var(--ink);color:var(--paper);}
+.foot__socials{display:flex;flex-wrap:wrap;gap:9px;margin-top:34px;}
+.foot__socials a{font-size:11px;letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--line);
+  border-radius:100px;padding:10px 16px;color:var(--mut);transition:color .25s,border-color .25s;}
+.foot__socials a:hover{color:var(--ink);border-color:var(--ink);}
+@media(max-width:780px){.about{grid-template-columns:1fr;gap:38px;}}
+
+/* footer */
+footer{border-top:1px solid var(--ink);padding:80px 0 130px;}
+.foot__cta{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--mut);margin-bottom:18px;}
+/* One line at every width — see the note on .mail in contact.html.
+   24 chars x 0.58em = 13.92em, so 6.2vw fits from 320px up. */
+.foot__mail{font-weight:800;letter-spacing:-.02em;text-transform:lowercase;
+  font-size:clamp(16px,6.2vw,88px);line-height:1;display:inline-block;
+  transition:transform .4s cubic-bezier(.16,1,.3,1);white-space:nowrap;}
+.foot__mail:hover{transform:skewX(-7deg);}
+.foot__row{display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px;
+  margin-top:60px;font-size:12px;color:var(--mut);text-transform:uppercase;letter-spacing:.1em;}
+
+/* reveal */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1);}
+.reveal.in{opacity:1;transform:none;}
+@media(prefers-reduced-motion:reduce){
+  .reveal{opacity:1;transform:none;transition:none;}
+  .hero__title .ln span{transform:none;}
+}
+</style>
+<link rel="stylesheet" href="assets/css/mobile.css" />
+</head>
+<body>
+<header>
+  <div class="wrap hd">
+    <a href="about.html" class="hd__name" data-name>ARCHITECT NAME</a>
+    <nav class="hd__nav">
+      <a href="about.html">About</a>
+      <a href="index.html">Projects</a>
+      <a href="collaborations.html" class="is-cur">Team Works</a>
+      <a href="contact.html">Contact</a>
+      <a class="hd__clock" id="clock">--:--:--</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero wrap">
+    <div class="hero__meta">
+      <span class="mono-label">Team Works / 2014—2026</span>
+      <span class="mono-label" data-loc>Based in [City]</span>
+    </div>
+    <h1 class="hero__title">
+      <span class="ln"><span>Team</span></span>
+      <span class="ln"><span>Works</span></span>
+    </h1>
+    <div class="hero__sub">
+      <p data-tagline>Building at the edge of structure and atmosphere.</p>
+      <span class="mono-label">↓ Scroll to index</span>
+    </div>
+  </section>
+
+  <section class="work wrap" id="work">
+    <div class="sec-head reveal">
+      <h2>Team Works</h2>
+      <span id="count">06 PROJECTS</span>
+    </div>
+    <div id="rows"></div>
+  </section>
+
+  <section class="about wrap" id="about">
+    <p class="about__lead reveal">
+      <span data-bio>Placeholder bio.</span>
+    </p>
+    <div class="about__info reveal">
+      <div class="info-block">
+        <h3>Focus</h3>
+        <ul><li>Computational Design</li><li>Parametric &amp; BIM</li><li>Pipelines &amp; AI</li></ul>
+      </div>
+      <div class="info-block">
+        <h3>Location</h3>
+        <p data-loc>Based in [City]</p>
+      </div>
+      <div class="info-block">
+        <a href="about.html" class="about__more">Read full profile ↗</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer id="contact">
+  <div class="wrap">
+    <div class="foot__cta">Start a conversation</div>
+    <a class="foot__mail" data-mail href="mailto:hello@example.com">hello@example.com</a>
+    <div class="foot__socials" id="footSocials"></div>
+    <div class="foot__row">
+      <span data-name>ARCHITECT NAME</span>
+      <a href="contact.html">Full contact ↗</a>
+      <span>© 2026 — All rights reserved</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/responsive.js"></script>
+<script src="assets/js/content.js"></script>
+<script src="assets/js/about-data.js"></script>
+<script src="assets/js/switcher.js"></script>
+<script>
+const P = window.PORTFOLIO;
+// Collaborations = projects where I was part of a team.
+const PROJECTS = P.projects.filter(p => p.track === 'team').sort((a,b)=>{
+  const y=p=>parseInt(String(p.year).match(/\d{4}(?!.*\d{4})/)?.[0]||0);
+  return y(b)-y(a);
+});
+
+// hydrate placeholder text
+document.querySelectorAll('[data-name]').forEach(e=>e.textContent=P.name);
+document.querySelectorAll('[data-loc]').forEach(e=>e.textContent=P.location);
+document.querySelector('[data-tagline]').textContent="In this chapter, I do not list the full team for each project, but only the offices names — not because I don’t want to, but because in most cases, hundreds of people worked on these designs, and it is simply impossible to mentioned them all.";
+document.querySelector('[data-bio]').textContent="This page is about the projects where I worked on one or another part of the design within a team.";
+const mail=document.querySelector('[data-mail]');mail.textContent=P.email;mail.href='mailto:'+P.email;
+if(window.CONTACT){document.getElementById('footSocials').innerHTML=window.CONTACT.socials.map(s=>
+  `<a href="${s.url}" target="_blank" rel="noopener">${s.label} ↗</a>`).join('');}
+document.getElementById('count').textContent=String(PROJECTS.length).padStart(2,'0')+' PROJECTS';
+
+// build rows
+const rows=document.getElementById('rows');
+// collect candidate preview images for a project (explicit list, else any
+// /content/ image found anywhere in the project, else the cover/placeholder)
+function projImgs(p){
+  if(p.previewImgs&&p.previewImgs.length) return p.previewImgs.slice();
+  const out=[];
+  (function walk(o){
+    if(!o) return;
+    if(typeof o==='string'){ if(/content\/.+\.(png|jpe?g|webp)$/i.test(o)) out.push(o); return; }
+    if(Array.isArray(o)){ o.forEach(walk); return; }
+    if(typeof o==='object'){ for(const k in o) walk(o[k]); }
+  })(p);
+  const uniq=[...new Set(out)];
+  return uniq.length?uniq:[p.cover].filter(Boolean);
+}
+
+PROJECTS.forEach((p,i)=>{
+  const a=document.createElement('a');
+  a.className='row';a.href=p.href?p.href:'project.html?p='+p.n;
+  const num=String(i+1).padStart(2,'0');
+  const imgs=p.circles&&p.circles.length?p.circles.slice():projImgs(p);
+  const circ=[0,1,2].map(i=>imgs[i]||window.placeholderImg('// '+p.n+' — '+p.title, p.hue, false));
+  a.innerHTML=`
+    <span class="row__n">${num}</span>
+    <span class="row__t">${p.title}</span>
+    <span class="row__ty">${p.type}</span>
+    <span class="row__circles">${circ.map(s=>`<span class="circ"><img ${window.imgAttrs(s,'(max-width:780px) 31vw, 93px')} alt="" loading="lazy"></span>`).join('')}</span>
+    <span class="row__m"><span>${p.loc}</span><span>${p.year}</span></span>`;
+  rows.appendChild(a);
+});
+
+// (cursor-follow preview removed — each project row now shows 3 circle thumbnails)
+
+// clock
+const clk=document.getElementById('clock');
+setInterval(()=>{const d=new Date();
+  clk.textContent=[d.getHours(),d.getMinutes(),d.getSeconds()].map(n=>String(n).padStart(2,'0')).join(':');
+},1000);
+
+// reveal
+const io=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);}}),{threshold:.15});
+document.querySelectorAll('.reveal').forEach(e=>io.observe(e));
+document.querySelectorAll('.row').forEach((r,i)=>{r.classList.add('reveal');r.style.transitionDelay=(i*0.05)+'s';io.observe(r);});
+
+window.mountSwitcher('index');
+
+// hero entrance — base state is visible; we animate FROM hidden via JS so
+// the headline is never stuck clipped if the animation clock doesn't advance.
+window.addEventListener('load',()=>{
+  if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+  const spans=document.querySelectorAll('.hero__title .ln span');
+  spans.forEach((s,i)=>{
+    s.style.transition='none';
+    s.style.transform='translateY(105%)';
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{
+      s.style.transition='transform 1s cubic-bezier(.16,1,.3,1) '+(i*0.08)+'s';
+      s.style.transform='translateY(0)';
+    }));
+  });
+  // safety: regardless of animation-clock state, return to the visible
+  // resting style after the entrance window so the headline can never stay clipped.
+  setTimeout(()=>spans.forEach(s=>{s.style.transition='';s.style.transform='';}),1600);
+});
+</script>
+</body>
+</html>
