@@ -152,8 +152,29 @@ about filenames that would break on a case-sensitive host. It should print
 
 ## Publishing to GitHub Pages
 
+Published from <https://github.com/aliksumin/MyProjectsWebsite>, branch `main`,
+folder `/ (root)`. Live at <https://aliksumin.github.io/MyProjectsWebsite/>.
+
 `.nojekyll` is present, so Jekyll will not strip anything. `_source/` is excluded by
-`.gitignore` — the raw uploads are ~3.3 GB and must not enter the repo.
+`.gitignore` — the raw uploads are ~3.3 GB and must not enter the repo, and they
+contain personal documents (CV, interview notes) that should not be public.
+
+### Enabling Pages (one time)
+
+Repository → **Settings** → **Pages** → Source: *Deploy from a branch* →
+Branch: `main`, folder `/ (root)` → **Save**. The first build takes a few minutes.
+
+### Publishing later changes
+
+```bash
+node tools/verify.js        # must print OK before pushing
+git add -A
+git commit -m "…"
+git push
+```
+
+Anything under `_source/` stays local by design; if you replace an image there,
+re-run `node tools/optimize-media.js --apply` so the published tiers pick it up.
 
 ### Size
 
@@ -164,11 +185,16 @@ After `tools/optimize-media.js`:
 | tree | files | size |
 |---|---:|---:|
 | `content/` (≤2000px) | 552 | 530.6 MB |
-| `content-sm/` (≤900px) | 552 | 111.2 MB |
-| `content-xs/` (≤400px) | 552 | 44.6 MB |
-| HTML + assets | — | 0.9 MB |
-| **published total** | | **687.3 MB** |
+| `content-sm/` (≤900px) | 549 | 86.9 MB |
+| `content-xs/` (≤400px) | 549 | 20.2 MB |
+| HTML + assets | — | 1.5 MB |
+| **published total** | | **639 MB** |
 | `_source/` (not published) | | 6.11 GB |
+
+The small tiers hold 549 rather than 552 files: the three `.mp4` clips exist only
+in `content/`, since nothing resizes them and pages reference video only through
+that path. `tools/verify.js` excludes video from its tier-parity check for the
+same reason.
 
 That is a 74% reduction, and pages only fetch the tier a device needs — the
 homepage's 45 thumbnails come from `content-xs/`, so it loads a few hundred KB
