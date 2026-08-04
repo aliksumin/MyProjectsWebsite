@@ -131,6 +131,50 @@ for (const tier of TIERS) {
   extraInTier.slice(0, 10).forEach(f => err(`${tier}/ has orphan ${f}`));
 }
 
+/* ---- 4c. the "next project" chain ----
+   Two failures here are invisible until you click: a next-link that points at
+   project.html?p=NN for a project owning a dedicated page renders it through
+   the generic template with no content, and a hardcoded link silently sends
+   every visitor to the same wrong project. */
+require(path.join(ROOT, 'assets/js/nav.js'));
+if (typeof global.nextProject !== 'function') {
+  err('assets/js/nav.js did not define nextProject');
+} else {
+  const projects = global.PORTFOLIO.projects;
+  for (const p of projects) {
+    const nx = global.nextProject(p.n);
+    if (!nx) { err(`no next project resolved for ${p.n} ${p.title}`); continue; }
+
+    // the target page must exist on disk
+    const file = nx.href.split('?')[0].split('#')[0];
+    if (!fs.existsSync(path.join(ROOT, file))) err(`${p.n} next -> missing page ${file}`);
+
+    // a project with its own page must be linked to that page, not the template
+    const target = projects.find(x => x.n === nx.n);
+    if (target && target.href && nx.href !== target.href)
+      err(`${p.n} next -> ${nx.href}, but ${nx.n} owns ${target.href}`);
+
+    // next must stay inside the current project's track
+    const sameTrack = (a, b) => (a.track === 'team') === (b.track === 'team');
+    if (target && !sameTrack(p, target))
+      err(`${p.n} (${p.track || 'solo'}) next -> ${nx.n} (${target.track || 'solo'}) crosses tracks`);
+  }
+
+  // following next repeatedly must visit every project in the track exactly
+  // once and then return to the start — no short loops, no orphans
+  for (const track of ['solo', 'team']) {
+    const pool = projects.filter(p => (track === 'team' ? p.track === 'team' : p.track !== 'team'));
+    if (!pool.length) continue;
+    const seen = [];
+    let n = pool[0].n;
+    for (let i = 0; i < pool.length; i++) { seen.push(n); n = global.nextProject(n).n; }
+    if (n !== pool[0].n) err(`${track} next-chain does not return to its start (ended at ${n})`);
+    if (new Set(seen).size !== pool.length)
+      err(`${track} next-chain visits ${new Set(seen).size} of ${pool.length} projects`);
+    console.log(`next-chain ${track}: ${pool.length} projects, closed loop, no repeats`);
+  }
+}
+
 /* ---- 5. names that break on a case-sensitive host ---- */
 for (const f of onDisk) {
   const base = f.split('/').pop();

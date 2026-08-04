@@ -419,6 +419,7 @@ footer{padding-block:70px 130px;}
 
 <script src="assets/js/responsive.js"></script>
 <script src="assets/js/content.js"></script>
+<script src="assets/js/nav.js"></script>
 <script src="assets/js/switcher.js"></script>
 <script>
 const P=window.PORTFOLIO;
@@ -430,7 +431,9 @@ const pool=P.projects.filter(x=> proj.track==='team' ? x.track==='team' : x.trac
 const poolIdx=pool.findIndex(x=>x.n===proj.n);
 const dispN=String(poolIdx+1).padStart(2,'0');
 const dispTotal=String(pool.length).padStart(2,'0');
-const next=pool[(poolIdx+1)%pool.length];
+// Resolved by assets/js/nav.js so the rule lives in one place — in particular
+// it honours a project's own `href`, which this page used to ignore.
+const next=window.nextProject(proj.n)||{title:'',href:'index.html#work'};
 const ph=(label)=>window.placeholderImg(label,proj.hue,false);
 
 // header / title / meta
@@ -804,7 +807,7 @@ if(proj.sections){
 
 // next
 document.getElementById('nextT').textContent=next.title;
-document.getElementById('nextLink').href='project.html?p='+next.n;
+document.getElementById('nextLink').href=next.href;
 
 /* ---- lightbox ---- */
 const lb=document.getElementById('lb'),lbImg=document.getElementById('lbImg'),lbCap=document.getElementById('lbCap');

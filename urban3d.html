@@ -316,8 +316,12 @@ footer{padding-block:70px 130px;}
 
   <section class="next wrap">
     <div class="next__lab">Next project</div>
-    <a class="next__link" href="project.html?p=01">
-      <span class="next__t">Science City</span>
+    <!-- Target and label are filled in from content.js below; the markup here
+         is only a fallback for a failed script load. This link previously
+         hardcoded Science City, which is the first project overall but never
+         the one that follows Urban 3D Analysis. -->
+    <a class="next__link" id="nextLink" href="index.html#work">
+      <span class="next__t" id="nextT">All projects</span>
       <span class="next__arrow">→</span>
     </a>
   </section>
@@ -339,6 +343,7 @@ footer{padding-block:70px 130px;}
 
 <script src="assets/js/responsive.js"></script>
 <script src="assets/js/content.js"></script>
+<script src="assets/js/nav.js"></script>
 <script src="assets/js/about-data.js"></script>
 <script src="assets/js/switcher.js"></script>
 <script>
@@ -444,6 +449,18 @@ lb.addEventListener('click',e=>{if(e.target===lb)closeLb();});
 window.addEventListener('keydown',e=>{if(e.key==='Escape')closeLb();});
 
 window.mountSwitcher('index');
+</script>
+
+<script>
+// This page renders one project directly, so its "next" link is resolved from
+// content.js rather than written into the markup — the hardcoded value it used
+// to carry never matched the project that actually follows this one.
+(function(){
+  var nx = window.nextProject && window.nextProject('04');
+  if (!nx) return;                       // markup keeps its "All projects" fallback
+  document.getElementById('nextT').textContent = nx.title;
+  document.getElementById('nextLink').href = nx.href;
+})();
 </script>
 </body>
 </html>
