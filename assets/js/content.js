@@ -2647,7 +2647,7 @@ window.PORTFOLIO.projects.push({
       ],
       sections: [
         {
-          key: "overview", code: "A", title: "Overview", tag: "Masterplan · Courtyard Block",
+          key: "overview", code: "A", title: "Master Plan", tag: "Courtyard Block · Context",
           text: [
             "The neighbourhood is organised around a single large courtyard block — a caravanserai turned inside out, with a planted roofscape stepping over the arcades and a faceted tower standing in the middle of the court. Housing, hotels and offices sit in the perimeter, and the low brick fabric of workshops and shops fills the streets around it.",
           ],
@@ -2671,7 +2671,7 @@ window.PORTFOLIO.projects.push({
         {
           key: "shopping-streets", code: "C", title: "Shopping Streets", tag: "Brick Pavilions · Workshops",
           text: [
-            "The narrow streets around the square are lined with brick pavilions for workshops and shops — one of the ideas I introduced while detailing this part. Each is a vaulted brick room lit from a central oculus, so the making is visible from the street and the trade and the workshop share the same address.",
+            "The narrow streets around the square are lined with brick pavilions for workshops and shops — one of the ideas I introduced while detailing this part. The trade and the workshop share the same address.",
           ],
           images: [
             { src: "content/projects/23-tashkent-neighborhood/streets-01-shopping-promenade.png", label: "The shopping promenade between the brick pavilions", span: 2, ar: "3000/1674" },
