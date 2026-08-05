@@ -265,13 +265,17 @@ function projImgs(p){
   return uniq.length?uniq:[p.cover].filter(Boolean);
 }
 
-PROJECTS.forEach(p=>{
+PROJECTS.forEach((p,i)=>{
   const a=document.createElement('a');
   a.className='row';a.href=p.href?p.href:'project.html?p='+p.n;
+  // Position in this track, not the project's global id. p.n is unique across
+  // both tracks, so showing it here made the list read 01…14 then jump to 22,
+  // and disagreed with the "15 / 15" the project page shows for the same entry.
+  const num=String(i+1).padStart(2,'0');
   const imgs=p.circles&&p.circles.length?p.circles.slice():projImgs(p);
   const circ=[0,1,2].map(i=>imgs[i]||window.placeholderImg('// '+p.n+' — '+p.title, p.hue, false));
   a.innerHTML=`
-    <span class="row__n">${p.n}</span>
+    <span class="row__n">${num}</span>
     <span class="row__t">${p.title}</span>
     <span class="row__ty">${p.type}</span>
     <span class="row__circles">${circ.map(s=>`<span class="circ"><img ${window.imgAttrs(s,'(max-width:780px) 31vw, 93px')} alt="" loading="lazy"></span>`).join('')}</span>

@@ -188,6 +188,13 @@ for (const p of ['index.html', 'collaborations.html']) {
     err(`${p} builds its project list itself instead of using window.projectsInTrack()`);
   if (!/<script src="assets\/js\/nav\.js"><\/script>/.test(t))
     err(`${p} uses projectsInTrack but never loads assets/js/nav.js`);
+
+  // The row number must be the position in the list, not the project's global
+  // id. p.n is unique across both tracks, so rendering it made the Projects
+  // list read 01…14 then jump to 22, and disagree with the "15 / 15" shown on
+  // that project's own page.
+  if (/<span class="row__n">\$\{p\.n\}<\/span>/.test(t))
+    err(`${p} shows the global project id as the row number instead of its position`);
 }
 
 /* ---- 5. names that break on a case-sensitive host ---- */
