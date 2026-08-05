@@ -88,7 +88,7 @@ async function main() {
   }
 
   const totals = Object.fromEntries(TIERS.map(t => [t.dir, 0]));
-  let done = 0, failed = [];
+  let done = 0, failed = [], oversized = [];
 
   for (const rel of files) {
     const from = path.join(src, rel);
@@ -98,6 +98,15 @@ async function main() {
       // would add dead bytes that no device ever requests (48.7 MB of mp4 on
       // the first run). Keep one copy, in content/.
       if (PASSTHROUGH.test(rel) && tier.dir !== 'content') continue;
+
+      // Nothing here resizes video, so an oversized source would be copied
+      // through verbatim. GitHub refuses any file over 100 MB outright, and a
+      // rejected push is discovered only after the whole repo has uploaded.
+      // Leave it in the master and say so, rather than poisoning content/.
+      if (PASSTHROUGH.test(rel) && fs.statSync(from).size > 90 * 1024 * 1024) {
+        oversized.push(`${rel} (${mb(fs.statSync(from).size)} MB)`);
+        continue;
+      }
 
       const to = path.join(ROOT, tier.dir, rel);
       fs.mkdirSync(path.dirname(to), { recursive: true });
@@ -147,6 +156,12 @@ async function main() {
   if (failed.length) {
     console.log(`\n${failed.length} file(s) fell back to a plain copy:`);
     failed.slice(0, 20).forEach(f => console.log('  ' + f));
+  }
+  if (oversized.length) {
+    console.log(`\n${oversized.length} file(s) NOT published — over GitHub's 100 MB limit:`);
+    oversized.forEach(f => console.log('  ' + f));
+    console.log('  Kept in _source/content-full/. Compress or host them externally,');
+    console.log('  the way other projects use a `youtube:` id, before referencing them.');
   }
 }
 

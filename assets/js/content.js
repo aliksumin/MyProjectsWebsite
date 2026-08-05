@@ -2613,6 +2613,96 @@ window.PORTFOLIO.projects.push({
     },
   ],
 });
+/* ============ 23 — NEIGHBORHOOD IN TASHKENT (team) ============ */
+window.PORTFOLIO.projects.push({
+      n: "23", slug: "tashkent-neighborhood", title: "Neighborhood in Tashkent",
+      type: "Mixed-Use Neighbourhood", year: "2026", loc: "Tashkent", status: "Concept",
+      hue: 28, track: "team", hideTopFilm: true,
+      cover: "content/projects/23-tashkent-neighborhood/overview-02-aerial-courtyard.png",
+      circles: [
+        "content/projects/23-tashkent-neighborhood/overview-01-aerial.png",
+        "content/projects/23-tashkent-neighborhood/spa-01-pool-arcade.png",
+        "content/projects/23-tashkent-neighborhood/streets-02-workshop-interior.png",
+      ],
+      previewImgs: [
+        "content/projects/23-tashkent-neighborhood/overview-02-aerial-courtyard.png",
+        "content/projects/23-tashkent-neighborhood/spa-02-pool-bathhouse.png",
+        "content/projects/23-tashkent-neighborhood/entrance-01-gate-day.png",
+      ],
+      lead: "A new neighbourhood built around a caravanserai courtyard — housing, hotels, a spa and brick workshop streets.",
+      credits: [
+        { role: "Office", names: ["Coop Himmelb(l)au"] },
+        { role: "My Role", names: ["Renders", "Design for the spa and the brick workshops"], align: "right" },
+      ],
+      facts: [
+        { k: "Program", v: "Housing, hotels, a spa, workshops, restaurants, offices" },
+        { k: "Location", v: "Tashkent" },
+        { k: "Year", v: "2026" },
+        { k: "Status", v: "Concept" },
+        { k: "Office", v: "Coop Himmelb(l)au" },
+      ],
+      overview: [
+        "My main task on this project was to develop the details of the facades and the street design, working from a simplified 3D model and the master plan the project team had prepared in the previous phase.",
+        "As I worked through that detail I brought in several new ideas of my own: a spa complex with outdoor pools, and brick pavilions for the workshops and shops along the narrow streets around the main square.",
+      ],
+      sections: [
+        {
+          key: "overview", code: "A", title: "Overview", tag: "Masterplan · Courtyard Block",
+          text: [
+            "The neighbourhood is organised around a single large courtyard block — a caravanserai turned inside out, with a planted roofscape stepping over the arcades and a faceted tower standing in the middle of the court. Housing, hotels and offices sit in the perimeter, and the low brick fabric of workshops and shops fills the streets around it.",
+          ],
+          images: [
+            { src: "content/projects/23-tashkent-neighborhood/overview-01-aerial.png", label: "Aerial view across the neighbourhood — planted terraces, brick domes and the towers behind", span: 2, ar: "3000/1674" },
+            { src: "content/projects/23-tashkent-neighborhood/overview-02-aerial-courtyard.png", label: "The courtyard block from above — a green roofscape wrapping the court, with the faceted tower at its centre", span: 2, ar: "3000/3000" },
+            { src: "content/projects/23-tashkent-neighborhood/overview-03-massing-model.png", label: "Massing model — the courtyard block set into the surrounding brick fabric", span: 1, ar: "3000/3000" },
+            { src: "content/projects/23-tashkent-neighborhood/overview-04-wireframe.png", label: "Wireframe axonometric of the same arrangement", span: 1, ar: "3000/3000" },
+          ],
+        },
+        {
+          key: "main-square", code: "B", title: "The Main Square", tag: "Central Park · Arcade",
+          text: [
+            "Inside the block the court is kept as a park, sheltered from the street by a continuous arcade. The arcade carries the planted terraces above it and gives the square a shaded edge to sit under in the heat.",
+          ],
+          images: [
+            { src: "content/projects/23-tashkent-neighborhood/square-01-central-park.png", label: "The central park inside the courtyard", span: 2, ar: "3000/1674" },
+            { src: "content/projects/23-tashkent-neighborhood/square-02-arcade.png", label: "The arcade running around the court", span: 2, ar: "3000/1674" },
+          ],
+        },
+        {
+          key: "shopping-streets", code: "C", title: "Shopping Streets", tag: "Brick Pavilions · Workshops",
+          text: [
+            "The narrow streets around the square are lined with brick pavilions for workshops and shops — one of the ideas I introduced while detailing this part. Each is a vaulted brick room lit from a central oculus, so the making is visible from the street and the trade and the workshop share the same address.",
+          ],
+          images: [
+            { src: "content/projects/23-tashkent-neighborhood/streets-01-shopping-promenade.png", label: "The shopping promenade between the brick pavilions", span: 2, ar: "3000/1674" },
+            { src: "content/projects/23-tashkent-neighborhood/streets-02-workshop-interior.png", label: "Inside one of the workshops — a vaulted brick room lit from a central oculus", span: 2, ar: "3000/1674" },
+            { src: "content/projects/23-tashkent-neighborhood/streets-03-pedestrian-promenade.png", label: "The pedestrian promenade along the edge of the quarter", span: 2, ar: "3000/1687" },
+          ],
+        },
+        {
+          key: "spa", code: "D", title: "The Spa", tag: "Outdoor Pools · Bathhouse",
+          text: [
+            "The spa was the second idea I added to the scheme: a bathhouse opening onto outdoor pools, held between pointed arches and screened by perforated panels. The water runs right up to the arcade so the pools read as part of the building rather than a terrace beside it.",
+          ],
+          images: [
+            { src: "content/projects/23-tashkent-neighborhood/spa-01-pool-arcade.png", label: "Looking out from under the arcade across the pool", span: 1, ar: "3000/3000" },
+            { src: "content/projects/23-tashkent-neighborhood/spa-02-pool-bathhouse.png", label: "The outdoor pool with the bathhouse front behind it", span: 1, ar: "3000/3000" },
+          ],
+        },
+        {
+          key: "entrance-plaza", code: "E", title: "The Entrance Plaza", tag: "Main Gate · Arrival",
+          text: [
+            "The quarter is entered through a tall gate cut into the perimeter, which frames the tower beyond it on the approach and lights up as a lantern after dark.",
+          ],
+          images: [
+            { src: "content/projects/23-tashkent-neighborhood/entrance-01-gate-day.png", label: "The main entrance gate by day", span: 1, ar: "3000/4128" },
+            { src: "content/projects/23-tashkent-neighborhood/entrance-02-gate-night.png", label: "The same gate after dark", span: 1, ar: "3000/4128" },
+            { src: "content/projects/23-tashkent-neighborhood/entrance-03-plaza.png", label: "The entrance plaza in front of the gate", span: 2, ar: "3000/1674" },
+          ],
+        },
+      ],
+});
+
 window.placeholderImg = function (label, hue, dark) {
   label = String(label).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
   const bg   = dark ? `hsl(${hue} 22% 22%)` : `hsl(${hue} 28% 86%)`;
