@@ -160,19 +160,34 @@ if (typeof global.nextProject !== 'function') {
       err(`${p.n} (${p.track || 'solo'}) next -> ${nx.n} (${target.track || 'solo'}) crosses tracks`);
   }
 
-  // following next repeatedly must visit every project in the track exactly
-  // once and then return to the start — no short loops, no orphans
+  // Following next repeatedly must reproduce the order the index page lists,
+  // exactly. Team Works sorts by year while the array is authored in another
+  // order, so a chain built from the raw array silently pointed at a project
+  // nowhere near the one below it in the list.
   for (const track of ['solo', 'team']) {
-    const pool = projects.filter(p => (track === 'team' ? p.track === 'team' : p.track !== 'team'));
+    const pool = global.projectsInTrack(track);
     if (!pool.length) continue;
-    const seen = [];
-    let n = pool[0].n;
-    for (let i = 0; i < pool.length; i++) { seen.push(n); n = global.nextProject(n).n; }
-    if (n !== pool[0].n) err(`${track} next-chain does not return to its start (ended at ${n})`);
-    if (new Set(seen).size !== pool.length)
-      err(`${track} next-chain visits ${new Set(seen).size} of ${pool.length} projects`);
-    console.log(`next-chain ${track}: ${pool.length} projects, closed loop, no repeats`);
+    const listed = pool.map(p => p.n);
+    const walked = [];
+    let n = listed[0];
+    for (let i = 0; i < pool.length; i++) { walked.push(n); n = global.nextProject(n).n; }
+    if (n !== listed[0]) err(`${track} next-chain does not return to its start (ended at ${n})`);
+    if (walked.join(',') !== listed.join(','))
+      err(`${track} next-chain order does not match the index page\n        listed: ${listed.join(' ')}\n        walked: ${walked.join(' ')}`);
+    else console.log(`next-chain ${track}: ${pool.length} projects, matches index order, closed loop`);
   }
+}
+
+/* ---- 4d. the index pages must not re-order projects themselves ----
+   The Team Works sort used to live inside collaborations.html, where the
+   next-link logic could not see it. Both index pages now take their order
+   from nav.js; a local filter/sort here would silently reintroduce the drift. */
+for (const p of ['index.html', 'collaborations.html']) {
+  const t = fs.readFileSync(path.join(ROOT, p), 'utf8');
+  if (!/const PROJECTS\s*=\s*window\.projectsInTrack\(/.test(t))
+    err(`${p} builds its project list itself instead of using window.projectsInTrack()`);
+  if (!/<script src="assets\/js\/nav\.js"><\/script>/.test(t))
+    err(`${p} uses projectsInTrack but never loads assets/js/nav.js`);
 }
 
 /* ---- 5. names that break on a case-sensitive host ---- */

@@ -426,8 +426,10 @@ const P=window.PORTFOLIO;
 const params=new URLSearchParams(location.search);
 const id=params.get('p')||P.projects[0].n;
 const proj=window.findProject(id)||P.projects[0];
-// number projects independently within their track (Projects vs Team Works)
-const pool=P.projects.filter(x=> proj.track==='team' ? x.track==='team' : x.track!=='team');
+// Number projects independently within their track (Projects vs Team Works),
+// using the same order the index page lists them in — otherwise a project shown
+// first on Team Works reads "08 / 08" here.
+const pool=window.projectsInTrack(proj.track==='team'?'team':'solo');
 const poolIdx=pool.findIndex(x=>x.n===proj.n);
 const dispN=String(poolIdx+1).padStart(2,'0');
 const dispTotal=String(pool.length).padStart(2,'0');

@@ -20,6 +20,28 @@
    pages that show a "next project" link just consume it.
    ========================================================================== */
 (function () {
+  // Last 4-digit year in a string like "2015—2020", so ranges sort by their end.
+  function endYear(p) {
+    var m = String(p.year || '').match(/\d{4}(?!.*\d{4})/);
+    return m ? parseInt(m[0], 10) : 0;
+  }
+
+  /* The order a track is listed in, and therefore the order "next" must follow.
+     Team Works sorts newest first; the Projects index keeps the authored order.
+     That difference used to live only inside collaborations.html, so the next
+     link stepped through the raw array instead and pointed at a project that
+     was nowhere near the one below it in the list. Both index pages and
+     nextProject now read the order from here. */
+  window.projectsInTrack = function (track) {
+    var P = window.PORTFOLIO;
+    if (!P || !P.projects) return [];
+    var list = P.projects.filter(function (p) {
+      return track === 'team' ? p.track === 'team' : p.track !== 'team';
+    });
+    if (track === 'team') list.sort(function (a, b) { return endYear(b) - endYear(a); });
+    return list;
+  };
+
   window.nextProject = function (currentN) {
     var P = window.PORTFOLIO;
     if (!P || !P.projects) return null;
@@ -27,9 +49,7 @@
     var cur = P.projects.filter(function (p) { return p.n === currentN; })[0];
     if (!cur) return null;
 
-    var pool = P.projects.filter(function (p) {
-      return cur.track === 'team' ? p.track === 'team' : p.track !== 'team';
-    });
+    var pool = window.projectsInTrack(cur.track === 'team' ? 'team' : 'solo');
     var i = pool.map(function (p) { return p.n; }).indexOf(currentN);
     if (i < 0) return null;
 
