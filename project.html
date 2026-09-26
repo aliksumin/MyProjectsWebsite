@@ -308,6 +308,16 @@ header{position:fixed;top:0;left:0;right:0;z-index:500;
 .gal figure:hover figcaption{opacity:1;}
 .gal figure.is-ph{cursor:default;}
 .gal figure.is-ph:hover img{transform:none;}
+/* Plates opted in with `full: true`.
+   A handful of Science City drawings were exported at 960px wide. Both
+   `.gal figure.fit-contain img` and `.topimg.is-diagram img` size with
+   width:auto so an image never upscales — sensible in general, but it leaves
+   these sitting at 960px inside a frame that is ~1272px on a large display,
+   which reads as a thumbnail. Opting in per image lets them fill the frame and
+   accepts the mild upscale. max-height is released too, or the 74/78vh caps
+   would simply shrink them again. */
+.gal figure.is-full img,
+.topimg.is-full img{width:100%;max-width:100%;height:auto;max-height:none;object-fit:contain;}
 @media(max-width:680px){.gal{grid-template-columns:1fr;}.gal figure.sp2{grid-column:1;}}
 
 /* closing */
@@ -537,7 +547,7 @@ const lbItems=[];
 function galleryFigure(img){
   const real=!!img.src;
   const fig=document.createElement('figure');
-  fig.className='reveal '+(img.span===2?'sp2':'sp1')+(real?'':' is-ph')+(img.fit==='contain'?' fit-contain':'')+(img.white?' bg-white':'')+(img.diagram?' diagram':'')+(img.wide?' diagram-wide':'');
+  fig.className='reveal '+(img.span===2?'sp2':'sp1')+(real?'':' is-ph')+(img.fit==='contain'?' fit-contain':'')+(img.white?' bg-white':'')+(img.diagram?' diagram':'')+(img.wide?' diagram-wide':'')+(img.full?' is-full':'');
   const src=real?img.src:ph(img.label||'');
   const arStyle=img.ar?` style="aspect-ratio:${img.ar}"`:'';
   // The hint must match how wide the figure really is. A span-2 figure fills
@@ -738,7 +748,7 @@ if(proj.sections){
           const tw=document.createElement('div');tw.className='topimgs';
           eb.images.forEach(im=>{
             const i=lbItems.length;lbItems.push({src:im.src,cap:im.label||''});
-            const fig=document.createElement('figure');fig.className='topimg'+(im.diagram?' is-diagram':'')+(im.dark?' is-dark':'');fig.dataset.lb=i;
+            const fig=document.createElement('figure');fig.className='topimg'+(im.diagram?' is-diagram':'')+(im.dark?' is-dark':'')+(im.full?' is-full':'');fig.dataset.lb=i;
             // These are full-bleed standalone plates, not a two-column grid,
             // so they need a near-viewport-width hint. With the grid's 50vw the
             // browser fetched a small tier, and `.topimg.is-diagram img` uses

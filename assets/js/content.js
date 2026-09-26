@@ -65,7 +65,7 @@ window.PORTFOLIO = {
             "Modularity is a key principle: each cone functions as a self-contained module, allowing the campus to expand over time without interrupting existing buildings. The main materials are CLT, glulam, highly insulated glass, local steel, and vertical wooden slats. The façades act as translucent filters that combine sun protection with a visual connection to the forest; over time the wood naturally ages and blends with the colour of the surrounding pine bark.",
           ],
           images: [
-            { src: "content/projects/01-science-city/campus-00-siteplan.png",   label: "Site plan — Science City located along the river within the existing settlement",  span: 2, fit: "contain", white: true },
+            { src: "content/projects/01-science-city/campus-00-siteplan.png",   label: "Site plan — Science City located along the river within the existing settlement",  span: 2, fit: "contain", white: true , full: true },
             { src: "content/projects/01-science-city/campus-01-summer.png",    label: "Campus modules among the pines — summer",  span: 2 },
             { src: "content/projects/01-science-city/campus-03-courtyard.png", label: "Courtyard between cones",                   span: 1 },
             { src: "content/projects/01-science-city/campus-02-winter.png",    label: "Seasonal façade — winter",                  span: 1 },
@@ -97,7 +97,7 @@ window.PORTFOLIO = {
             "The housing uses natural, locally appropriate materials — heat-treated pine or larch, CLT or hybrid structural systems, triple-glazed panoramic windows, recessed climatic window niches, and usable or partially landscaped roofs suitable for solar panels. Public life is organized through pedestrian walkways, elevated wooden bridges, communal terraces, semi-open pavilions, outdoor workspaces, gardens, and workshops; vehicle traffic is excluded from the settlement.",
           ],
           images: [
-            { src: "content/projects/01-science-city/housing-00-voronoi-algorithm.png", label: "Residential cluster layout generated from a Voronoi diagram & site constraints — flexible to new constraints during design", span: 2, fit: "contain", white: true },
+            { src: "content/projects/01-science-city/housing-00-voronoi-algorithm.png", label: "Residential cluster layout generated from a Voronoi diagram & site constraints — flexible to new constraints during design", span: 2, fit: "contain", white: true , full: true },
             { src: "content/projects/01-science-city/housing-01-exterior.png", label: "Type 1 houses among the pines",        span: 2 },
             { src: "content/projects/01-science-city/housing-02-plan.png",     label: "Typical floor plan — Type 1",          span: 1, fit: "contain" },
             { src: "content/projects/01-science-city/housing-03-fire.png",     label: "Gathering around the fire pit",        span: 1 },
@@ -151,8 +151,8 @@ window.PORTFOLIO = {
             "School of Performing Arts.",
           ],
           images: [
-            { src: "content/projects/01-science-city/edu-00-siteplan.png",        label: "Site plan — the Education Cluster located within the masterplan, by the river", span: 2, fit: "contain", white: true },
-            { src: "content/projects/01-science-city/edu-01-axon.png",            label: "Three interconnected parts — kindergarten, secondary school & School of Performing Arts around shared sports and outdoor space", span: 2, fit: "contain", white: true },
+            { src: "content/projects/01-science-city/edu-00-siteplan.png",        label: "Site plan — the Education Cluster located within the masterplan, by the river", span: 2, fit: "contain", white: true , full: true },
+            { src: "content/projects/01-science-city/edu-01-axon.png",            label: "Three interconnected parts — kindergarten, secondary school & School of Performing Arts around shared sports and outdoor space", span: 2, fit: "contain", white: true , full: true },
             { src: "content/projects/01-science-city/edu-02-aerial.png",          label: "The terraced cluster folded into the pine forest", span: 2 },
             { src: "content/projects/01-science-city/edu-03-amphitheatre.png",    label: "Central amphitheatre — shared performance & gathering space", span: 1 },
             { src: "content/projects/01-science-city/edu-04-courtyard.png",       label: "Entrance deck & library at the lower courtyard", span: 1 },
@@ -322,7 +322,7 @@ window.PORTFOLIO = {
             "The SPA Center sits right on the river bend — a horseshoe of shingled timber wrapped around a steaming central pool, with a hotel and treatment wing gathered under one continuous roof and a string of private cottages threaded along the water down to the pier.",
           ],
           images: [
-            { src: "content/projects/01-science-city/spa-01-aerial.jpg", label: "Aerial — the horseshoe spa around its thermal pool, cottages threaded to the pier", span: 2, fit: "contain", white: true },
+            { src: "content/projects/01-science-city/spa-01-aerial.jpg", label: "Aerial — the horseshoe spa around its thermal pool, cottages threaded to the pier", span: 2, fit: "contain", white: true , full: true },
             { src: "content/projects/01-science-city/spa-00-siteplan.png", label: "Site plan — the SPA Center located on the river bend within the masterplan", span: 2 },
             { src: "content/projects/01-science-city/spa-02-sunset.png", label: "Outdoor thermal pool & deck at sunset", span: 1 },
             { src: "content/projects/01-science-city/spa-03-pool.png", label: "Riverfront pool opening to the water", span: 1 },
@@ -365,7 +365,7 @@ window.PORTFOLIO = {
           ],
           images: [
             { src: "content/projects/01-science-city/smart-00-siteplan.png", label: "The resulting district — mixed timber housing, green streets & an autonomous shuttle", span: 2 },
-            { src: "content/projects/01-science-city/smart-01-aerial.jpg", label: "Site plan — the “Smart District” located within the masterplan, by the river", span: 2, fit: "contain", white: true },
+            { src: "content/projects/01-science-city/smart-01-aerial.jpg", label: "Site plan — the “Smart District” located within the masterplan, by the river", span: 2, fit: "contain", white: true , full: true },
             { src: "content/projects/01-science-city/smart-02-wfc.gif", label: "Wave function collapse — the residential pattern resolving from open grid to assembled modules", span: 2 },
             { src: "content/projects/01-science-city/smart-03-grasshopper.png", label: "The generative definition — street grid, type ratios, spacing & local centres as parameters", span: 2, fit: "contain", white: true },
           ],
@@ -392,7 +392,7 @@ window.PORTFOLIO = {
               ],
               note: "This creates a hierarchy of spaces — from public to semi-public to private.",
               images: [
-                { src: "content/projects/01-science-city/smart-massing-axon.jpg", label: "Massing axonometric — streets, semi-open courtyards and central green commons", diagram: true },
+                { src: "content/projects/01-science-city/smart-massing-axon.jpg", label: "Massing axonometric — streets, semi-open courtyards and central green commons", diagram: true , full: true },
               ],
             },
             {
@@ -480,13 +480,13 @@ window.PORTFOLIO = {
               images: [
                 { src: "content/projects/01-science-city/smart-community-center.jpg", label: "Three colour sectors mapped across the generated pattern", diagram: true },
                 { src: "content/projects/01-science-city/smart-sectors-diagram.png", label: "The sectors read in the rooftops — an aerial across the district" },
-                { src: "content/projects/01-science-city/smart-palette-sochivko.jpg", label: "Palettes sampled from Sochivko's paintings — here, the warm-palette neighbourhood", diagram: true },
+                { src: "content/projects/01-science-city/smart-palette-sochivko.jpg", label: "Palettes sampled from Sochivko's paintings — here, the warm-palette neighbourhood", diagram: true , full: true },
                 { src: "content/projects/01-science-city/smart-sector-warm.jpg", label: "Warm-palette sector — terracotta tile roofs threaded with green courtyards" },
                 { src: "content/projects/01-science-city/smart-central-square.jpg", label: "Central square & amphitheatre between the sectors" },
-                { src: "content/projects/01-science-city/smart-palette-neutral.jpg", label: "Neutral palette sampled from a Sochivko winter scene", diagram: true },
+                { src: "content/projects/01-science-city/smart-palette-neutral.jpg", label: "Neutral palette sampled from a Sochivko winter scene", diagram: true , full: true },
                 { src: "content/projects/01-science-city/smart-sector-neutral-community.jpg", label: "Neutral-palette sector — slate-and-timber community building with green roofs & garden plots" },
                 { src: "content/projects/01-science-city/smart-sector-neutral-square.jpg", label: "Neutral-palette sector — stepped square with cool grey, blue & timber façades" },
-                { src: "content/projects/01-science-city/smart-palette-cool.jpg", label: "Cool palette sampled from a Sochivko winter cityscape", diagram: true },
+                { src: "content/projects/01-science-city/smart-palette-cool.jpg", label: "Cool palette sampled from a Sochivko winter cityscape", diagram: true , full: true },
                 { src: "content/projects/01-science-city/smart-sector-cool-community.jpg", label: "Cool-palette sector — blue-clad community building & kindergarten in the pines" },
                 { src: "content/projects/01-science-city/smart-sector-cool-cottages.jpg", label: "Cool-palette cottages — blue ceramic-shingle gables among birch & moss courtyards" },
               ],
@@ -497,8 +497,8 @@ window.PORTFOLIO = {
                 "Public sculptures, drawn from scenes in Sergei Sochivko's paintings, anchor the squares of each sector — a watermelon-market cairn, a timber sturgeon in a reflecting pool. They help create a sense of local identity and a connection to the place.",
               ],
               images: [
-                { src: "content/projects/01-science-city/smart-sculpture-watermelon.jpg", label: "Watermelon-market sculpture paired with its source painting", diagram: true },
-                { src: "content/projects/01-science-city/smart-sculpture-fish.jpg", label: "Timber sturgeon in a reflecting pool, paired with its source painting", diagram: true },
+                { src: "content/projects/01-science-city/smart-sculpture-watermelon.jpg", label: "Watermelon-market sculpture paired with its source painting", diagram: true , full: true },
+                { src: "content/projects/01-science-city/smart-sculpture-fish.jpg", label: "Timber sturgeon in a reflecting pool, paired with its source painting", diagram: true , full: true },
               ],
             },
             {
@@ -526,10 +526,10 @@ window.PORTFOLIO = {
             "The number of internal courtyards.",
           ],
           images: [
-            { src: "content/projects/01-science-city/logistics-00-locator.jpg", label: "Site plan — the manufacturing & logistics areas within the masterplan, south of the river", span: 2, fit: "contain", white: true },
+            { src: "content/projects/01-science-city/logistics-00-locator.jpg", label: "Site plan — the manufacturing & logistics areas within the masterplan, south of the river", span: 2, fit: "contain", white: true , full: true },
             { src: "content/projects/01-science-city/logistics-03-aerial.png", label: "The resulting zone — folded timber halls woven around planted courtyards, ringed by truck docks & rail", span: 2 },
-            { src: "content/projects/01-science-city/logistics-01-definition.jpg", label: "The generative definition — building dimensions, section counts & internal courtyards as parameters", span: 2, fit: "contain", white: true },
-            { src: "content/projects/01-science-city/logistics-02-program.jpg", label: "Programme — logistics centre, greenhouses, 3D-printed ceramic tile & CLT panel manufacturing, with floor areas", span: 2, fit: "contain", white: true },
+            { src: "content/projects/01-science-city/logistics-01-definition.jpg", label: "The generative definition — building dimensions, section counts & internal courtyards as parameters", span: 2, fit: "contain", white: true , full: true },
+            { src: "content/projects/01-science-city/logistics-02-program.jpg", label: "Programme — logistics centre, greenhouses, 3D-printed ceramic tile & CLT panel manufacturing, with floor areas", span: 2, fit: "contain", white: true , full: true },
           ],
           endBlocks: [
             {
@@ -683,7 +683,7 @@ window.PORTFOLIO = {
             "A great timber ring set in the fields at the edge of the masterplan — terraced floors of exhibition space wrapping a circle of preserved forest at its core.",
           ],
           images: [
-            { src: "content/projects/01-science-city/expo-00-locator.jpg", label: "Site plan — the EXPO ring at the southern edge of the masterplan", span: 2, fit: "contain", white: true },
+            { src: "content/projects/01-science-city/expo-00-locator.jpg", label: "Site plan — the EXPO ring at the southern edge of the masterplan", span: 2, fit: "contain", white: true , full: true },
             { src: "content/projects/01-science-city/expo-01-field.png", label: "From the fields — the timber ring rising above the wheat, a green roof of pines along its crown", span: 2 },
             { src: "content/projects/01-science-city/expo-02-aerial.png", label: "Aerial — terraced timber floors wrapping a circle of preserved forest at the core", span: 2 },
             { src: "content/projects/01-science-city/expo-03-sunset.png", label: "At sunset — the approach road aligned with the ring, the sun setting through its courtyard", span: 2 },
