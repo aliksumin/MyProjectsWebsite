@@ -39,8 +39,6 @@ header{position:fixed;top:0;left:0;right:0;z-index:500;
 .hd__nav a{color:var(--mut);transition:color .25s;}
 .hd__nav a:hover{color:var(--ink);}
 .hd__nav a.is-cur{color:var(--ink);}
-.hd__clock{font-variant-numeric:tabular-nums;}
-@media(max-width:680px){.hd__nav a:not(.hd__clock){display:none;}}
 
 /* hero */
 .hero{padding-top:160px;padding-bottom:70px;}
@@ -167,7 +165,6 @@ footer{border-top:1px solid var(--ink);padding:80px 0 130px;}
       <a href="index.html">Projects</a>
       <a href="collaborations.html" class="is-cur">Team Works</a>
       <a href="contact.html">Contact</a>
-      <a class="hd__clock" id="clock">--:--:--</a>
     </nav>
   </div>
 </header>
@@ -284,12 +281,6 @@ PROJECTS.forEach((p,i)=>{
 });
 
 // (cursor-follow preview removed — each project row now shows 3 circle thumbnails)
-
-// clock
-const clk=document.getElementById('clock');
-setInterval(()=>{const d=new Date();
-  clk.textContent=[d.getHours(),d.getMinutes(),d.getSeconds()].map(n=>String(n).padStart(2,'0')).join(':');
-},1000);
 
 // reveal
 const io=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);}}),{threshold:.15});

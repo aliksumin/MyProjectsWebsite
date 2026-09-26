@@ -4,13 +4,15 @@
    Loaded AFTER each page's inline <style>, so equal-specificity rules here win.
    Several selectors below look redundantly written (e.g. `:not(.hd__clock)`)
    purely to match the specificity of the inline rule they need to override —
-   the pages hide their nav three different ways:
+   the pages hide their nav two different ways:
 
-     index / collaborations : .hd__nav a:not(.hd__clock) { display:none }
      about / contact / project : .hd__nav a:not(.is-back) { display:none }
      urban3d / wavy-square  : .hd__nav a.opt { display:none }
 
-   All three are (0,0,2,1); the override must be too.
+   Both are (0,0,2,1); the override must be too — which is the only reason the
+   `:not(.hd__clock)` below survives the clock itself. index and collaborations
+   carried a third variant, kept only to spare their header clock; that clock
+   and its rule are both gone, so those two pages now need no override at all.
    ========================================================================== */
 
 /* iOS: stop Safari inflating text in landscape */
@@ -24,7 +26,8 @@ html { -webkit-text-size-adjust: 100%; }
 /* ---------------------------------------------------------------- header --
    The header previously collapsed to nothing but a clock on phones, leaving
    no way to reach About / Team Works / Contact. Give it two rows instead:
-   name on top, full navigation underneath.                                  */
+   name on top, full navigation underneath. (The clock has since been removed
+   from the site; this override is still what un-hides the nav elsewhere.)   */
 @media (max-width: 680px) {
   .hd {
     height: auto;
@@ -37,7 +40,6 @@ html { -webkit-text-size-adjust: 100%; }
   .hd__name { font-size: 13px; }
 
   .hd__nav a:not(.hd__clock) { display: inline-flex; align-items: center; }
-  .hd__clock { display: none; }          /* decorative; the space is better spent */
 
   .hd__nav {
     width: 100%;

@@ -48,11 +48,11 @@ header{position:fixed;top:0;left:0;right:0;z-index:500;
   font-size:clamp(44px,9vw,140px);text-transform:uppercase;}
 .ph__title .ln{display:block;overflow:hidden;}
 .ph__title .ln span{display:block;}
-.ph__intro{display:flex;justify-content:space-between;flex-wrap:wrap;gap:26px;margin-top:34px;}
-.ph__intro p{max-width:62ch;font-size:clamp(15px,1.7vw,19px);line-height:1.6;color:oklch(0.30 0.01 95);}
-.ph__intro .meta{font-size:12px;line-height:1.9;color:var(--mut);text-align:right;white-space:nowrap;}
-.ph__intro .meta b{color:var(--ink);font-weight:500;}
-@media(max-width:680px){.ph__intro .meta{text-align:left;}}
+/* The standfirst paragraph that used to sit here is gone, and with it the two
+   columns it was half of. What is left is the name block, which now reads down
+   the left edge under the title instead of being pushed right to balance it. */
+.ph .meta{margin-top:34px;font-size:12px;line-height:1.9;color:var(--mut);}
+.ph .meta b{color:var(--ink);font-weight:500;}
 
 /* chapter index */
 .cidx{position:sticky;top:58px;z-index:400;background:color-mix(in oklch,var(--paper) 92%,transparent);
@@ -285,10 +285,7 @@ footer{padding-block:44px 64px;}
   <section class="ph wrap">
     <div class="ph__lab">Profile / Curriculum Vitae</div>
     <h1 class="ph__title reveal"><span class="ln"><span>About</span></span></h1>
-    <div class="ph__intro">
-      <p id="intro"></p>
-      <div class="meta" id="heroMeta"></div>
-    </div>
+    <div class="meta" id="heroMeta"></div>
   </section>
 
   <div class="cidx"><div class="wrap cidx__in" id="cidx"></div></div>
@@ -314,10 +311,8 @@ footer{padding-block:44px 64px;}
 const A=window.ABOUT, C=window.CONTACT;
 const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
 
-document.getElementById('intro').textContent=A.intro;
 document.getElementById('heroMeta').innerHTML=
-  `<div><b>${C.name}</b></div><div>${C.role}</div><div>${C.location}</div>
-   <div style="margin-top:10px">${A.chapters.length} chapters</div>`;
+  `<div><b>${C.name}</b></div><div>${C.role}</div><div>${C.location}</div>`;
 
 // chapter index
 // The title sits in its own span so the mobile stylesheet can drop it: ten
