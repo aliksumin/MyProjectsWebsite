@@ -559,6 +559,11 @@ function galleryFigure(img){
   const real=!!img.src;
   const fig=document.createElement('figure');
   fig.className='reveal '+(img.span===2?'sp2':'sp1')+(real?'':' is-ph')+(img.fit==='contain'?' fit-contain':'')+(img.white?' bg-white':'')+(img.diagram?' diagram':'')+(img.wide?' diagram-wide':'')+(img.full?' is-full':'')+(img.dark?' bg-dark':'')+(img.align==='bottom'?' align-bottom':'');
+  // `bg`: an explicit frame colour for a picture whose own edges are neither
+  // paper nor pure black — a portrait photo spanning a full-width row would
+  // otherwise sit stranded in blank paper. Inline, so it beats the class-based
+  // backgrounds above.
+  if(img.bg) fig.style.background=img.bg;
   const src=real?img.src:ph(img.label||'');
   const arStyle=img.ar?` style="aspect-ratio:${img.ar}"`:'';
   // The hint must match how wide the figure really is. A span-2 figure fills
