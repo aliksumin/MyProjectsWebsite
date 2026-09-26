@@ -747,10 +747,10 @@ window.PORTFOLIO = {
               body: "The deepest, most transformative level — applied where surface improvements are not enough and the existing spatial structure, building condition, land use or urban form requires substantial change. It may include building renovation, façade upgrades, adaptive reuse, demolition of low-quality structures, new construction, plot redevelopment, reorganization of functions, and new mixed-use blocks. Beyond physical renovation, it changes the role and performance of specific areas — introducing new public programs, commerce, housing, cultural and community facilities, and better connections with surrounding districts, unlocking long-term development potential." },
           ],
           images: [
-            { src: "content/projects/02-dadonghai-sanya/micro-renewal-01-levels-map.jpg",            label: "Three intervention levels mapped across Dadonghai — green preservation, surface redevelopment, comprehensive renovation", span: 2, fit: "contain" },
-            { src: "content/projects/02-dadonghai-sanya/micro-renewal-02-renovation-buildings.jpg",   label: "Level 3 — buildings & communities slated for comprehensive spatial renovation", span: 2, fit: "contain" },
-            { src: "content/projects/02-dadonghai-sanya/micro-renewal-03-social-infrastructure.jpg",  label: "Social infrastructure — school, kindergarten & renovated hospital in the Yuehai Lane district", span: 2, fit: "contain" },
-            { src: "content/projects/02-dadonghai-sanya/micro-renewal-04-amenities-map.jpg",          label: "Roofs — solar, urban farms, rooftop gardens, observation & parade-viewing decks", span: 2, fit: "contain" },
+            { src: "content/projects/02-dadonghai-sanya/micro-renewal-01-levels-map.jpg",            label: "Three intervention levels mapped across Dadonghai — green preservation, surface redevelopment, comprehensive renovation", span: 2, fit: "contain" , white: true },
+            { src: "content/projects/02-dadonghai-sanya/micro-renewal-02-renovation-buildings.jpg",   label: "Level 3 — buildings & communities slated for comprehensive spatial renovation", span: 2, fit: "contain" , white: true },
+            { src: "content/projects/02-dadonghai-sanya/micro-renewal-03-social-infrastructure.jpg",  label: "Social infrastructure — school, kindergarten & renovated hospital in the Yuehai Lane district", span: 2, fit: "contain" , white: true },
+            { src: "content/projects/02-dadonghai-sanya/micro-renewal-04-amenities-map.jpg",          label: "Roofs — solar, urban farms, rooftop gardens, observation & parade-viewing decks", span: 2, fit: "contain" , white: true },
           ],
         },
         {

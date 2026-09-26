@@ -9,6 +9,11 @@ MyWebPage.zip
 # Build-tool dependencies. The site itself needs none of this.
 tools/node_modules/
 
+# Local animation workspace — ~1.35 GB of frames, renders and node_modules.
+# Ignored so it cannot be swept into a commit by a stray `git add -A`; a push
+# that size would fail, and removing it afterwards needs a history rewrite.
+animation/
+
 # Local editor/agent config — contains machine-specific absolute paths
 .claude/
 

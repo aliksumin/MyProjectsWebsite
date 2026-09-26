@@ -3,6 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="icon" href="favicon.ico" sizes="any" />
+<link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32.png" />
+<link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16.png" />
+<link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png" />
 <title>Project — Architecture Portfolio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -536,7 +540,12 @@ function galleryFigure(img){
   fig.className='reveal '+(img.span===2?'sp2':'sp1')+(real?'':' is-ph')+(img.fit==='contain'?' fit-contain':'')+(img.white?' bg-white':'')+(img.diagram?' diagram':'')+(img.wide?' diagram-wide':'');
   const src=real?img.src:ph(img.label||'');
   const arStyle=img.ar?` style="aspect-ratio:${img.ar}"`:'';
-  fig.innerHTML=`<img ${window.imgAttrs(src,'(max-width:780px) 100vw, 50vw')}${arStyle} alt="${img.label||''}" loading="lazy">`
+  // The hint must match how wide the figure really is. A span-2 figure fills
+  // the row, so telling the browser 50vw made it fetch a small tier — and
+  // `.gal figure.fit-contain img` uses width:auto, so the picture then drew at
+  // that tier's own pixel width instead of filling its frame.
+  const sizes=img.span===2?'(max-width:780px) 100vw, 90vw':'(max-width:780px) 100vw, 45vw';
+  fig.innerHTML=`<img ${window.imgAttrs(src,sizes)}${arStyle} alt="${img.label||''}" loading="lazy">`
     +(real?`<figcaption><span>${img.label||''}</span><span>↗</span></figcaption>`:'');
   if(real){
     const i=lbItems.length;lbItems.push({src:img.src,cap:img.label||'',sheet:img.fit==='contain'||img.diagram});
@@ -730,7 +739,12 @@ if(proj.sections){
           eb.images.forEach(im=>{
             const i=lbItems.length;lbItems.push({src:im.src,cap:im.label||''});
             const fig=document.createElement('figure');fig.className='topimg'+(im.diagram?' is-diagram':'')+(im.dark?' is-dark':'');fig.dataset.lb=i;
-            fig.innerHTML=`<img ${window.imgAttrs(im.src,'(max-width:780px) 100vw, 50vw')} alt="${im.label||''}" loading="lazy">`
+            // These are full-bleed standalone plates, not a two-column grid,
+            // so they need a near-viewport-width hint. With the grid's 50vw the
+            // browser fetched a small tier, and `.topimg.is-diagram img` uses
+            // width:auto — so the plate rendered at the tier's own pixel width
+            // rather than filling its container.
+            fig.innerHTML=`<img ${window.imgAttrs(im.src,'(max-width:780px) 100vw, 90vw')} alt="${im.label||''}" loading="lazy">`
               +(im.label?`<figcaption>${im.label}</figcaption>`:'');
             fig.addEventListener('click',()=>openLb(i));
             tw.appendChild(fig);
