@@ -575,7 +575,13 @@ function animateTurn(from,to,forward){
     oldSide.style.visibility='';
     newLeaf.classList.remove('no-anim');newLeaf.style.zIndex='';
     near.remove();far.remove();
+    // The leaf goes one frame later than the spread beneath it, so there is no
+    // frame where neither is painted. But requestAnimationFrame does not fire
+    // AT ALL in a hidden tab, and the leaf would then sit in the DOM until the
+    // reader came back — one per turn. The timer is the floor under that;
+    // remove() twice is harmless.
     requestAnimationFrame(()=>sheet.remove());
+    setTimeout(()=>sheet.remove(),150);
   };
 
   let guard=0;
