@@ -580,17 +580,20 @@ function galleryFigure(img){
   // otherwise sit stranded in blank paper. Inline, so it beats the class-based
   // backgrounds above.
   if(img.bg) fig.style.background=img.bg;
-  // A contain figure cannot carry `ar` on its <img> — an inline aspect-ratio
-  // beats the stylesheet's `aspect-ratio:auto` and would stretch the picture.
-  // It goes to the figure as `--ar` instead, where it reserves the box.
-  const contain=img.fit==='contain';
-  if(contain&&img.frame){
+  // A figure with a declared `frame` cannot also carry `ar` on its <img>: an
+  // inline aspect-ratio beats the stylesheet's `aspect-ratio:auto` and would
+  // stretch the picture inside the reserved box. There `ar` goes to the figure
+  // as `--ar` instead. Only there — diverting it from every contain figure
+  // changed the size of fifteen pictures that were relying on it, one of them
+  // by 33px.
+  const framed=img.fit==='contain'&&img.frame;
+  if(framed){
     fig.classList.add('has-frame');
     fig.style.setProperty('--frame',img.frame);
     if(img.ar) fig.style.setProperty('--ar',img.ar);
   }
   const src=real?img.src:ph(img.label||'');
-  const arStyle=(img.ar&&!contain)?` style="aspect-ratio:${img.ar}"`:'';
+  const arStyle=(img.ar&&!framed)?` style="aspect-ratio:${img.ar}"`:'';
   // The hint must match how wide the figure really is. A span-2 figure fills
   // the row, so telling the browser 50vw made it fetch a small tier — and
   // `.gal figure.fit-contain img` uses width:auto, so the picture then drew at
