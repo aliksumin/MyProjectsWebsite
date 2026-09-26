@@ -39,20 +39,23 @@ header{position:fixed;top:0;left:0;right:0;z-index:500;
 .hd__nav a:hover,.hd__nav a.is-active{color:var(--ink);}
 @media(max-width:680px){.hd__nav a:not(.is-back){display:none;}}
 
-main{flex:1;display:flex;flex-direction:column;justify-content:center;padding-top:108px;padding-bottom:60px;}
+/* Centred when there is room, top-aligned when there is not. `justify-content:
+   center` overflows in BOTH directions, so on a phone the label was pushed off
+   the top of the screen and behind the fixed header with no way to scroll back
+   to it. Auto margins centre the same way but collapse to zero once the free
+   space runs out, which is the behaviour wanted here. */
+/* `main.wrap`, not `main`: this element carries the .wrap class, whose
+   `padding:0 clamp(...)` shorthand outranks a bare type selector and zeroed
+   these two sides. Centring hid it on a desktop; on a phone the content began
+   at y=0, behind the fixed header. */
+main.wrap{flex:1;display:flex;flex-direction:column;padding-top:108px;padding-bottom:60px;}
+main>.lab{margin-top:auto;}
+main>.grid{margin-bottom:auto;}
 .lab{font-size:13px;letter-spacing:.2em;color:var(--mut);text-transform:uppercase;margin-bottom:22px;}
-.mail-wrap{border-top:1px solid var(--ink);border-bottom:1px solid var(--line);padding:30px 0;}
-/* The address must sit on ONE line at every width. In JetBrains Mono at this
-   tracking each character is 0.58em, so a 24-character address needs 13.92em.
-   The old 7vw ramp outgrew its container at every size (the container widens
-   at ~0.92vw), so the address always wrapped — and word-break:break-all split
-   it mid-word, e.g. "gmail.c / om". 6.2vw keeps 24 chars inside from 320px up;
-   88px caps it where the 1400px wrap stops growing.
-   If the address ever gets much longer, lower 6.2vw by roughly 24/newLength. */
-.mail{font-weight:800;letter-spacing:-.02em;text-transform:lowercase;
-  font-size:clamp(16px,6.2vw,88px);line-height:.98;display:inline-block;
-  transition:transform .4s cubic-bezier(.16,1,.3,1);white-space:nowrap;}
-.mail:hover{transform:skewX(-7deg);}
+/* The band that used to carry the address as a headline. The links stand in
+   that position now, so it is sized to hold them rather than one long word. */
+.links-wrap{border-top:1px solid var(--ink);border-bottom:1px solid var(--line);
+  padding:clamp(26px,3.4vw,44px) 0;}
 
 .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:26px;margin-top:48px;}
 @media(max-width:860px){.grid{grid-template-columns:repeat(2,1fr);gap:30px 24px;}}
@@ -62,11 +65,12 @@ main{flex:1;display:flex;flex-direction:column;justify-content:center;padding-to
 .cell a{transition:color .2s;color:var(--ink);}
 .cell a:hover{color:var(--mut);}
 .cell .sub{font-size:11px;color:var(--mut);letter-spacing:.04em;margin-top:2px;}
+.cell a+a{margin-top:7px;}
 
-.socials{display:flex;flex-wrap:wrap;gap:10px;margin-top:48px;}
-.socials a{font-size:11px;letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--ink);
-  border-radius:100px;padding:13px 20px;display:inline-flex;gap:10px;align-items:center;
-  transition:background .25s,color .25s;}
+.socials{display:flex;flex-wrap:wrap;gap:12px;}
+.socials a{font-size:clamp(11px,1.05vw,14px);letter-spacing:.1em;text-transform:uppercase;
+  border:1px solid var(--ink);border-radius:100px;padding:clamp(13px,1.3vw,18px) clamp(20px,2vw,28px);
+  display:inline-flex;gap:10px;align-items:center;transition:background .25s,color .25s;}
 .socials a em{font-style:normal;color:var(--mut);}
 .socials a:hover{background:var(--ink);color:var(--paper);}
 .socials a:hover em{color:var(--paper2);}
@@ -97,18 +101,16 @@ footer{border-top:1px solid var(--line);}
 
 <main class="wrap">
   <div class="lab reveal">Contact</div>
-  <div class="mail-wrap reveal d1">
-    <a class="mail" id="mail" href="#">email</a>
+  <div class="links-wrap reveal d1">
+    <div class="socials" id="socials"></div>
   </div>
 
   <div class="grid">
     <div class="cell reveal d1"><h3>Name</h3><p id="c-name"></p><p class="sub" id="c-born"></p></div>
     <div class="cell reveal d1"><h3>Role</h3><p id="c-role"></p></div>
     <div class="cell reveal d2"><h3>Based in</h3><p id="c-loc"></p></div>
-    <div class="cell reveal d2"><h3>Phone</h3><a id="c-phone" href="#"></a></div>
+    <div class="cell reveal d2"><h3>Contact</h3><a id="c-phone" href="#"></a><a id="c-mail" href="#"></a></div>
   </div>
-
-  <div class="socials reveal d3" id="socials"></div>
 </main>
 
 <footer>
@@ -124,12 +126,12 @@ footer{border-top:1px solid var(--line);}
 <script>
 const C=window.CONTACT;
 document.querySelectorAll('[data-name]').forEach(e=>e.textContent=C.name);
-const mail=document.getElementById('mail');mail.textContent=C.email;mail.href='mailto:'+C.email;
 document.getElementById('c-name').textContent=C.name;
 document.getElementById('c-born').textContent='b. '+C.born;
 document.getElementById('c-role').textContent=C.role;
 document.getElementById('c-loc').textContent=C.location;
 const ph=document.getElementById('c-phone');ph.textContent=C.phone;ph.href='tel:'+C.phone.replace(/\s/g,'');
+const ml=document.getElementById('c-mail');ml.textContent=C.email;ml.href='mailto:'+C.email;
 document.getElementById('socials').innerHTML=C.socials.map(s=>
   `<a href="${s.url}" target="_blank" rel="noopener">${s.label} <em>${s.handle}</em> ↗</a>`).join('');
 
