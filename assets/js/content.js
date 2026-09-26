@@ -1889,7 +1889,7 @@ window.PORTFOLIO.projects.push({
       ],
       images: [
         { src: "content/projects/14-dormitory/dorm-01-towers.jpg", label: "The twin slab blocks split by the elevated public deck floating above the street", span: 2, ar: "2/1" },
-        { src: "content/projects/14-dormitory/dorm-02-facade.jpg", label: "The façade close up — shuffled coloured glass balcony panels over red-mullioned glazing", span: 2, fit: "contain", bg: "#4d5254" },
+        { src: "content/projects/14-dormitory/dorm-02-facade.jpg", label: "The façade close up — shuffled coloured glass balcony panels over red-mullioned glazing", span: 2, fit: "contain", bg: "#4d5254", frame: "4/3", ar: "1000/1600" },
         { src: "content/projects/14-dormitory/dorm-03-deck.jpg", label: "The covered public deck — curved balustrade, colonnade and a single tree under the platform", span: 2, ar: "1600/1000" },
         { src: "content/projects/14-dormitory/dorm-04-undercroft.jpg", label: "Beneath the deck — chequerboard screen wall and columns opening to the landscape", span: 2, ar: "1.6/1" },
       ],
@@ -1903,7 +1903,7 @@ window.PORTFOLIO.projects.push({
       images: [
         { src: "content/projects/14-dormitory/dorm-05-loft.jpg", label: "The study level — floating book-stair, desk and daybed under the raking guardrail", span: 2, ar: "1600/1200" },
         { src: "content/projects/14-dormitory/dorm-06-entry.jpg", label: "The entry and dining nook — angled red-and-black door against white, folded skylight above", span: 2, ar: "1/1" },
-        { src: "content/projects/14-dormitory/dorm-07-kitchen.jpg", label: "The common room — kitchen with chequerboard splashback and the floating stair up to the rooms", span: 2, fit: "contain", bg: "#47536a" },
+        { src: "content/projects/14-dormitory/dorm-07-kitchen.jpg", label: "The common room — kitchen with chequerboard splashback and the floating stair up to the rooms", span: 2, fit: "contain", bg: "#47536a", frame: "4/3", ar: "1200/1600" },
       ],
     },
     {

@@ -69,7 +69,7 @@ header{position:fixed;top:0;left:0;right:0;z-index:500;
 
 /* single flip-through book */
 .book{margin-top:10px;}
-.book__stage{position:relative;height:min(78vh,720px);perspective:2600px;}
+.book__stage{position:relative;height:min(78vh,720px);perspective:2900px;perspective-origin:50% 46%;}
 .leaf{display:none;}
 .leaf.on{display:grid;grid-template-columns:1fr 1fr;background:var(--paper);border:1px solid var(--ink);
   position:absolute;inset:0;height:100%;box-shadow:0 46px 90px -55px rgba(40,35,20,.6);}
@@ -79,7 +79,11 @@ header{position:fixed;top:0;left:0;right:0;z-index:500;
   background:linear-gradient(90deg,transparent,rgba(40,35,20,.05) 47%,rgba(40,35,20,.08) 50%,rgba(40,35,20,.05) 53%,transparent);
   pointer-events:none;z-index:2;}
 .page{position:relative;display:flex;flex-direction:column;min-width:0;}
-.page--left{padding:clamp(26px,3vw,54px) clamp(26px,3vw,54px) 0;overflow-y:auto;display:block;}
+/* Opaque in its own right, not by sitting on the leaf's background. During a
+   turn the leaf underneath has to show through the half being uncovered, so
+   the leaf goes transparent and each page carries its own paper. */
+.page--left{padding:clamp(26px,3vw,54px) clamp(26px,3vw,54px) 0;overflow-y:auto;display:block;
+  background:var(--paper);}
 .page--right{padding:0;overflow:hidden;}
 .page__head{border-bottom:1px solid var(--ink);padding-bottom:16px;margin-bottom:26px;}
 .page__head .chap__code{display:block;font-size:12px;letter-spacing:.2em;color:var(--mut);margin-bottom:12px;}
@@ -117,24 +121,61 @@ header{position:fixed;top:0;left:0;right:0;z-index:500;
   min-width:240px;text-align:center;}
 .book__count b{color:var(--ink);font-weight:700;}
 
-/* page-turn animation */
-.flip-sheet{position:absolute;top:0;bottom:0;width:50%;z-index:6;transform-style:preserve-3d;
-  transition:transform .9s cubic-bezier(.42,0,.2,1);}
-.flip-sheet.flip-fwd{left:50%;transform-origin:left center;transform:rotateY(0deg);}
-.flip-sheet.flip-fwd.turning{transform:rotateY(-179deg);}
-.flip-sheet.flip-bwd{left:0;transform-origin:right center;transform:rotateY(0deg);}
-.flip-sheet.flip-bwd.turning{transform:rotateY(179deg);}
+/* ---------------------------------------------------------- page turn ----
+   Every timing value below is driven from the script, which samples one eased
+   clock into Web Animations keyframes; the rules here only lay the parts out.
+   The shape of the effect follows what the established flipbook libraries do
+   (StPageFlip, turn.js): a leaf that BOWS rather than staying a plank, two
+   faces that light and darken as they swing past the lamp, and — the cue that
+   does most of the work — a shadow the leaf casts on the page it uncovers and
+   on the page it lands over. */
+.flip-sheet{position:absolute;top:0;bottom:0;width:50%;z-index:6;
+  transform-style:preserve-3d;will-change:transform;}
+.flip-sheet.flip-fwd{left:50%;transform-origin:left center;}
+.flip-sheet.flip-bwd{left:0;transform-origin:right center;}
+/* The leaf is two panels: the inner one hinges at the spine, the outer one
+   hinges off the inner one's free edge. A few degrees between them is the
+   difference between paper and cardboard. No overflow clipping here — that
+   would flatten the 3D context and the outer panel would collapse onto the
+   inner one; the faces are leaves of the tree, so they do the clipping. */
+.flip-panel{position:absolute;top:0;bottom:0;transform-style:preserve-3d;}
+.flip-fwd .flip-panel--in{left:0;width:50%;transform-origin:left center;}
+.flip-fwd .flip-panel--out{left:100%;width:100%;transform-origin:left center;}
+.flip-bwd .flip-panel--in{left:50%;width:50%;transform-origin:right center;}
+.flip-bwd .flip-panel--out{left:-100%;width:100%;transform-origin:right center;}
 .flip-face{position:absolute;inset:0;overflow:hidden;backface-visibility:hidden;
-  background:var(--paper);box-shadow:0 0 50px rgba(40,35,20,.2);}
+  background:var(--paper);}
 .flip-back{transform:rotateY(180deg);}
-.flip-face>.page{height:100%;width:100%;}
-/* soft lighting sweep on the turning leaf */
-.flip-face::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:0;
-  transition:opacity .82s ease;background:linear-gradient(90deg,rgba(40,35,20,.16),transparent 60%);}
-.flip-sheet.flip-bwd .flip-face::after{background:linear-gradient(270deg,rgba(40,35,20,.16),transparent 60%);}
-.flip-sheet.turning .flip-face::after{opacity:1;}
+/* Each panel shows one half of a page. The slice is the full page width, slid
+   so the wanted half lands in the panel's window. The back face is mirrored by
+   its own rotateY(180deg), so its halves come in the other order. */
+.flip-slice{position:absolute;top:0;bottom:0;width:200%;}
+.flip-slice>.page{width:100%;height:100%;}
+.half-0{left:0;}
+.half-1{left:-100%;}
+/* Face shading. Sized like the slice, not like the panel, so the gradient runs
+   unbroken across the fold instead of restarting at it. */
+.flip-shade{position:absolute;top:0;bottom:0;width:200%;pointer-events:none;opacity:0;
+  background:linear-gradient(90deg,rgba(30,26,14,.82),rgba(30,26,14,.12));}
+.flip-bwd .flip-shade{background:linear-gradient(270deg,rgba(30,26,14,.82),rgba(30,26,14,.12));}
+/* Cast shadows, anchored at the spine: `near` darkens the half being uncovered,
+   `far` the half the leaf is closing over. Both sit above the spreads and below
+   the leaf, and both reach zero at the ends of the turn, so nothing pops when
+   the sheet is taken away. */
+.flip-cast{position:absolute;top:0;bottom:0;width:50%;pointer-events:none;opacity:0;}
+.flip-cast--near{z-index:4;}
+.flip-cast--far{z-index:5;}
+.cast-fwd.flip-cast--near{left:50%;background:linear-gradient(90deg,rgba(30,26,14,.62),transparent 58%);}
+.cast-fwd.flip-cast--far{left:0;background:linear-gradient(270deg,rgba(30,26,14,.66),transparent 58%);}
+.cast-bwd.flip-cast--near{left:0;background:linear-gradient(270deg,rgba(30,26,14,.62),transparent 58%);}
+.cast-bwd.flip-cast--far{left:50%;background:linear-gradient(90deg,rgba(30,26,14,.66),transparent 58%);}
 .leaf.no-anim{animation:none !important;}
-.leaf.leaving{animation:none !important;transition:opacity .24s ease;opacity:0;z-index:2;}
+/* The spread the reader is leaving. Its background is dropped for the length of
+   the turn so the incoming spread is visible through the half the leaf has
+   lifted off — otherwise that half is blank paper for the whole turn and the
+   new page arrives in a pop at the very end, which is exactly what it used to
+   do. Its own pages stay opaque, so the half that is NOT turning is unaffected. */
+.leaf.on.turn-src{background:transparent;}
 
 /* fullscreen book (CSS overlay — works regardless of Fullscreen-API permissions) */
 .book.is-fs{position:fixed;inset:0;z-index:9000;max-width:none;width:100vw;height:100vh;margin:0;
@@ -427,43 +468,149 @@ function showInstant(i){
   leaves.forEach((l,k)=>{l.classList.toggle('on',k===i);l.style.zIndex='';l.style.animation='';});
   cur=i;setMeta(i);
 }
-// animated page turn: a half-leaf rotates around the spine, revealing the next spread
+// Chapter media is lazy, and a leaf nobody has opened yet is display:none — so
+// its picture had not begun loading when the turn started, and the new spread
+// arrived as a blank white page with the image dropping in afterwards. That,
+// not the turn, was most of what made the arrival feel wrong. Warm the
+// neighbours so the page you are about to reach is already there, and sweep up
+// the rest of the book once the browser has nothing better to do.
+const warmed=new Set();
+function warmLeaf(i){
+  if(i<0||i>=leaves.length||warmed.has(i))return;
+  warmed.add(i);
+  leaves[i].querySelectorAll('img[loading="lazy"]').forEach(im=>{im.loading='eager';});
+}
+function warmAround(i){warmLeaf(i);warmLeaf(i-1);warmLeaf(i+1);}
+(window.requestIdleCallback||(f=>setTimeout(f,1500)))(()=>leaves.forEach((_,i)=>warmLeaf(i)));
+/* ------------------------------------------------------ the page turn ----
+   One eased clock drives the whole thing — the leaf's rotation, the bow
+   between its two panels, the light on each face, and the two shadows it
+   casts. The curve is sampled into Web Animations keyframes rather than
+   expressed as a CSS transition, for two reasons: a single transition can only
+   carry one property per element, so the shadows used to fade on a timer of
+   their own and drifted out of step with the leaf; and sampling lets the
+   motion be asymmetric, which a cubic-bezier cannot be. The browser still runs
+   every one of these on the compositor. */
+const TURN_MS=820, STEPS=30, BOW=8;
+// Standard cubic-bezier, solved here rather than handed to CSS, because the
+// shadows have to be sampled off the same curve — they track the leaf's ANGLE,
+// not the clock, which is why they stay put when the easing is retuned.
+function bezier(x1,y1,x2,y2){
+  const A=(a,b)=>1-3*b+3*a,B=(a,b)=>3*b-6*a,C=a=>3*a;
+  const calc=(t,a,b)=>((A(a,b)*t+B(a,b))*t+C(a))*t;
+  return x=>{if(x<=0)return 0;if(x>=1)return 1;let lo=0,hi=1,t=x;
+    for(let i=0;i<24;i++){const v=calc(t,x1,x2);if(v<x)lo=t;else hi=t;t=(lo+hi)/2;}
+    return calc(t,y1,y2);};
+}
+// A page is lifted before it is dropped. A plain ease-out threw it through 43
+// degrees in the first tenth of a second, which is what made the old turn feel
+// like a slammed door; this one lifts gently, goes over the vertical quickly,
+// then takes its time settling flat.
+const turnEase=bezier(.38,.06,.22,1);
+const clamp01=v=>v<0?0:v>1?1:v;
+// A shadow that rises and falls again between two points on the clock.
+const hump=(p,a,b)=>{const u=(p-a)/(b-a);return u<=0||u>=1?0:Math.sin(Math.PI*u);};
+
+function turnKeyframes(dir){          // dir: -1 turning forward, +1 back
+  const k={sheet:[],inner:[],outer:[],front:[],back:[],near:[],far:[]};
+  for(let i=0;i<STEPS;i++){
+    const p=turnEase(i/(STEPS-1));
+    // The bow reverses through the turn: the free edge trails while the leaf
+    // is lifted and leads as it falls, and is flat at both ends — which is
+    // what lets the sheet sit exactly on the pages it starts and finishes on.
+    const bow=-dir*BOW*Math.sin(2*Math.PI*p);
+    k.sheet.push({transform:`rotateY(${(dir*180*p).toFixed(2)}deg)`});
+    k.inner.push({transform:`rotateY(${(bow*0.45).toFixed(2)}deg)`});
+    k.outer.push({transform:`rotateY(${(bow*0.55).toFixed(2)}deg)`});
+    k.front.push({opacity:(0.62*clamp01(p/0.5)).toFixed(3)});    // turning away
+    k.back .push({opacity:(0.62*clamp01((1-p)/0.5)).toFixed(3)});// coming to light
+    k.near .push({opacity:(0.50*hump(p,0,0.62)).toFixed(3)});
+    k.far  .push({opacity:(0.58*hump(p,0.36,1)).toFixed(3)});
+  }
+  return k;
+}
+
+// One half of a page, cloned onto one face of one panel. `half` is which half
+// of the page shows through this panel's window.
+function faceSlice(panel,cls,page,half){
+  const face=document.createElement('div');face.className='flip-face '+cls;
+  const slice=document.createElement('div');slice.className='flip-slice half-'+half;
+  slice.appendChild(page.cloneNode(true));
+  const shade=document.createElement('i');shade.className='flip-shade half-'+half;
+  face.appendChild(slice);face.appendChild(shade);
+  panel.appendChild(face);
+  return shade;
+}
+
 function animateTurn(from,to,forward){
   animating=true;
+  const dir=forward?-1:1;
   const oldLeaf=leaves[from],newLeaf=leaves[to];
   newLeaf.classList.add('on','no-anim');newLeaf.style.zIndex='1';
-  oldLeaf.style.zIndex='2';
+  oldLeaf.style.zIndex='2';oldLeaf.classList.add('turn-src');
   setMeta(to);
   const oldSide=oldLeaf.querySelector(forward?'.page--right':'.page--left');
   const newSide=newLeaf.querySelector(forward?'.page--left':'.page--right');
+
   const sheet=document.createElement('div');
   sheet.className='flip-sheet '+(forward?'flip-fwd':'flip-bwd');
-  const front=document.createElement('div');front.className='flip-face flip-front';
-  const back=document.createElement('div');back.className='flip-face flip-back';
-  front.appendChild(oldSide.cloneNode(true));
-  back.appendChild(newSide.cloneNode(true));
-  sheet.appendChild(front);sheet.appendChild(back);
-  stage.appendChild(sheet);
+  const inner=document.createElement('div');inner.className='flip-panel flip-panel--in';
+  const outer=document.createElement('div');outer.className='flip-panel flip-panel--out';
+  inner.appendChild(outer);sheet.appendChild(inner);
+  // Which half of the page each panel shows. The inner panel is the one at the
+  // spine; on the mirrored back face the halves swap over.
+  const inF=forward?0:1, outF=1-inF;
+  const shades={
+    front:[faceSlice(inner,'flip-front',oldSide,inF), faceSlice(outer,'flip-front',oldSide,outF)],
+    back :[faceSlice(inner,'flip-back', newSide,outF), faceSlice(outer,'flip-back', newSide,inF)]
+  };
+  const near=document.createElement('div');
+  near.className='flip-cast flip-cast--near '+(forward?'cast-fwd':'cast-bwd');
+  const far=document.createElement('div');
+  far.className='flip-cast flip-cast--far '+(forward?'cast-fwd':'cast-bwd');
+  stage.appendChild(near);stage.appendChild(far);stage.appendChild(sheet);
   oldSide.style.visibility='hidden';     // reveal the incoming page beneath as it turns
+
+  // Guarded per turn, not by the shared `animating` flag: the safety timeout
+  // below can land after the NEXT turn has already begun, and a done() that
+  // only checked `animating` would then tear down that turn instead of this
+  // one — leaving orphaned leaves and two spreads on screen at once.
+  let finished=false;
   const done=()=>{
-    if(!animating)return;
+    if(finished)return;
+    finished=true;clearTimeout(guard);
     animating=false;cur=to;
-    // hide the old spread FIRST, then drop the sheet — the sheet's final faces
-    // already match the new spread underneath, so the swap is seamless (no pop).
-    oldLeaf.classList.remove('on');oldLeaf.style.zIndex='';
+    // Hide the old spread FIRST, then drop the leaf a frame later. Every
+    // shadow is already at zero and the leaf is flat on the new page, so both
+    // removals are invisible.
+    oldLeaf.classList.remove('on','turn-src');oldLeaf.style.zIndex='';
     oldSide.style.visibility='';
     newLeaf.classList.remove('no-anim');newLeaf.style.zIndex='';
+    near.remove();far.remove();
     requestAnimationFrame(()=>sheet.remove());
   };
-  sheet.addEventListener('transitionend',e=>{if(e.propertyName==='transform')done();},{once:true});
-  setTimeout(done,1000);
-  requestAnimationFrame(()=>requestAnimationFrame(()=>sheet.classList.add('turning')));
+
+  let guard=0;
+  if(!sheet.animate){done();return;}    // no Web Animations — just swap
+  const k=turnKeyframes(dir), opt={duration:TURN_MS,easing:'linear',fill:'forwards'};
+  const run=(el,frames)=>el.animate(frames,opt);
+  const lead=run(sheet,k.sheet);
+  run(inner,k.inner);run(outer,k.outer);
+  shades.front.forEach(el=>run(el,k.front));
+  shades.back .forEach(el=>run(el,k.back));
+  run(near,k.near);run(far,k.far);
+  lead.addEventListener('finish',done);
+  guard=setTimeout(done,TURN_MS+240);   // belt and braces if the tab was hidden
 }
 function flip(n){
   if(animating)return;
   const target=(n+leaves.length)%leaves.length;
   if(target===cur)return;
+  warmAround(target);
   if(cur===-1){showInstant(target);return;}
+  // Hiding the leaf for prefers-reduced-motion is not enough on its own: the
+  // spread would still sit there for the length of the turn. Swap outright.
+  if(window.matchMedia('(prefers-reduced-motion:reduce)').matches){showInstant(target);return;}
   // The sheet turn models a two-page spread rotating about its spine. Below
   // 840px the book collapses to one column, so there is no spine — the sheet
   // rendered as a half-width, page-tall sliver sweeping across the text.

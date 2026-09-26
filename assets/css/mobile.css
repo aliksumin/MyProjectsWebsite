@@ -245,7 +245,7 @@ html { -webkit-text-size-adjust: 100%; }
       instead; this hides any sheet that is still mid-flight when the viewport
       crosses the breakpoint. */
 @media (max-width: 840px) {
-  .flip-sheet { display: none !important; }
+  .flip-sheet, .flip-cast { display: none !important; }
   .leaf.on { animation: leafIn .3s ease both; }
 }
 

@@ -264,6 +264,22 @@ header{position:fixed;top:0;left:0;right:0;z-index:500;
 .gal figure.fit-contain img{width:auto;height:auto;max-width:100%;max-height:74vh;
   aspect-ratio:auto;object-fit:contain;padding:0;}
 .gal figure.fit-contain:hover img{transform:none;}
+/* Opt-in `frame`: reserve the box before the picture arrives.
+   A contain figure sizes itself from its image, so until the bytes land it is
+   only as tall as its padding and the row grows under the reader mid-scroll.
+   `frame` states the ratio up front — the frame's own on a wide screen, where
+   a portrait is letterboxed onto `bg`, and the picture's own (`--ar`) on one
+   column, where it simply fills the width and needs no letterboxing at all.
+   No max-height here: capping the height of a box that has an aspect-ratio
+   makes it give up width to keep the ratio, and the figure stopped spanning
+   the row. Keep a declared `frame` modest instead — a 1/1 plate on this same
+   page is already taller than 4/3. */
+.gal figure.fit-contain.has-frame{aspect-ratio:var(--frame);}
+.gal figure.fit-contain.has-frame img{max-height:100%;}
+@media(max-width:680px){
+  .gal figure.fit-contain.has-frame{aspect-ratio:var(--ar,var(--frame));padding:0;}
+  .gal figure.fit-contain.has-frame img{width:100%;max-height:none;}
+}
 .gal figure.bg-white{background:#fff;}
 .gal figure.bg-white img{background:#fff;}
 /* Opt-in `dark`: for pictures that already sit on a black backdrop, so the
@@ -564,8 +580,17 @@ function galleryFigure(img){
   // otherwise sit stranded in blank paper. Inline, so it beats the class-based
   // backgrounds above.
   if(img.bg) fig.style.background=img.bg;
+  // A contain figure cannot carry `ar` on its <img> — an inline aspect-ratio
+  // beats the stylesheet's `aspect-ratio:auto` and would stretch the picture.
+  // It goes to the figure as `--ar` instead, where it reserves the box.
+  const contain=img.fit==='contain';
+  if(contain&&img.frame){
+    fig.classList.add('has-frame');
+    fig.style.setProperty('--frame',img.frame);
+    if(img.ar) fig.style.setProperty('--ar',img.ar);
+  }
   const src=real?img.src:ph(img.label||'');
-  const arStyle=img.ar?` style="aspect-ratio:${img.ar}"`:'';
+  const arStyle=(img.ar&&!contain)?` style="aspect-ratio:${img.ar}"`:'';
   // The hint must match how wide the figure really is. A span-2 figure fills
   // the row, so telling the browser 50vw made it fetch a small tier — and
   // `.gal figure.fit-contain img` uses width:auto, so the picture then drew at
