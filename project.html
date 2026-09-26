@@ -266,6 +266,17 @@ header{position:fixed;top:0;left:0;right:0;z-index:500;
 .gal figure.fit-contain:hover img{transform:none;}
 .gal figure.bg-white{background:#fff;}
 .gal figure.bg-white img{background:#fff;}
+/* Opt-in `dark`: for pictures that already sit on a black backdrop, so the
+   letterboxing — or any gap left in the frame — blends into the picture
+   instead of ringing it in paper. */
+.gal figure.bg-dark{background:#000;}
+.gal figure.bg-dark img{background:#000;}
+/* Opt-in `align:"bottom"`: stand the picture on the floor of its frame. A 3/2
+   image whose grid row has been stretched by a taller neighbour otherwise
+   leaves the whole difference as a band underneath it. figcaption is
+   absolutely positioned, so turning the figure into a flex container to do
+   this does not disturb the caption. */
+.gal figure.align-bottom{display:flex;align-items:flex-end;}
 /* diagram plates — frameless, floating on the page */
 .gal figure.diagram{grid-column:1/-1;border:0;background:transparent;cursor:zoom-in;overflow:visible;
   display:flex;flex-direction:column;align-items:center;gap:16px;padding:clamp(18px,3.5vw,52px) 0;}
@@ -547,7 +558,7 @@ const lbItems=[];
 function galleryFigure(img){
   const real=!!img.src;
   const fig=document.createElement('figure');
-  fig.className='reveal '+(img.span===2?'sp2':'sp1')+(real?'':' is-ph')+(img.fit==='contain'?' fit-contain':'')+(img.white?' bg-white':'')+(img.diagram?' diagram':'')+(img.wide?' diagram-wide':'')+(img.full?' is-full':'');
+  fig.className='reveal '+(img.span===2?'sp2':'sp1')+(real?'':' is-ph')+(img.fit==='contain'?' fit-contain':'')+(img.white?' bg-white':'')+(img.diagram?' diagram':'')+(img.wide?' diagram-wide':'')+(img.full?' is-full':'')+(img.dark?' bg-dark':'')+(img.align==='bottom'?' align-bottom':'');
   const src=real?img.src:ph(img.label||'');
   const arStyle=img.ar?` style="aspect-ratio:${img.ar}"`:'';
   // The hint must match how wide the figure really is. A span-2 figure fills
