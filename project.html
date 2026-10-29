@@ -230,6 +230,35 @@ header{position:fixed;top:0;left:0;right:0;z-index:500;
 .endblock__bullets li::before{content:"";position:absolute;left:0;top:7px;width:7px;height:7px;border:1px solid var(--ink);}
 @media(max-width:680px){.endblock__bullets{columns:1;}}
 @media(max-width:680px){.endblock__groups{grid-template-columns:1fr;}}
+/* plant cards — a drawing, the name, the botanical name and what the plant is
+   there for; `when` optionally heads a card with its months */
+.pcards{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:0 0 30px;}
+.pcard{background:#fff;border:1px solid var(--line);padding:18px 20px 22px;display:flex;flex-direction:column;}
+.pcard__when{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#B5462D;}
+.pcard__ico svg{display:block;width:100%;height:auto;max-height:230px;margin:6px 0 16px;}
+.pcard h5{font-size:14px;font-weight:700;letter-spacing:-.01em;line-height:1.3;color:var(--ink);margin-bottom:5px;}
+.pcard__lat{font-size:11px;line-height:1.5;color:var(--mut);margin-bottom:10px;}
+.pcard p{font-size:12.5px;line-height:1.62;color:oklch(0.30 0.01 95);}
+@media(max-width:980px){.pcards{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:480px){.pcards{gap:10px;}.pcard{padding:14px 14px 16px;}}
+/* seasonal chart — a row per plant and a cell per month, coloured by the state
+   of its leaves, with a dot where it flowers or fruits. On one column the name
+   takes its own line above the twelve cells. */
+.season{margin:6px 0 30px;}
+.season__grid{display:grid;grid-template-columns:minmax(150px,236px) repeat(12,1fr);gap:4px 3px;align-items:center;}
+.season__m{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--mut);text-align:center;padding-bottom:4px;}
+.season__lab{padding-right:14px;}
+.season__lab h5{font-size:13px;font-weight:700;letter-spacing:-.01em;line-height:1.3;color:var(--ink);}
+.season__lab span{display:block;font-size:10px;line-height:1.45;color:var(--mut);margin-top:3px;}
+.season__c{position:relative;aspect-ratio:1/1;}
+.season__c i{position:absolute;left:50%;top:50%;width:max(7px,14%);aspect-ratio:1/1;border-radius:50%;transform:translate(-50%,-50%);}
+.season__c i.is-fruit{width:max(6px,12%);}
+.season__legend{display:flex;flex-wrap:wrap;gap:10px 28px;margin-top:22px;font-size:11.5px;color:oklch(0.30 0.01 95);}
+.season__legend span{display:inline-flex;align-items:center;gap:10px;}
+.season__legend b{flex:none;width:27px;height:14px;}
+.season__legend b.is-dot{width:11px;height:11px;border-radius:50%;}
+@media(max-width:780px){.season__grid{grid-template-columns:repeat(12,1fr);gap:2px;}.season__corner{display:none;}
+  .season__lab{grid-column:1/-1;padding:12px 0 4px;}.season__m{font-size:8.5px;letter-spacing:0;}}
 .ba{margin:8px 0 34px;}
 .ba__frame{position:relative;border:1px solid var(--ink);overflow:hidden;aspect-ratio:3/2;
   user-select:none;touch-action:pan-y;cursor:ew-resize;background:var(--paper2);--ba:50%;}
@@ -327,6 +356,40 @@ header{position:fixed;top:0;left:0;right:0;z-index:500;
   text-transform:uppercase;color:var(--mut);opacity:0;transition:opacity .3s;}
 .floors__stage:hover .floors__hint{opacity:1;}
 @media(max-width:680px){.floors__stage{aspect-ratio:4/3;}.floors__bar{flex-direction:column;align-items:flex-start;}}
+/* slideshow — one frame stepping through pictures of the same subject. The
+   stage is landscape on a wide screen, where the side bands carry the arrows,
+   and takes the pictures' own ratio (`ar`) on one column so they fill it —
+   which leaves the arrows nowhere to sit but on the picture, so a phone steps
+   it by swipe and the dots instead. */
+.gal figure.slides{grid-column:1/-1;cursor:default;background:var(--paper);display:flex;flex-direction:column;}
+.gal figure.slides.bg-white,.gal figure.slides.bg-white .slides__stage{background:#fff;}
+.gal figure.slides:hover img{transform:none;}
+.gal figure.slides:focus-visible{outline:1px solid var(--ink);outline-offset:3px;}
+.slides__bar,.slides__foot{display:flex;justify-content:space-between;align-items:center;gap:10px 18px;
+  padding:13px 16px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut);}
+.slides__bar{border-bottom:1px solid var(--line);}
+.slides__foot{border-top:1px solid var(--line2);padding-block:6px;letter-spacing:.06em;}
+.slides__count{color:var(--ink);font-variant-numeric:tabular-nums;white-space:nowrap;}
+.slides__stage{position:relative;aspect-ratio:16/10;cursor:zoom-in;touch-action:pan-y;}
+.gal .slides__img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;padding:26px;
+  opacity:0;transition:opacity .7s cubic-bezier(.16,1,.3,1);}
+.gal .slides__img.on{opacity:1;}
+.slides__nav{position:absolute;top:50%;z-index:2;width:46px;height:46px;margin-top:-23px;border-radius:50%;
+  border:1px solid var(--line);background:color-mix(in oklch,var(--paper) 82%,transparent);color:var(--ink);
+  font-family:var(--mono);font-size:20px;line-height:1;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;transition:color .25s,background .25s,border-color .25s;}
+.slides__nav:hover{background:var(--ink);color:var(--paper);border-color:var(--ink);}
+.slides__prev{left:18px;}.slides__next{right:18px;}
+.slides__dots{display:flex;flex:none;}
+.slides__dot{width:26px;height:26px;padding:0;border:0;background:none;color:var(--ink);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;}
+.slides__dot::before{content:"";width:8px;height:8px;border-radius:50%;border:1px solid currentColor;transition:background .25s;}
+.slides__dot.on::before{background:currentColor;}
+.slides__hint{position:absolute;right:14px;bottom:12px;font-size:10px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--mut);opacity:0;transition:opacity .3s;}
+.slides__stage:hover .slides__hint{opacity:1;}
+@media(max-width:680px){.slides__stage{aspect-ratio:var(--ar,4/3);}.gal .slides__img{padding:12px;}
+  .slides__nav,.slides__hint{display:none;}}
 .gal figure:hover img{transform:scale(1.035);}
 .gal figcaption{position:absolute;left:0;bottom:0;right:0;display:flex;justify-content:space-between;
   gap:12px;padding:12px 14px;font-size:11px;letter-spacing:.04em;color:#fff;
@@ -686,6 +749,88 @@ function floorsFigure(item){
   return fig;
 }
 
+function slidesFigure(item){
+  // Arrows, dots, a swipe or the arrow keys step it. It also advances on its own
+  // while in view, holding under the pointer or keyboard focus, and stops for
+  // good once the visitor steps it themselves — or never starts, for anyone who
+  // asked for reduced motion.
+  const n=item.slides.length,pad=i=>String(i+1).padStart(2,'0');
+  const fig=document.createElement('figure');
+  fig.className='reveal slides'+(item.white?' bg-white':'');
+  fig.tabIndex=0;
+  fig.setAttribute('role','group');fig.setAttribute('aria-roledescription','slideshow');fig.setAttribute('aria-label',item.label);
+  fig.innerHTML=`
+    <div class="slides__bar"><span>${item.label}</span><span class="slides__count">${pad(0)} / ${pad(n-1)}</span></div>
+    <div class="slides__stage"${item.ar?` style="--ar:${item.ar}"`:''}>
+      ${item.slides.map((s,i)=>`<img class="slides__img${i===0?' on':''}" ${window.imgAttrs(s.src,'(max-width:780px) 100vw, 70vw')} alt="${s.label}" loading="lazy">`).join('')}
+      <button type="button" class="slides__nav slides__prev" aria-label="Previous">←</button>
+      <button type="button" class="slides__nav slides__next" aria-label="Next">→</button>
+      <span class="slides__hint">Click to enlarge ↗</span>
+    </div>
+    <div class="slides__foot"><span class="slides__cap">${item.slides[0].label}</span>
+      <span class="slides__dots">${item.slides.map((s,i)=>`<button type="button" class="slides__dot${i===0?' on':''}" aria-label="${s.label}"></button>`).join('')}</span></div>`;
+  const stage=fig.querySelector('.slides__stage');
+  const imgs=[...fig.querySelectorAll('.slides__img')],dots=[...fig.querySelectorAll('.slides__dot')];
+  const count=fig.querySelector('.slides__count'),cap=fig.querySelector('.slides__cap');
+  let cur=0;
+  function show(i){
+    cur=(i+n)%n;
+    imgs.forEach((im,k)=>im.classList.toggle('on',k===cur));
+    dots.forEach((d,k)=>d.classList.toggle('on',k===cur));
+    count.textContent=pad(cur)+' / '+pad(n-1);
+    cap.textContent=item.slides[cur].label;
+  }
+  let timer=null,inView=false,hover=false,focus=false,stopped=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  function sync(){
+    clearInterval(timer);timer=null;
+    if(!stopped&&inView&&!hover&&!focus&&!document.hidden)timer=setInterval(()=>show(cur+1),4000);
+  }
+  const go=i=>{stopped=true;sync();show(i);};
+  new IntersectionObserver(es=>{inView=es[0].isIntersecting;sync();},{threshold:.5}).observe(fig);
+  fig.addEventListener('mouseenter',()=>{hover=true;sync();});
+  fig.addEventListener('mouseleave',()=>{hover=false;sync();});
+  fig.addEventListener('focusin',()=>{focus=true;sync();});
+  fig.addEventListener('focusout',()=>{focus=false;sync();});
+  document.addEventListener('visibilitychange',sync);
+  fig.querySelector('.slides__prev').addEventListener('click',e=>{e.stopPropagation();go(cur-1);});
+  fig.querySelector('.slides__next').addEventListener('click',e=>{e.stopPropagation();go(cur+1);});
+  dots.forEach((d,k)=>d.addEventListener('click',()=>go(k)));
+  fig.addEventListener('keydown',e=>{
+    if(document.getElementById('lb').classList.contains('on'))return;   // the lightbox has the arrows then
+    if(e.key==='ArrowRight'||e.key==='ArrowLeft'){e.preventDefault();go(cur+(e.key==='ArrowRight'?1:-1));}
+  });
+  let x0=null,y0=0;
+  stage.addEventListener('touchstart',e=>{x0=e.touches[0].clientX;y0=e.touches[0].clientY;},{passive:true});
+  stage.addEventListener('touchend',e=>{
+    if(x0===null)return;
+    const dx=e.changedTouches[0].clientX-x0,dy=e.changedTouches[0].clientY-y0;x0=null;
+    if(Math.abs(dx)>40&&Math.abs(dx)>Math.abs(dy))go(cur+(dx<0?1:-1));
+  });
+  const lbStart=lbItems.length;
+  item.slides.forEach(s=>lbItems.push({src:s.src,cap:s.label,sheet:true}));
+  stage.addEventListener('click',()=>{stopped=true;sync();openLb(lbStart+cur);});
+  return fig;
+}
+
+// month-by-month chart for an end block's `season`: `months` spells one row in
+// the letters of `key`, and `bloom` / `fruit` list the months that get a dot
+function seasonChart(se){
+  const M=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const has=(d,m)=>!!d&&d.at.includes(m);
+  const dot=(d,cls)=>`<i class="${cls}" style="background:${d.color}${d.ring?';box-shadow:0 0 0 1px '+d.ring:''}"></i>`;
+  const rows=se.rows.map(r=>`<div class="season__lab"><h5>${r.name}</h5><span>${r.sub}</span></div>`
+    +[...r.months].map((c,i)=>{
+      const m=i+1,k=se.key[c];
+      const tip=[k.label,has(r.bloom,m)?se.bloom.label:'',has(r.fruit,m)?se.fruit.label:''].filter(Boolean).join(', ').toLowerCase();
+      return `<span class="season__c" style="background:${c==='a'&&r.autumn?r.autumn:k.color}" title="${r.name} · ${M[i]} — ${tip.replace(/&/g,'&amp;')}">`
+        +(has(r.bloom,m)?dot(r.bloom,'is-bloom'):'')+(has(r.fruit,m)?dot(r.fruit,'is-fruit'):'')+`</span>`;
+    }).join('')).join('');
+  const legend=[...Object.values(se.key),{...se.bloom,dot:true},{...se.fruit,dot:true}].map(l=>
+    `<span><b${l.dot?' class="is-dot"':''} style="background:${l.color}${l.ring?';box-shadow:inset 0 0 0 1px '+l.ring:''}"></b>${l.label}</span>`).join('');
+  return `<div class="season"><div class="season__grid"><span class="season__corner"></span>`
+    +M.map(m=>`<span class="season__m">${m}</span>`).join('')+rows+`</div><div class="season__legend">${legend}</div></div>`;
+}
+
 if(proj.sections){
   /* ============ SECTIONED PROJECT ============ */
   // overview (skipped when project has none)
@@ -762,7 +907,8 @@ if(proj.sections){
     }
     // gallery images (full building views) — before the detailed end blocks
     const grid=document.createElement('div');grid.className='gal';
-    if(s.images&&s.images.length){s.images.forEach(im=>grid.appendChild(im.type==='floors'?floorsFigure(im):galleryFigure(im)));sec.appendChild(grid);}
+    if(s.images&&s.images.length){s.images.forEach(im=>grid.appendChild(
+      im.type==='floors'?floorsFigure(im):im.type==='slides'?slidesFigure(im):galleryFigure(im)));sec.appendChild(grid);}
     else if(s.reserved>0){for(let i=0;i<s.reserved;i++){
       grid.appendChild(galleryFigure({label:'// '+s.title+' — image '+(i+1),span:(i%3===0)?2:1}));}sec.appendChild(grid);}
     // end blocks (heading + text + full-width images)
@@ -786,6 +932,10 @@ if(proj.sections){
           `<div class="egroup"><h5>${g.title}</h5>`
           +(g.sub&&g.sub.length?`<ul>${g.sub.map(x=>`<li>${x}</li>`).join('')}</ul>`:'')
           +`</div>`).join('')}</div>`;
+        if(eb.cards&&eb.cards.length)h+=`<div class="pcards">${eb.cards.map(c=>
+          `<div class="pcard">`+(c.when?`<span class="pcard__when">${c.when}</span>`:'')
+          +`<div class="pcard__ico">${c.icon}</div><h5>${c.name}</h5><span class="pcard__lat">${c.latin}</span><p>${c.note}</p></div>`).join('')}</div>`;
+        if(eb.season)h+=seasonChart(eb.season);
         if(eb.note)h+=`<p class="endblock__note">${eb.note}</p>`;
         blk.innerHTML=h;
         if(eb.images&&eb.images.length){

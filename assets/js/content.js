@@ -2708,7 +2708,9 @@ window.PORTFOLIO.projects.push({
    part two documents the building (site, plans, facades, sections, views, key figures).
    The levels scheme, the four classroom scenarios and the facade-detail note were re-lettered
    in English from the brochure originals; plans, sections and site plans keep their Russian
-   labels, which the chapter text translates. */
+   labels, which the chapter text translates. The planting sheets (GP-02..04) are rebuilt as
+   cards and a seasonal chart, with the brochure's own icons inlined and the chart's colours
+   taken from its shapes. */
 window.PORTFOLIO.projects.push({
   n: "24", slug: "omsk-school", title: "School in Omsk",
   type: "School", year: "2026", loc: "Omsk, Russia",
@@ -2739,8 +2741,8 @@ window.PORTFOLIO.projects.push({
     { k: "Status", v: "Concept Design" },
   ],
   overview: [
-    "Building No. 2 of the Yunita Centre for Contemporary Education treats the school not as a set of rooms but as a living environment that changes with the rhythm of the day — a school that works like a city. The four-storey building takes a triangular plan for 160 pupils, and everything in it, from the classrooms and laboratories to a 300-seat concert hall, the sports block, the library and the dining hall, is organised around a single central core.",
-    "The page follows the logic of the project brochure. Its first part walks through one school day: from 07:40, when pupils gather on the street between the two school buildings, to 18:00, when the sports hall, the assembly hall and the library stay open to the neighbourhood. The second part presents the building in drawings — site and planting, floor plans, facades and materials, sections — and closes with the exterior views and key figures.",
+    "Building No. 2 of the Yunita Centre for Contemporary Education is a new school beside the centre's first building, which is already built and is not part of this design. The project treats the school not as a set of rooms but as a living environment that changes with the rhythm of the day — a school that works like a city. The four-storey building takes a triangular plan for 160 pupils, and everything in it, from the classrooms and laboratories to a 300-seat concert hall, the sports block, the library and the dining hall, is organised around a single central core.",
+    "The chapters below follow one school day, from 07:40, when pupils gather on the street between the two buildings, to 18:00, when the sports hall, the assembly hall and the library stay open to the neighbourhood. They then present the building in drawings — site and planting, floor plans, facades and materials, sections — and close with the exterior views and key figures.",
   ],
   sections: [
     {
@@ -2779,10 +2781,13 @@ window.PORTFOLIO.projects.push({
       ],
       images: [
         { src: "content/projects/24-omsk-school/lessons-01-classroom.jpg", label: "08:00 — a classroom with adjustable daylight and transformable furniture", span: 2, ar: "5504/3072" },
-        { src: "content/projects/24-omsk-school/lessons-02-lecture.png", label: "01 · Lecture — rows facing the board", span: 1, ar: "2000/1744" },
-        { src: "content/projects/24-omsk-school/lessons-03-projects.png", label: "02 · Projects — islands of four desks", span: 1, ar: "2000/1744" },
-        { src: "content/projects/24-omsk-school/lessons-04-focus.png", label: "03 · Focus — spread-out desks and soft seating", span: 1, ar: "2000/1744" },
-        { src: "content/projects/24-omsk-school/lessons-05-dialogue.png", label: "04 · Dialogue — a U around the moderator", span: 1, ar: "2000/1744" },
+        // the four layouts share one room drawing, so stepping through them shows the furniture move
+        { type: "slides", label: "One classroom, four scenarios", white: true, ar: "2000/1744", slides: [
+          { src: "content/projects/24-omsk-school/lessons-02-lecture.png", label: "01 · Lecture — rows facing the board" },
+          { src: "content/projects/24-omsk-school/lessons-03-projects.png", label: "02 · Projects — islands of four desks" },
+          { src: "content/projects/24-omsk-school/lessons-04-focus.png", label: "03 · Focus — spread-out desks and soft seating" },
+          { src: "content/projects/24-omsk-school/lessons-05-dialogue.png", label: "04 · Dialogue — a U around the moderator" },
+        ] },
       ],
     },
     {
@@ -2886,30 +2891,98 @@ window.PORTFOLIO.projects.push({
       ],
       endBlocks: [
         {
-          heading: "Planting",
-          groups: [
-            { title: "Trees", sub: [
-              "Silver birch · Betula pendula, to 20 m — a main species on the site; its openwork crown lets plenty of light through.",
-              "Siberian spruce · Picea obovata, to 25 m — evergreen colour for the winter months.",
-              "Scots pine · Pinus sylvestris, to 30 m — evergreen colour for the winter months.",
-              "Small-leaved lime · Tilia cordata, to 16 m — a dense crown at the entrance square: shade and a screen against street noise.",
-              "Siberian rowan · Sorbus sibirica, to 10 m — accent trees with bright berries in winter and birds at the classroom windows.",
-              "Siberian crab apple · Malus baccata, to 8 m — a flowering orchard by the school garden, a spring event and material for lessons.",
-              "Common lilac · Syringa vulgaris, to 4 m — a hedge along the site boundary, in flower by the end of the school year.",
-              "Shiny cotoneaster · Cotoneaster lucidus, to 1.5 m — clipped borders along the paths that shape the routes.",
-            ] },
-            { title: "Shrubs & Perennials", sub: [
-              "April · Goat willow, Salix caprea — silver catkins, the first event of spring while snow still lies.",
-              "April–May · Pasque flower, Pulsatilla patens — a Siberian early bloomer, lilac bells on the thawed patches.",
-              "May–June · Siberian peony, Paeonia anomala — large pink flowers of a Siberian species.",
-              "June–September · Shrubby cinquefoil, Potentilla fruticosa — yellow flowers without a break all summer.",
-              "July · Daylily, Hemerocallis hybrida — orange trumpets at the height of summer; hardy and undemanding.",
-              "July–September · Panicle hydrangea, Hydrangea paniculata — white panicles that turn pink by autumn and stay decorative when dry.",
-              "September–October · New York aster, Symphyotrichum novi-belgii — lilac flowers until the first frosts.",
-              "November–March · Red-barked dogwood, Cornus alba — coral-red stems, the main colour of the site against the snow.",
-            ] },
+          heading: "Planting · Species of the Omsk Region",
+          cards: [
+            { name: "Silver birch", latin: "Betula pendula · up to 20&nbsp;m",
+              note: "One of the main species on the school grounds; its openwork crown lets plenty of light through.",
+              icon: "<svg viewBox='0 0 200 180'><ellipse cx='100' cy='70' rx='38' ry='55' fill='none' stroke='#6B8E7A' stroke-width='2'/><path d='M 100 125 L 100 165 M 100 140 Q 82 128 76 112 M 100 132 Q 116 122 122 106' fill='none' stroke='#3A3833' stroke-width='2'/><line x1='160' y1='15' x2='160' y2='165' stroke='#D8D6D0' stroke-width='1'/><line x1='155' y1='15' x2='165' y2='15' stroke='#6B6862' stroke-width='1'/><text x='168' y='20' font-size='10.5' fill='#6B6862'>20 m</text></svg>" },
+            { name: "Siberian spruce", latin: "Picea obovata · up to 25&nbsp;m",
+              note: "A conifer, there to give the grounds accents of colour in winter.",
+              icon: "<svg viewBox='0 0 200 180'><path d='M 100 15 L 130 70 L 116 70 L 142 120 L 124 120 L 148 165 L 52 165 L 76 120 L 58 120 L 84 70 L 70 70 Z' fill='none' stroke='#3A5A44' stroke-width='2'/><line x1='160' y1='15' x2='160' y2='165' stroke='#D8D6D0' stroke-width='1'/><line x1='155' y1='15' x2='165' y2='15' stroke='#6B6862' stroke-width='1'/><text x='168' y='20' font-size='10.5' fill='#6B6862'>25 m</text></svg>" },
+            { name: "Scots pine", latin: "Pinus sylvestris · up to 30&nbsp;m",
+              note: "A conifer, there to give the grounds accents of colour in winter.",
+              icon: "<svg viewBox='0 0 200 180'><path d='M 62 48 Q 75 26 100 24 Q 128 22 140 42 Q 148 56 136 62 Q 144 72 130 76 Q 112 82 96 76 Q 76 80 66 68 Q 56 58 62 48 Z' fill='none' stroke='#3A5A44' stroke-width='2'/><path d='M 101 80 Q 98 120 100 165 M 100 100 Q 86 92 78 74 M 100 118 Q 114 106 124 78' fill='none' stroke='#3A3833' stroke-width='2'/><line x1='160' y1='15' x2='160' y2='165' stroke='#D8D6D0' stroke-width='1'/><line x1='155' y1='20' x2='165' y2='20' stroke='#6B6862' stroke-width='1'/><text x='168' y='25' font-size='10.5' fill='#6B6862'>30 m</text></svg>" },
+            { name: "Small-leaved lime", latin: "Tilia cordata · up to 16&nbsp;m",
+              note: "A dense crown at the entrance square — shade, and a screen against noise from the street.",
+              icon: "<svg viewBox='0 0 200 180'><circle cx='100' cy='75' r='48' fill='none' stroke='#6B8E7A' stroke-width='2'/><path d='M 100 123 L 100 165 M 100 138 Q 84 128 78 114' fill='none' stroke='#3A3833' stroke-width='2'/><line x1='160' y1='15' x2='160' y2='165' stroke='#D8D6D0' stroke-width='1'/><line x1='155' y1='45' x2='165' y2='45' stroke='#6B6862' stroke-width='1'/><text x='168' y='50' font-size='10.5' fill='#6B6862'>16 m</text></svg>" },
+            { name: "Siberian rowan", latin: "Sorbus sibirica · up to 10&nbsp;m",
+              note: "Accent trees — bright berries in winter, and birds at the classroom windows.",
+              icon: "<svg viewBox='0 0 200 180'><ellipse cx='100' cy='85' rx='36' ry='42' fill='none' stroke='#6B8E7A' stroke-width='2'/><circle cx='86' cy='72' r='3' fill='#B5462D'/><circle cx='106' cy='64' r='3' fill='#B5462D'/><circle cx='118' cy='86' r='3' fill='#B5462D'/><circle cx='94' cy='96' r='3' fill='#B5462D'/><path d='M 100 127 L 100 165' fill='none' stroke='#3A3833' stroke-width='2'/><line x1='160' y1='15' x2='160' y2='165' stroke='#D8D6D0' stroke-width='1'/><line x1='155' y1='75' x2='165' y2='75' stroke='#6B6862' stroke-width='1'/><text x='168' y='80' font-size='10.5' fill='#6B6862'>10 m</text></svg>" },
+            { name: "Siberian crab apple", latin: "Malus baccata · up to 8&nbsp;m",
+              note: "A flowering orchard by the school vegetable garden — an event in spring and material for lessons.",
+              icon: "<svg viewBox='0 0 200 180'><ellipse cx='100' cy='90' rx='40' ry='38' fill='none' stroke='#6B8E7A' stroke-width='2'/><circle cx='88' cy='80' r='4' fill='none' stroke='#B5462D' stroke-width='1.5'/><circle cx='110' cy='72' r='4' fill='none' stroke='#B5462D' stroke-width='1.5'/><circle cx='116' cy='98' r='4' fill='none' stroke='#B5462D' stroke-width='1.5'/><path d='M 100 128 L 100 165' fill='none' stroke='#3A3833' stroke-width='2'/><line x1='160' y1='15' x2='160' y2='165' stroke='#D8D6D0' stroke-width='1'/><line x1='155' y1='85' x2='165' y2='85' stroke='#6B6862' stroke-width='1'/><text x='168' y='90' font-size='10.5' fill='#6B6862'>8 m</text></svg>" },
+            { name: "Common lilac", latin: "Syringa vulgaris · up to 4&nbsp;m",
+              note: "A hedge along the site boundary, in flower by the end of the school year.",
+              icon: "<svg viewBox='0 0 200 180'><path d='M 58 118 Q 44 108 52 94 Q 42 82 58 74 Q 56 58 74 56 Q 78 40 96 46 Q 108 34 120 48 Q 138 44 140 60 Q 156 66 150 82 Q 160 94 148 104 Q 154 118 138 122 Q 128 132 112 126 Q 96 136 84 126 Q 68 130 58 118 Z' fill='none' stroke='#6B8E7A' stroke-width='2'/><path d='M 88 130 Q 84 148 78 165 M 102 132 L 102 165 M 116 128 Q 122 146 126 165' fill='none' stroke='#3A3833' stroke-width='2'/><line x1='160' y1='15' x2='160' y2='165' stroke='#D8D6D0' stroke-width='1'/><line x1='155' y1='120' x2='165' y2='120' stroke='#6B6862' stroke-width='1'/><text x='168' y='125' font-size='10.5' fill='#6B6862'>4 m</text></svg>" },
+            { name: "Shiny cotoneaster", latin: "Cotoneaster lucidus · up to 1.5&nbsp;m",
+              note: "A clipped border along the paths that shapes the routes.",
+              icon: "<svg viewBox='0 0 200 180'><rect x='50' y='120' width='100' height='45' fill='none' stroke='#6B8E7A' stroke-width='2'/><line x1='70' y1='120' x2='70' y2='165' stroke='#6B8E7A' stroke-width='1'/><line x1='90' y1='120' x2='90' y2='165' stroke='#6B8E7A' stroke-width='1'/><line x1='110' y1='120' x2='110' y2='165' stroke='#6B8E7A' stroke-width='1'/><line x1='130' y1='120' x2='130' y2='165' stroke='#6B8E7A' stroke-width='1'/><line x1='160' y1='15' x2='160' y2='165' stroke='#D8D6D0' stroke-width='1'/><line x1='155' y1='140' x2='165' y2='140' stroke='#6B6862' stroke-width='1'/><text x='168' y='145' font-size='10.5' fill='#6B6862'>1.5 m</text></svg>" },
           ],
-          note: "Seasonal dynamics: birch flowers in May and turns gold in September–October, lime flowers in July, rowan and crab apple blossom in May–June and hold their berries from August into winter, cotoneaster turns crimson in autumn, and spruce and pine stay green all year. The lower tier fills the quiet months of that palette — willow catkins in April, cinquefoil from June to September and red dogwood stems all winter.",
+        },
+        {
+          heading: "Seasonal Dynamics of the Landscape",
+          season: {
+            key: {
+              "-": { label: "No leaves",      color: "#EDEBE6", ring: "#D8D6D0" },
+              l:   { label: "Leaf-out",       color: "#A3C293" },
+              s:   { label: "Summer foliage", color: "#6B8E7A" },
+              e:   { label: "Evergreen",      color: "#3A5A44" },
+              a:   { label: "Autumn colour",  color: "#D9A441" },
+            },
+            bloom: { label: "Flowering",       color: "#9A7BB0" },
+            fruit: { label: "Fruit & berries", color: "#C4432B" },
+            rows: [
+              { name: "Silver birch",        sub: "flowering V · gold IX–X",              months: "----lsssaa--",
+                bloom: { at: [5], color: "#D9C86A" } },
+              { name: "Siberian spruce",     sub: "evergreen",                            months: "eeeeeeeeeeee" },
+              { name: "Scots pine",          sub: "evergreen",                            months: "eeeeeeeeeeee" },
+              { name: "Small-leaved lime",   sub: "flowering VII · honey plant",          months: "----lsssaa--",
+                bloom: { at: [7], color: "#EFE3B0" } },
+              { name: "Siberian rowan",      sub: "flowering V–VI · berries VIII–winter", months: "----lsssaa--", autumn: "#C97B3B",
+                bloom: { at: [5, 6], color: "#FFFFFF", ring: "#C9C6BF" },
+                fruit: { at: [1, 2, 8, 9, 10, 11, 12], color: "#C4432B" } },
+              { name: "Siberian crab apple", sub: "flowering V–VI · fruit VIII–winter",   months: "----lssssa--",
+                bloom: { at: [5, 6], color: "#F2D7DA" },
+                fruit: { at: [1, 2, 8, 9, 10, 11, 12], color: "#B5462D" } },
+              { name: "Common lilac",        sub: "flowering V–VI",                       months: "----lsssss--",
+                bloom: { at: [5, 6], color: "#9A7BB0" } },
+              { name: "Shiny cotoneaster",   sub: "flowering VI · crimson IX–X",          months: "----lsssaa--", autumn: "#8E4A52",
+                bloom: { at: [6], color: "#E8B7C0" },
+                fruit: { at: [9, 10], color: "#2B2B2B" } },
+            ],
+          },
+        },
+        {
+          heading: "Shrubs & Perennials",
+          text: [
+            "The lower tier fills the quiet months of the tree palette: silver willow catkins in April, cinquefoil in flower without a break from June to September, and red dogwood stems all winter.",
+          ],
+          cards: [
+            { when: "April", name: "Goat willow", latin: "Salix caprea · flowering IV",
+              note: "Silvery pussy-willow catkins — the first event of spring, while snow still lies.",
+              icon: "<svg viewBox='0 0 200 150'><path d='M 100 145 Q 96 100 88 70 M 100 145 Q 106 95 120 60 M 92 92 Q 78 80 72 62 M 112 82 Q 126 68 132 50' fill='none' stroke='#7A6A55' stroke-width='2.5'/><ellipse cx='88' cy='62' rx='7' ry='12' fill='#DCD7C9' stroke='#B8B0A0' stroke-width='1.5'/><ellipse cx='72' cy='54' rx='6' ry='11' fill='#DCD7C9' stroke='#B8B0A0' stroke-width='1.5'/><ellipse cx='120' cy='52' rx='7' ry='12' fill='#DCD7C9' stroke='#B8B0A0' stroke-width='1.5'/><ellipse cx='132' cy='42' rx='6' ry='11' fill='#DCD7C9' stroke='#B8B0A0' stroke-width='1.5'/></svg>" },
+            { when: "April – May", name: "Pasque flower", latin: "Pulsatilla patens · flowering IV–V",
+              note: "A Siberian early bloomer: lilac bells on the first thawed patches.",
+              icon: "<svg viewBox='0 0 200 150'><path d='M 80 145 Q 82 110 88 88 M 120 145 Q 118 115 112 92' fill='none' stroke='#6B8E7A' stroke-width='2'/><path d='M 88 88 Q 74 76 78 62 Q 82 50 92 52 Q 88 38 100 36 Q 112 38 108 52 Q 118 50 122 62 Q 126 76 112 88 Q 100 96 88 88 Z' fill='#8C74A8' stroke='#6E5688' stroke-width='1.5'/><circle cx='100' cy='66' r='8' fill='#D9C86A'/><path d='M 60 120 L 66 108 M 140 118 L 134 106' stroke='#6B8E7A' stroke-width='2'/></svg>" },
+            { when: "May – June", name: "Siberian peony", latin: "Paeonia anomala · flowering V–VI",
+              note: "Large pink flowers of a Siberian species.",
+              icon: "<svg viewBox='0 0 200 150'><path d='M 100 145 L 100 90 M 100 120 Q 80 112 70 96 M 100 118 Q 122 110 130 94' fill='none' stroke='#6B8E7A' stroke-width='2'/><circle cx='100' cy='70' r='24' fill='#C25B72' stroke='#A8435C' stroke-width='1.5'/><circle cx='88' cy='62' r='10' fill='#D47C90'/><circle cx='110' cy='60' r='9' fill='#D47C90'/><circle cx='104' cy='78' r='10' fill='#D47C90'/><circle cx='100' cy='68' r='5' fill='#E8C25A'/></svg>" },
+            { when: "June – September", name: "Shrubby cinquefoil", latin: "Potentilla fruticosa · flowering VI–IX",
+              note: "Known in Russia as Kuril tea: yellow flowers without a break all summer, July and August included.",
+              icon: "<svg viewBox='0 0 200 150'><path d='M 60 145 Q 58 115 70 95 M 100 145 Q 100 110 100 88 M 140 145 Q 142 115 130 95 M 80 145 Q 78 120 84 104 M 120 145 Q 122 120 116 104' fill='none' stroke='#6B8E7A' stroke-width='2'/><g fill='#E8C25A' stroke='#C9A43B' stroke-width='1'><circle cx='70' cy='88' r='9'/><circle cx='100' cy='80' r='9'/><circle cx='130' cy='88' r='9'/><circle cx='84' cy='98' r='8'/><circle cx='116' cy='98' r='8'/></g><g fill='#F4D97C'><circle cx='70' cy='88' r='3.5'/><circle cx='100' cy='80' r='3.5'/><circle cx='130' cy='88' r='3.5'/></g></svg>" },
+            { when: "July", name: "Daylily", latin: "Hemerocallis hybrida · flowering VII",
+              note: "Orange trumpets at the height of summer — undemanding and winter-hardy.",
+              icon: "<svg viewBox='0 0 200 150'><path d='M 100 145 L 100 78 M 100 145 Q 70 130 58 100 M 100 145 Q 130 130 142 100' fill='none' stroke='#6B8E7A' stroke-width='2'/><path d='M 100 78 L 82 50 M 100 78 L 100 42 M 100 78 L 118 50 M 100 78 L 74 68 M 100 78 L 126 68' fill='none' stroke='#C97B3B' stroke-width='2'/><ellipse cx='82' cy='46' rx='7' ry='13' fill='#D98E5A' transform='rotate(-30 82 46)'/><ellipse cx='100' cy='38' rx='7' ry='13' fill='#D98E5A'/><ellipse cx='118' cy='46' rx='7' ry='13' fill='#D98E5A' transform='rotate(30 118 46)'/><ellipse cx='72' cy='66' rx='6' ry='11' fill='#D98E5A' transform='rotate(-60 72 66)'/><ellipse cx='128' cy='66' rx='6' ry='11' fill='#D98E5A' transform='rotate(60 128 66)'/></svg>" },
+            { when: "July – September", name: "Panicle hydrangea", latin: "Hydrangea paniculata · flowering VII–IX",
+              note: "White panicles that turn pink by autumn; the flower heads stay decorative even when dry.",
+              icon: "<svg viewBox='0 0 200 150'><path d='M 100 145 L 100 95 M 100 145 Q 76 132 66 110 M 100 145 Q 124 132 134 110' fill='none' stroke='#6B8E7A' stroke-width='2'/><path d='M 100 95 Q 76 88 74 62 Q 74 36 100 30 Q 126 36 126 62 Q 124 88 100 95 Z' fill='#F2EFE6' stroke='#D8D2C0' stroke-width='1.5'/><circle cx='88' cy='52' r='6' fill='#FFFFFF' stroke='#E3DECE' stroke-width='1'/><circle cx='110' cy='44' r='6' fill='#FFFFFF' stroke='#E3DECE' stroke-width='1'/><circle cx='102' cy='68' r='6' fill='#F4DEE2' stroke='#E0C4CA' stroke-width='1'/><circle cx='86' cy='76' r='5' fill='#F4DEE2' stroke='#E0C4CA' stroke-width='1'/><circle cx='114' cy='80' r='5' fill='#F4DEE2' stroke='#E0C4CA' stroke-width='1'/></svg>" },
+            { when: "September – October", name: "New York aster", latin: "Symphyotrichum novi-belgii · flowering IX–X",
+              note: "Michaelmas daisies — lilac flowers until the first frosts.",
+              icon: "<svg viewBox='0 0 200 150'><path d='M 80 145 Q 78 110 82 88 M 100 145 L 100 80 M 120 145 Q 122 112 116 90' fill='none' stroke='#6B8E7A' stroke-width='2'/><g stroke='#8C74A8' stroke-width='2'><line x1='82' y1='76' x2='82' y2='56'/><line x1='72' y1='70' x2='92' y2='62'/><line x1='72' y1='62' x2='92' y2='70'/></g><circle cx='82' cy='66' r='4' fill='#D9C86A'/><g stroke='#8C74A8' stroke-width='2'><line x1='100' y1='70' x2='100' y2='50'/><line x1='90' y1='64' x2='110' y2='56'/><line x1='90' y1='56' x2='110' y2='64'/></g><circle cx='100' cy='60' r='4' fill='#D9C86A'/><g stroke='#8C74A8' stroke-width='2'><line x1='118' y1='80' x2='118' y2='60'/><line x1='108' y1='74' x2='128' y2='66'/><line x1='108' y1='66' x2='128' y2='74'/></g><circle cx='118' cy='70' r='4' fill='#D9C86A'/></svg>" },
+            { when: "November – March", name: "Red-barked dogwood", latin: "Cornus alba · stems XI–III",
+              note: "Coral-red stems — the main colour of the grounds against the snow.",
+              icon: "<svg viewBox='0 0 200 150'><rect x='20' y='120' width='160' height='14' fill='#F4F3F0' stroke='#D8D6D0' stroke-width='1'/><path d='M 70 122 Q 66 80 74 40 M 90 122 Q 88 84 82 48 M 110 122 Q 112 82 106 44 M 130 122 Q 134 84 126 46 M 100 122 Q 100 78 96 38' fill='none' stroke='#A83A2E' stroke-width='3'/></svg>" },
+          ],
         },
       ],
     },
