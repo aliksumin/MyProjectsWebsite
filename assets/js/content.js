@@ -2703,6 +2703,291 @@ window.PORTFOLIO.projects.push({
       ],
 });
 
+/* ============ 24 — SCHOOL IN OMSK (concept — one school day, then the drawings) ============
+   Follows the project brochure: part one walks through a school day from 07:40 to 18:00,
+   part two documents the building (site, plans, facades, sections, views, key figures).
+   The levels scheme, the four classroom scenarios and the facade-detail note were re-lettered
+   in English from the brochure originals; plans, sections and site plans keep their Russian
+   labels, which the chapter text translates. */
+window.PORTFOLIO.projects.push({
+  n: "24", slug: "omsk-school", title: "School in Omsk",
+  type: "School", year: "2026", loc: "Omsk, Russia",
+  status: "Concept Design", hue: 12,
+  hasVideo: true,
+  video: "content/projects/24-omsk-school/omsk-school-film.mp4",     // 1080p web cut of the 4K film
+  poster: "content/projects/24-omsk-school/cover-exterior.jpg",       // the brochure's cover render
+  cover: "content/projects/24-omsk-school/cover-exterior.jpg",
+  circles: [
+    "content/projects/24-omsk-school/cover-exterior.jpg",
+    "content/projects/24-omsk-school/arrival-02-lobby.jpg",
+    "content/projects/24-omsk-school/break-01-amphitheatre.jpg",
+  ],
+  previewImgs: [
+    "content/projects/24-omsk-school/cover-exterior.jpg",
+    "content/projects/24-omsk-school/midday-01-library.jpg",
+    "content/projects/24-omsk-school/evening-01-exterior.jpg",
+  ],
+  lead: "A school conceived as a city in miniature — designed around the scenario of one school day.",
+  credits: [
+    { role: "Project Team",    names: ["Albert Sumin", "Irina Sorokina"] },
+    { role: "Project Manager", names: ["Andrey Baluyev"] },
+  ],
+  facts: [
+    { k: "Program", v: "School" },
+    { k: "Location", v: "Omsk, Russia" },
+    { k: "Year", v: "2026" },
+    { k: "Status", v: "Concept Design" },
+  ],
+  overview: [
+    "Building No. 2 of the Yunita Centre for Contemporary Education treats the school not as a set of rooms but as a living environment that changes with the rhythm of the day — a school that works like a city. The four-storey building takes a triangular plan for 160 pupils, and everything in it, from the classrooms and laboratories to a 300-seat concert hall, the sports block, the library and the dining hall, is organised around a single central core.",
+    "The page follows the logic of the project brochure. Its first part walks through one school day: from 07:40, when pupils gather on the street between the two school buildings, to 18:00, when the sports hall, the assembly hall and the library stay open to the neighbourhood. The second part presents the building in drawings — site and planting, floor plans, facades and materials, sections — and closes with the exterior views and key figures.",
+  ],
+  sections: [
+    {
+      key: "concept", code: "A", title: "Space that Teaches", tag: "Central Core · Four Levels",
+      text: [
+        "Learning, public and recreational zones are tied together around the central core: the entrance lobby, with the amphitheatre of the assembly hall rising above it. Over the course of a day a pupil moves between spaces of very different character — calm, minimal classrooms where concentration is needed, and active, bright shared zones in between.",
+        "Light, ceiling height and materials change with the purpose of each room, so the building explains itself and is easy to find one's way through. The levels stack around the core: common areas, sport and the canteen on level 1; the lower tier of the theatre, its support rooms and the library on level 2; the upper tier and classrooms on level 3; the small hall and more classrooms on level 4.",
+      ],
+      images: [
+        { src: "content/projects/24-omsk-school/concept-levels-scheme.png", label: "The levels around the core — from the main entrance up to the small hall", span: 2, fit: "contain", bg: "#141414", frame: "16/10", ar: "6100/4544" },
+      ],
+    },
+    {
+      key: "arrival", code: "B", title: "07:40 Arrival", tag: "Street · Lobby · Cloakroom",
+      text: [
+        "07:40 — morning. The street between the first and the second school building is a shared space, the place where pupils meet before lessons begin. From there everyone passes into the central lobby, the gathering point of the school, where all the routes of the day begin.",
+        "07:50. A sunken ring of yellow steps makes the lobby a place to linger rather than just to pass through. The cloakrooms are distributed in separate blocks for teachers and for pupils.",
+      ],
+      images: [
+        { src: "content/projects/24-omsk-school/arrival-01-street.jpg", label: "07:40 — the street between the first and second school buildings, a meeting place before lessons", span: 2, ar: "5504/3072" },
+        { src: "content/projects/24-omsk-school/arrival-02-lobby.jpg", label: "07:50 — the central lobby, where all the routes of the day begin", span: 1, ar: "5496/3072" },
+        { src: "content/projects/24-omsk-school/arrival-03-cloakroom.jpg", label: "07:50 — cloakroom blocks, separate for teachers and pupils", span: 1, ar: "5496/3072" },
+      ],
+    },
+    {
+      key: "lessons", code: "C", title: "08:00 Lessons", tag: "Classrooms · Four Scenarios",
+      text: [
+        "08:00 — time for concentration. Classrooms have adjustable daylight and transformable furniture, while the teaching laboratories are gathered into a separate block on levels 3 and 4.",
+        "One classroom, four scenarios. Each room measures 7 × 10 m — a 6 m deep teaching zone along a 10 m wall of panoramic glazing, plus a 1 m storage wall — and its furniture rearranges for four ways of teaching.",
+      ],
+      list: [
+        "01 · Lecture — a frontal lesson: classic rows facing the board, full concentration on the teacher.",
+        "02 · Projects — group work: desks join into islands of four for team and project tasks.",
+        "03 · Focus — individual work: a sparse layout and separate soft armchairs, for working at one's own pace.",
+        "04 · Dialogue — discussion and seminar: a U-shaped layout facing the centre, for debates and seminars.",
+      ],
+      images: [
+        { src: "content/projects/24-omsk-school/lessons-01-classroom.jpg", label: "08:00 — a classroom with adjustable daylight and transformable furniture", span: 2, ar: "5504/3072" },
+        { src: "content/projects/24-omsk-school/lessons-02-lecture.png", label: "01 · Lecture — rows facing the board", span: 1, ar: "2000/1744" },
+        { src: "content/projects/24-omsk-school/lessons-03-projects.png", label: "02 · Projects — islands of four desks", span: 1, ar: "2000/1744" },
+        { src: "content/projects/24-omsk-school/lessons-04-focus.png", label: "03 · Focus — spread-out desks and soft seating", span: 1, ar: "2000/1744" },
+        { src: "content/projects/24-omsk-school/lessons-05-dialogue.png", label: "04 · Dialogue — a U around the moderator", span: 1, ar: "2000/1744" },
+      ],
+    },
+    {
+      key: "break", code: "D", title: "08:45 Break", tag: "Recreation · Movement",
+      text: [
+        "08:45 — the break. The recreation areas are designed as places for movement and rest rather than as corridors, with amphitheatre steps, niches and play zones, and they are saturated with colour against the calm of the classrooms. The red stairs between the levels belong to the same landscape.",
+      ],
+      images: [
+        { src: "content/projects/24-omsk-school/break-01-amphitheatre.jpg", label: "08:45 — a recreation hall with amphitheatre steps, a niche and play tables", span: 1, ar: "5496/3072" },
+        { src: "content/projects/24-omsk-school/break-02-stair.jpg", label: "The red stair between the levels", span: 1, ar: "5496/3072" },
+      ],
+    },
+    {
+      key: "library", code: "E", title: "11:30 Library", tag: "Media Library · Reading Niches",
+      text: [
+        "11:30 — silence and knowledge. The library is a media library with reading niches and a co-working area: open shelving, soft light from the panoramic window and alcoves in the wall to settle into for independent study. It sits on level 2 beside the theatre, and in the evening it opens to the neighbourhood.",
+      ],
+      images: [
+        { src: "content/projects/24-omsk-school/midday-01-library.jpg", label: "11:30 — the media library: open shelving, reading niches and co-working under the panoramic window", span: 2, ar: "5496/3072" },
+      ],
+    },
+    {
+      key: "canteen", code: "F", title: "12:40 Canteen", tag: "Dining Hall",
+      text: [
+        "12:40 — the middle of the day. The dining hall is a double-height room with panoramic glazing; between the lunch sittings it becomes a place for meetings and work.",
+      ],
+      images: [
+        { src: "content/projects/24-omsk-school/midday-02-canteen.jpg", label: "12:40 — the double-height dining hall with panoramic glazing", span: 2, ar: "5496/3072" },
+      ],
+    },
+    {
+      key: "sport", code: "G", title: "13:30 Sport", tag: "Sports Hall · Roof · Slide",
+      text: [
+        "13:30 — movement. The large sports hall has stands for spectators and natural light, and it can work in an evening mode for the city and for children's sports clubs.",
+        "14:30 — the fifth facade. The usable roof works as a full teaching and sports space under the open sky. At 14:45 the fastest route down is the enclosed slide, which connects the roof with the sports hall — a quick and cheerful descent that turns moving through the school into a game.",
+      ],
+      list: [
+        "A basketball court with a shock-absorbing surface and mesh fencing.",
+        "Urban farms — beds and greenhouses for biology and ecology lessons.",
+        "Open-air classrooms — amphitheatres and canopies for lessons in the warm season.",
+      ],
+      images: [
+        { src: "content/projects/24-omsk-school/sport-01-sports-hall.jpg", label: "13:30 — the large sports hall: stands, daylight and the red steel frame", span: 2, ar: "5504/3072" },
+        { src: "content/projects/24-omsk-school/sport-02-roof-aerial.jpg", label: "14:30 — the roof as the fifth facade, beside the first school building", span: 1, ar: "5504/3072" },
+        { src: "content/projects/24-omsk-school/sport-03-roof-court.jpg", label: "The basketball court on the roof", span: 1, ar: "5496/3072" },
+        { src: "content/projects/24-omsk-school/sport-04-slide.jpg", label: "14:45 — the enclosed slide from the roof down to the sports hall", span: 2, ar: "5504/3072" },
+      ],
+    },
+    {
+      key: "stage", code: "H", title: "15:30 Stage", tag: "Assembly Hall · Rehearsal Hall",
+      text: [
+        "15:30 — the stage. The assembly hall is a transformable room for assemblies, performances and lectures. Its seating is split into two tiers, the upper one cantilevered over the lower, which saves space inside the school while keeping the full capacity of 300 seats. With a stage, a transformable stalls area and theatrical lighting, the hall works as a real theatre — and as the core of the building it connects all the floors.",
+        "16:00. Above the main stage sits the rehearsal hall, the small hall of the school: mirrors, ballet barres and acoustic finishes give theatre, dance and music a second room, which overhangs the main hall.",
+      ],
+      images: [
+        { src: "content/projects/24-omsk-school/stage-01-assembly-hall.jpg", label: "15:30 — the assembly hall: stage, transformable stalls and theatrical lighting", span: 2, ar: "5504/3072" },
+        { src: "content/projects/24-omsk-school/stage-02-hall-tiers.png", label: "The hall in two tiers — the stage, the lower tier and the upper tier above it", span: 1, ar: "1/1" },
+        { src: "content/projects/24-omsk-school/stage-03-hall-core.png", label: "The concert hall as the core of the building, joining all its floors", span: 1, ar: "1/1" },
+        { src: "content/projects/24-omsk-school/stage-04-bridges.png", label: "Bridges leading to the hall", span: 1, ar: "5/4" },
+        { src: "content/projects/24-omsk-school/stage-05-rehearsal-hall.png", label: "16:00 — the rehearsal hall overhangs the main one", span: 1, ar: "5/4" },
+      ],
+    },
+    {
+      key: "evening", code: "I", title: "18:00 Evening", tag: "School & City",
+      text: [
+        "18:00 — the day does not end. In the evening the sports block, the assembly hall and the library remain open to the residents of the district, and the school becomes a community centre.",
+      ],
+      images: [
+        { src: "content/projects/24-omsk-school/evening-01-exterior.jpg", label: "18:00 — the sports block, the assembly hall and the library stay open to the neighbourhood", span: 2, ar: "5504/3072" },
+      ],
+    },
+    {
+      key: "zoning", code: "J", title: "Zoning & Massing", tag: "Functional Zones · Axonometry",
+      text: [
+        "All the blocks are organised around the central core, which keeps the routes short and allows flexible scenarios of use. In the zoning model each function has its own colour.",
+        "The general axonometric schemes show the volume as a whole: the triangle of classrooms wrapped around the usable roof, the main entrance in the long facade and the slide coiling off the corner.",
+      ],
+      list: [
+        "Green — the learning block: classrooms and laboratories.",
+        "Blue — theatre spaces.",
+        "Red — the sports block.",
+        "Magenta — service areas.",
+        "Yellow — recreation and circulation.",
+      ],
+      images: [
+        { src: "content/projects/24-omsk-school/zoning-01-from-above.png", label: "Functional zoning — the theatre core inside the triangle", span: 1, ar: "1301/739" },
+        { src: "content/projects/24-omsk-school/zoning-02-from-street.png", label: "Functional zoning — the sports block along the base", span: 1, ar: "1301/739" },
+        { src: "content/projects/24-omsk-school/massing-01-entrance.png", label: "Axonometry — the usable roof, the main entrance and the slide", span: 1, ar: "3/2" },
+        { src: "content/projects/24-omsk-school/massing-02-classrooms.png", label: "Axonometry — the classrooms around the usable roof", span: 1, ar: "3/2" },
+      ],
+    },
+    {
+      key: "site", code: "K", title: "Site & Landscape", tag: "General Plan · Planting",
+      text: [
+        "The new building stands on a 1.05-hectare site next to the existing first building of the school, inside a ring of trees. Paving and fire lanes run around the building; the grounds hold an amphitheatre, a basketball court, vegetable gardens and a recreation area, and planting wraps the edge of the site.",
+        "The planting uses species of the Omsk region and is composed by season: trees for structure and winter colour, and a lower tier of shrubs and perennials that flowers in the months the trees are quiet — so the grounds have something in leaf, in flower, in berry or in colour all year, including the long Siberian winter.",
+      ],
+      images: [
+        { src: "content/projects/24-omsk-school/site-01-general-plan.jpg", label: "General plan — building 2 beside building 1, the usable roof, paving and fire lanes, planting around the site", span: 1, ar: "1/1" },
+        { src: "content/projects/24-omsk-school/site-02-axonometric.jpg", label: "The site in axonometry — amphitheatre, basketball court, vegetable gardens and a recreation area", span: 1, ar: "1/1" },
+      ],
+      endBlocks: [
+        {
+          heading: "Planting",
+          groups: [
+            { title: "Trees", sub: [
+              "Silver birch · Betula pendula, to 20 m — a main species on the site; its openwork crown lets plenty of light through.",
+              "Siberian spruce · Picea obovata, to 25 m — evergreen colour for the winter months.",
+              "Scots pine · Pinus sylvestris, to 30 m — evergreen colour for the winter months.",
+              "Small-leaved lime · Tilia cordata, to 16 m — a dense crown at the entrance square: shade and a screen against street noise.",
+              "Siberian rowan · Sorbus sibirica, to 10 m — accent trees with bright berries in winter and birds at the classroom windows.",
+              "Siberian crab apple · Malus baccata, to 8 m — a flowering orchard by the school garden, a spring event and material for lessons.",
+              "Common lilac · Syringa vulgaris, to 4 m — a hedge along the site boundary, in flower by the end of the school year.",
+              "Shiny cotoneaster · Cotoneaster lucidus, to 1.5 m — clipped borders along the paths that shape the routes.",
+            ] },
+            { title: "Shrubs & Perennials", sub: [
+              "April · Goat willow, Salix caprea — silver catkins, the first event of spring while snow still lies.",
+              "April–May · Pasque flower, Pulsatilla patens — a Siberian early bloomer, lilac bells on the thawed patches.",
+              "May–June · Siberian peony, Paeonia anomala — large pink flowers of a Siberian species.",
+              "June–September · Shrubby cinquefoil, Potentilla fruticosa — yellow flowers without a break all summer.",
+              "July · Daylily, Hemerocallis hybrida — orange trumpets at the height of summer; hardy and undemanding.",
+              "July–September · Panicle hydrangea, Hydrangea paniculata — white panicles that turn pink by autumn and stay decorative when dry.",
+              "September–October · New York aster, Symphyotrichum novi-belgii — lilac flowers until the first frosts.",
+              "November–March · Red-barked dogwood, Cornus alba — coral-red stems, the main colour of the site against the snow.",
+            ] },
+          ],
+          note: "Seasonal dynamics: birch flowers in May and turns gold in September–October, lime flowers in July, rowan and crab apple blossom in May–June and hold their berries from August into winter, cotoneaster turns crimson in autumn, and spruce and pine stay green all year. The lower tier fills the quiet months of that palette — willow catkins in April, cinquefoil from June to September and red dogwood stems all winter.",
+        },
+      ],
+    },
+    {
+      key: "plans", code: "L", title: "Floor Plans", tag: "Levels 1–4 · Roof",
+      text: [
+        "Level 1 is the shared ground of the day: the lobby and cloakrooms, the dining hall with its kitchen, the 549 m² sports hall, a gymnastics hall, a fitness room and a choreography studio, with changing rooms and showers. Level 2 carries the lower tier of the 300-seat concert hall with the backstage, a costume room, theatre stores and a staff room for drama and dance teachers, next to the 150 m² library.",
+        "The upper levels are for teaching. Level 3 holds a home room for each year group from grade 7 to grade 11, foreign-language and psychology rooms, sewing and culinary workshops and an acting class, around the upper tier of the hall. Level 4 has the physics, chemistry and biology laboratories, rooms for mathematics, philology, history and geography, an art studio, a 3D-printing workshop, the teachers' room and the 100 m² rehearsal hall. The roof plan shows the fifth facade.",
+      ],
+      images: [
+        { type: "floors", label: "Floor plans", white: true, floors: [
+          { n: "1", name: "Level 1", src: "content/projects/24-omsk-school/plan-level-1.png" },
+          { n: "2", name: "Level 2", src: "content/projects/24-omsk-school/plan-level-2.png" },
+          { n: "3", name: "Level 3", src: "content/projects/24-omsk-school/plan-level-3.png" },
+          { n: "4", name: "Level 4", src: "content/projects/24-omsk-school/plan-level-4.png" },
+          { n: "5", name: "Roof", src: "content/projects/24-omsk-school/plan-roof.png" },
+        ] },
+      ],
+    },
+    {
+      key: "facades", code: "M", title: "Facades & Materials", tag: "Elevations · Details · Palette",
+      text: [
+        "The envelope follows the uses behind it. Polycarbonate wraps the rooms that need soft, diffused light; panoramic glazing in aluminium frames opens the classrooms of the upper levels; and a reflective metal membrane covers the opaque parts of the main facade around the theatre halls — a material that distorts reality, set against the transparent and translucent facades of the classrooms. A red steel frame of columns and diagonal braces runs through the translucent base.",
+        "The references were the polycarbonate facade of the Garage Museum in Moscow and a facade of reflective metal panels in Osaka. The six facades are shown in pairs at a common scale.",
+      ],
+      list: [
+        "01 · Polycarbonate — for the rooms that need soft, diffused light.",
+        "02 · Panoramic glazing in aluminium frames.",
+        "03 · Reflective metal membrane — for the opaque parts of the main facade.",
+      ],
+      images: [
+        { src: "content/projects/24-omsk-school/facades-01-north-south.png", label: "North facade (top) and south facade (bottom)", span: 2, diagram: true, wide: true, ar: "2000/1166" },
+        { src: "content/projects/24-omsk-school/facades-02-east-west.png", label: "East facade (top) and west facade (bottom)", span: 2, diagram: true, wide: true, ar: "2000/1242" },
+        { src: "content/projects/24-omsk-school/facades-03-southeast-southwest.png", label: "South-east facade (top) and south-west facade (bottom)", span: 2, diagram: true, wide: true, ar: "2000/1282" },
+        { src: "content/projects/24-omsk-school/facade-detail-01-section.png", label: "Facade detail 1 — the reflective membrane in elevation and section", span: 1, ar: "1/1" },
+        { src: "content/projects/24-omsk-school/facade-detail-02-axonometric.png", label: "Facade detail 2 — polycarbonate, glazing and the slide at the base", span: 1, ar: "1/1" },
+      ],
+    },
+    {
+      key: "sections", code: "N", title: "Sections", tag: "1–1 · 2–2 · 3–3",
+      text: [
+        "Floor-to-floor heights are 3.9 m, with the roof at +15.6 m. Section 1–1 cuts the classroom wing: workshops and classrooms stacked over the double-height dining, gymnastics and sports halls. Section 2–2 runs through the core — the lobby, the library, both tiers of the 300-seat concert hall and the rehearsal hall at the top. Section 3–3 crosses the hall and the lobby beneath it, the theatre stores and the double-height sports hall under two floors of classrooms.",
+      ],
+      images: [
+        { src: "content/projects/24-omsk-school/section-1-1.png", label: "Section 1–1 — classrooms and workshops over the dining and sports halls", span: 2, diagram: true, wide: true, ar: "2000/761" },
+        { src: "content/projects/24-omsk-school/section-2-2.png", label: "Section 2–2 — lobby, library, the two-tier concert hall and the rehearsal hall above", span: 2, diagram: true, wide: true, ar: "2000/643" },
+        { src: "content/projects/24-omsk-school/section-3-3.png", label: "Section 3–3 — the concert hall, theatre stores and the sports hall", span: 2, diagram: true, wide: true, ar: "2000/736" },
+      ],
+    },
+    {
+      key: "views", code: "O", title: "Exterior Views", tag: "Perspectives · Key Figures",
+      text: [
+        "Two perspectives close the set: the glazed corner, with the slide spiralling down from the roof, and the main facade, where the reflective membrane mirrors the sky and the street around the red entrance.",
+      ],
+      images: [
+        { src: "content/projects/24-omsk-school/views-01-glass-corner.jpg", label: "The glazed corner of the classroom levels, with the slide coming down from the roof", span: 2, ar: "5504/3072" },
+        { src: "content/projects/24-omsk-school/views-02-reflective-facade.jpg", label: "The main facade — the reflective metal membrane around the red entrance", span: 2, ar: "5496/3072" },
+      ],
+      endBlocks: [
+        {
+          heading: "Key Figures",
+          bullets: [
+            "Site area — 1.05 ha",
+            "Built-up area — 2,372.23 m²",
+            "Gross floor area — 6,822.02 m²",
+            "Building volume — 37,125 m³",
+            "Storeys — 4",
+            "Capacity — 160 pupils",
+            "Classrooms — 10",
+            "Facade area — 4,071.29 m²",
+          ],
+          note: "Figures to be refined at the next design stage.",
+        },
+      ],
+    },
+  ],
+});
+
 window.placeholderImg = function (label, hue, dark) {
   label = String(label).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
   const bg   = dark ? `hsl(${hue} 22% 22%)` : `hsl(${hue} 28% 86%)`;

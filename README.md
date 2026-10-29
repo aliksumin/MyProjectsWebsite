@@ -85,6 +85,8 @@ Media folder names carry the project number, so they match the page URL directly
 | `project.html?p=20` | `content/projects/20-ipai/` |
 | `project.html?p=21` | `content/projects/21-stuttgart-office/` |
 | `project.html?p=22` | `content/projects/22-three-piers/` |
+| `project.html?p=23` | `content/projects/23-tashkent-neighborhood/` |
+| `project.html?p=24` | `content/projects/24-omsk-school/` |
 | `about.html` | `content/about/` |
 
 **To swap an image:** drop the new full-resolution file into
