@@ -1405,7 +1405,9 @@ window.PORTFOLIO.projects.push({
   n: "09", slug: "ski-resort", title: "Ski Resort",
   type: "Ski Resort Hotel", year: "2026", loc: "Mountains",
   status: "Concept Design", hue: 210,
-  hasVideo: false, video: null, hideTopFilm: true,
+  hasVideo: true,
+  video: "content/projects/09-ski-resort/ski-resort-film.mp4",       // 1080p web cut, QP 34
+  poster: "content/projects/09-ski-resort/ski-01-exterior.png",
   cover: "content/projects/09-ski-resort/ski-01-exterior.png",
   circles: [
     "content/projects/09-ski-resort/ski-01-exterior.png",
