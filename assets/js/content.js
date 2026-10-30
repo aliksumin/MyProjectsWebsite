@@ -899,6 +899,7 @@ window.PORTFOLIO = {
       general: [
         { src: "content/projects/02-dadonghai-sanya/general-context-grid.png", label: "This is already a nice place — we just need to show it from the proper angle", span: 2 },
       ],
+      generalYoutube: "RBIU-tTC2hk",               // ← overview film, right after the collage
     },
 
     /* ============ 03 — WAVY SQUARE (bespoke interactive page) ============ */

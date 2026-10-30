@@ -854,7 +854,18 @@ if(proj.sections){
     g.innerHTML=`<div class="ov__lab reveal" style="margin-bottom:18px"><h2>${proj.generalTitle||'Context &amp; General Views'}</h2><span class="mono-label">${String(proj.general.length).padStart(2,'0')} images</span></div>`;
     const grid=document.createElement('div');grid.className='gal';
     proj.general.forEach(im=>grid.appendChild(galleryFigure(im)));
-    g.appendChild(grid);body.appendChild(g);
+    g.appendChild(grid);
+    // overview film (YouTube) — rendered after the general imagery
+    if(proj.generalYoutube){
+      const fr=document.createElement('div');fr.className='feat__frame reveal';fr.style.marginTop='18px';
+      const code=document.createElement('span');code.className='feat__code';code.textContent='FILM / '+proj.n;
+      fr.appendChild(code);
+      const lab=proj.generalYoutubeLabel||'Overview — film';
+      ytFacade(fr, proj.generalYoutube, proj.title+' — '+lab);
+      g.appendChild(fr);
+      const cap=document.createElement('div');cap.className='feat__cap';cap.innerHTML=`<span>// ${lab}</span><span>16:9</span>`;g.appendChild(cap);
+    }
+    body.appendChild(g);
   }else if(proj.generalReserved){
     const g=document.createElement('section');g.className='wrap';g.style.paddingBottom='10px';
     const grid=document.createElement('div');grid.className='gal';
