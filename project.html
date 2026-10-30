@@ -971,7 +971,8 @@ if(proj.sections){
     if(s.clips&&s.clips.length){
       s.clips.forEach(c=>{
         const fig=document.createElement('figure');fig.className='clip reveal';fig.style.marginTop='18px';
-        fig.innerHTML=`<video src="${c.src}" autoplay muted loop playsinline preload="metadata"${c.poster?` poster="${c.poster}"`:''}></video>`;
+        // `controls`: a clip with its own soundtrack, so the viewer can unmute and scrub
+        fig.innerHTML=`<video src="${c.src}" autoplay muted loop playsinline preload="metadata"${c.controls?' controls':''}${c.poster?` poster="${c.poster}"`:''}></video>`;
         sec.appendChild(fig);
         if(c.label){const cap=document.createElement('div');cap.className='feat__cap';cap.innerHTML=`<span>// ${c.label}</span><span>loop</span>`;sec.appendChild(cap);}
       });

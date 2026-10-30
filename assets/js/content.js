@@ -1321,6 +1321,10 @@ window.PORTFOLIO.projects.push({
         { src: "content/projects/08-grid-city/grid-03-courtyard.png", label: "Courtyard — the stepped basalt podium meeting the crystalline residential masses", span: 2, ar: "3000/1714" },
         { src: "content/projects/08-grid-city/grid-04-massing.png", label: "Clay massing study — geometry generated directly by the Grasshopper definition", span: 2, diagram: true },
       ],
+      // light cut of the 71 s algorithm film (GridCityVideo v2), web-encoded at QP 31
+      clips: [
+        { src: "content/projects/08-grid-city/grid-film.mp4", label: "From points and lines to architecture — the Grasshopper definition, stage by stage", controls: true },
+      ],
     },
     {
       key: "form-finding", code: "B", title: "Form Finding", tag: "Attractors · Extension · Height",
