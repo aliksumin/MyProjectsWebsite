@@ -2526,7 +2526,9 @@ window.PORTFOLIO.projects.push({
   n: "22", slug: "three-piers", title: "Three Piers",
   type: "Piers / Shopping Mall", year: "2026", loc: "Sanya, Hainan",
   status: "Concept Design", hue: 30,
-  hasVideo: false, video: null, hideTopFilm: true,
+  hasVideo: true,
+  video: "content/projects/22-three-piers/three-piers-film.mp4",      // web cut of the extended 1080p film
+  poster: "content/projects/22-three-piers/overview-aerial.png",
   cover: "content/projects/22-three-piers/overview-aerial.png",
   circles: [
     "content/projects/22-three-piers/seafood-bay-pavilions.png",
