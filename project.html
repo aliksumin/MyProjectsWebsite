@@ -673,6 +673,13 @@ function galleryFigure(img){
 
 const body=document.getElementById('body');
 
+// a render shown on its own just above the top film, rather than as its poster
+if(proj.filmLead){
+  const g=document.createElement('div');g.className='gal';g.style.marginBottom='26px';
+  g.appendChild(galleryFigure({span:2,...proj.filmLead}));
+  const feat=document.querySelector('.feat');feat.insertBefore(g,feat.firstChild);
+}
+
 // self-hosted motion clips (rendered just under the featured film)
 if(proj.clips&&proj.clips.length){
   const cs=document.createElement('section');cs.className='clips wrap';

@@ -1407,7 +1407,7 @@ window.PORTFOLIO.projects.push({
   status: "Concept Design", hue: 210,
   hasVideo: true,
   video: "content/projects/09-ski-resort/ski-resort-film.mp4",       // 1080p web cut, QP 34
-  poster: "content/projects/09-ski-resort/ski-01-exterior.png",
+  filmLead: { src: "content/projects/09-ski-resort/ski-01-exterior.png", label: "Terraced rooms and steaming pool above the valley", ar: "3000/1674" },
   cover: "content/projects/09-ski-resort/ski-01-exterior.png",
   circles: [
     "content/projects/09-ski-resort/ski-01-exterior.png",
@@ -1442,8 +1442,7 @@ window.PORTFOLIO.projects.push({
         "From the air the section is clear: the terraced bar of rooms follows the contour, a heated pool steams on its valley-side deck, and the proposed ski slopes wrap around and over the roof into the surrounding peaks.",
       ],
       images: [
-        { src: "content/projects/09-ski-resort/ski-02-aerial.png", label: "Terraced rooms and steaming pool above the valley", span: 2, ar: "3000/1674" },
-        { src: "content/projects/09-ski-resort/ski-01-exterior.png", label: "Dusk on the piste — the timber hotel, restaurant towers and glass lookout", span: 2, ar: "3000/1674" },
+        { src: "content/projects/09-ski-resort/ski-02-aerial.png", label: "Dusk on the piste — the timber hotel, restaurant towers and glass lookout", span: 2, ar: "3000/1674" },
       ],
     },
     {
