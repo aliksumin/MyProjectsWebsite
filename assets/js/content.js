@@ -3066,6 +3066,20 @@ window.PORTFOLIO.projects.push({
         },
       ],
     },
+    {
+      key: "brochure", code: "P", title: "Brochure", tag: "Original · In Russian",
+      text: [
+        "The project as it was presented: the original brochure, in Russian, page for page. Turn the pages with the arrows, the keyboard or a swipe, jump to any page from the strip below, or open it full screen.",
+      ],
+      // The PDF rendered at 2x. The client's name is covered on pages 1, 2 and 44, and the
+      // labels inside the drawings on pages 11 and 26, which the PDF export garbled, are set
+      // again from the source SVGs (scripts in _source/build/24-omsk-school/brochure/).
+      book: {
+        ar: "1260/891",
+        pages: Array.from({ length: 44 }, (_, i) =>
+          "content/projects/24-omsk-school/brochure/page-" + String(i + 1).padStart(2, "0") + ".jpg"),
+      },
+    },
   ],
 });
 

@@ -390,6 +390,58 @@ header{position:fixed;top:0;left:0;right:0;z-index:500;
 .slides__stage:hover .slides__hint{opacity:1;}
 @media(max-width:680px){.slides__stage{aspect-ratio:var(--ar,4/3);}.gal .slides__img{padding:12px;}
   .slides__nav,.slides__hint{display:none;}}
+/* flipbook — a document leafed through one page at a time. A turn swings the
+   page about its left edge, as a bound brochure's does, over the shadow it casts
+   on the page beneath. Nothing clips the stage, so the page rises out of its
+   frame for a moment, as paper would. The controls follow the About book's. */
+/* The page is as wide as the viewport's height allows once the header, chapter
+   index and controls (`--reserve`) have theirs, so a whole page and its arrows
+   are in view together. */
+.flipbook{margin-top:6px;--reserve:230px;}
+.flipbook__stage{position:relative;aspect-ratio:var(--ar);width:min(100%,calc((100vh - var(--reserve)) * var(--r)));margin:0 auto;
+  background:var(--paper2);border:1px solid var(--line);box-shadow:0 24px 48px -30px rgba(30,26,14,.5);
+  touch-action:pan-y;outline-offset:4px;}
+.flipbook__page{position:absolute;inset:0;width:100%;height:100%;display:block;object-fit:cover;}
+.flipbook__cast{position:absolute;inset:0;z-index:2;pointer-events:none;opacity:0;
+  background:linear-gradient(90deg,rgba(30,26,14,.55),rgba(30,26,14,.08) 55%,transparent);}
+.flipbook__leaf{position:absolute;inset:0;z-index:3;transform-origin:left center;backface-visibility:hidden;
+  will-change:transform;pointer-events:none;}
+.flipbook__leaf img{display:block;width:100%;height:100%;object-fit:cover;}
+.flipbook__shade{position:absolute;inset:0;opacity:0;background:linear-gradient(90deg,rgba(30,26,14,.15),rgba(30,26,14,.6));}
+.flipbook__hot{position:absolute;top:0;bottom:0;z-index:4;width:50%;padding:0;border:0;background:none;cursor:pointer;}
+.flipbook__hot--prev{left:0;}.flipbook__hot--next{right:0;}
+.flipbook__nav{display:flex;align-items:center;justify-content:center;gap:18px;margin-top:24px;}
+.flipbook__btn{font-family:var(--mono);width:46px;height:46px;border:1px solid var(--ink);background:none;border-radius:50%;
+  cursor:pointer;font-size:13px;color:var(--ink);transition:background .25s,color .25s,opacity .25s;
+  display:flex;align-items:center;justify-content:center;}
+.flipbook__btn:hover:not(:disabled){background:var(--ink);color:var(--paper);}
+.flipbook__btn:disabled{opacity:.25;cursor:default;}
+.flipbook__btn--fs{margin-left:14px;}
+.flipbook__count{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--mut);
+  min-width:150px;text-align:center;font-variant-numeric:tabular-nums;}
+.flipbook__count b{color:var(--ink);font-weight:700;}
+.flipbook__strip{position:relative;display:flex;gap:10px;overflow-x:auto;margin-top:24px;padding:3px 3px 12px;scrollbar-width:thin;}
+.flipbook__th{flex:none;width:112px;padding:0;border:0;background:none;cursor:pointer;font-family:var(--mono);
+  font-size:10px;letter-spacing:.08em;color:var(--mut);text-align:left;}
+.flipbook__th img{display:block;width:100%;aspect-ratio:var(--ar);object-fit:cover;border:1px solid var(--line);
+  opacity:.7;transition:opacity .25s;}
+.flipbook__th span{display:block;margin-top:6px;}
+.flipbook__th:hover img{opacity:1;}
+.flipbook__th.on{color:var(--ink);}
+.flipbook__th.on img{opacity:1;outline:1px solid var(--ink);outline-offset:2px;}
+/* full screen: a CSS overlay, as in the About book. It is for reading, so the
+   strip steps aside and only the arrows take height from the page. */
+.flipbook.is-fs{position:fixed;inset:0;z-index:9000;margin:0;background:var(--paper);display:flex;flex-direction:column;
+  justify-content:center;padding:2.5vh clamp(16px,4vw,60px);overflow:hidden;--reserve:calc(5vh + 84px);}
+.flipbook.is-fs>*{flex:none;}   /* nothing in the column gets squeezed out of its ratio */
+.flipbook.is-fs.reveal{opacity:1;transform:none;transition:none;}   /* its fade-in offset would shift the overlay */
+.flipbook.is-fs .flipbook__strip{display:none;}
+body.flipbook-fs-lock{overflow:hidden;}
+@media(max-width:680px){.flipbook__nav{gap:12px;}.flipbook__count{min-width:0;}.flipbook__btn--fs{margin-left:4px;}
+  .flipbook__th{width:84px;}}
+/* a phone on its side has no height to spare for the header and controls: the
+   page takes the width, up to one screen tall */
+@media(max-height:560px){.flipbook{--reserve:0px;}}
 .gal figure:hover img{transform:scale(1.035);}
 .gal figcaption{position:absolute;left:0;bottom:0;right:0;display:flex;justify-content:space-between;
   gap:12px;padding:12px 14px;font-size:11px;letter-spacing:.04em;color:#fff;
@@ -819,6 +871,119 @@ function slidesFigure(item){
   return fig;
 }
 
+function flipbookEl(book,label){
+  // One page at a time. The arrows, the keyboard, a swipe or a click on either
+  // half of the page turns it; the strip jumps to any page. A turn starts only
+  // once the page it uncovers is decoded, so no page ever arrives blank, and a
+  // turn still running when the reader turns again completes at once.
+  const P=book.pages,n=P.length,pad=i=>String(i+1).padStart(2,'0');
+  const SIZES='(max-width:780px) 100vw, 90vw';
+  const [aw,ah]=book.ar.split('/').map(Number);
+  const wrap=document.createElement('div');wrap.className='flipbook reveal';
+  wrap.style.setProperty('--ar',book.ar);wrap.style.setProperty('--r',(aw/ah).toFixed(4));
+  wrap.setAttribute('role','region');wrap.setAttribute('aria-label',label);
+  wrap.innerHTML=`
+    <div class="flipbook__stage" tabindex="0" aria-label="${label}: the arrow keys turn the pages">
+      <img class="flipbook__page" ${window.imgAttrs(P[0],SIZES)} alt="Page 1 of ${n}" loading="lazy">
+      <i class="flipbook__cast"></i>
+      <button type="button" class="flipbook__hot flipbook__hot--prev" tabindex="-1" aria-label="Previous page"></button>
+      <button type="button" class="flipbook__hot flipbook__hot--next" tabindex="-1" aria-label="Next page"></button>
+    </div>
+    <div class="flipbook__nav">
+      <button type="button" class="flipbook__btn flipbook__prev" aria-label="Previous page" disabled>◀</button>
+      <span class="flipbook__count" aria-live="polite">Page <b>01</b> / ${pad(n-1)}</span>
+      <button type="button" class="flipbook__btn flipbook__next" aria-label="Next page"${n<2?' disabled':''}>▶</button>
+      <button type="button" class="flipbook__btn flipbook__btn--fs" aria-label="Full screen" title="Full screen">⤢</button>
+    </div>
+    <div class="flipbook__strip">${P.map((p,i)=>`<button type="button" class="flipbook__th${i?'':' on'}" aria-label="Page ${i+1}">`
+      +`<img ${window.imgAttrs(p,'112px')} alt="" loading="lazy"><span>${pad(i)}</span></button>`).join('')}</div>`;
+  const stage=wrap.querySelector('.flipbook__stage'),base=wrap.querySelector('.flipbook__page'),cast=wrap.querySelector('.flipbook__cast');
+  const prev=wrap.querySelector('.flipbook__prev'),next=wrap.querySelector('.flipbook__next'),fsBtn=wrap.querySelector('.flipbook__btn--fs');
+  const count=wrap.querySelector('.flipbook__count b'),strip=wrap.querySelector('.flipbook__strip'),ths=[...strip.children];
+  // each page's src/srcset/sizes, read once off the shared tier helper
+  const attrs=P.map(p=>{const t=document.createElement('template');t.innerHTML=`<img ${window.imgAttrs(p,SIZES)}>`;
+    const im=t.content.firstChild;return{sizes:im.getAttribute('sizes'),srcset:im.getAttribute('srcset'),src:im.getAttribute('src')};});
+  function setPage(img,i){const a=attrs[i];img.sizes=a.sizes;img.srcset=a.srcset;img.src=a.src;img.alt=`Page ${i+1} of ${n}`;}
+  // fetch and decode page i in the tier the stage will ask for — never waiting long on a slow line
+  function ready(i){const im=new Image();setPage(im,i);
+    return Promise.race([im.decode().catch(()=>{}),new Promise(r=>setTimeout(r,1500))]);}
+  const reduce=matchMedia('(prefers-reduced-motion:reduce)');
+  let cur=0,shown=0,endTurn=null;   // cur: the page asked for; shown: the page on the stage
+  function turnTo(j){
+    if(endTurn)endTurn();
+    if(j===shown)return;
+    const fwd=j>shown,from=shown;shown=j;
+    if(reduce.matches){setPage(base,j);return;}
+    // Perspective in proportion to the page, so a phone sees the same turn. The
+    // page is edge-on to the eye, and so gone, once its plane passes through it.
+    const W=stage.clientWidth,D=W*3.2,edge=-Math.atan2(D,W/2)*180/Math.PI;
+    stage.style.perspective=D+'px';
+    const leaf=document.createElement('div');leaf.className='flipbook__leaf';
+    leaf.innerHTML='<img alt=""><i class="flipbook__shade"></i>';
+    setPage(leaf.firstChild,fwd?from:j);
+    if(fwd)setPage(base,j);            // forward, the new page waits underneath; back, it swings in on top
+    stage.insertBefore(leaf,stage.querySelector('.flipbook__hot'));
+    const T=640,ease=fwd?'cubic-bezier(.5,0,.8,.45)':'cubic-bezier(.2,.55,.5,1)';
+    const turn=['rotateY(0deg)',`rotateY(${edge}deg)`],dim=[0,.75];
+    const anims=[
+      leaf.animate({transform:fwd?turn:turn.reverse()},{duration:T,easing:ease,fill:'forwards'}),
+      leaf.lastChild.animate({opacity:fwd?dim:dim.reverse()},{duration:T,easing:ease,fill:'forwards'}),
+      cast.animate({opacity:[0,.85,0]},{duration:T,easing:'ease-in-out'}),
+    ];
+    let over=false;
+    endTurn=()=>{if(over)return;over=true;endTurn=null;anims.forEach(a=>a.cancel());if(!fwd)setPage(base,j);leaf.remove();};
+    anims[0].onfinish=endTurn;
+  }
+  function go(j){
+    j=Math.max(0,Math.min(n-1,j));
+    if(j===cur)return;
+    cur=j;
+    count.textContent=pad(j);
+    prev.disabled=j===0;next.disabled=j===n-1;
+    ths.forEach((t,k)=>t.classList.toggle('on',k===j));
+    centreThumb(reduce.matches?'auto':'smooth');
+    ready(j).then(()=>{if(cur===j)turnTo(j);});
+    if(j+1<n)ready(j+1);
+  }
+  function centreThumb(behavior){
+    const th=ths[cur];strip.scrollTo({left:th.offsetLeft-(strip.clientWidth-th.offsetWidth)/2,behavior});
+  }
+  function setFs(on){
+    wrap.classList.toggle('is-fs',on);
+    document.body.classList.toggle('flipbook-fs-lock',on);
+    // a plain cross reads as "close" on a phone, which has no Escape key
+    fsBtn.textContent=on?'✕':'⤢';
+    fsBtn.title=on?'Exit full screen':'Full screen';fsBtn.setAttribute('aria-label',fsBtn.title);
+    if(on)stage.focus({preventScroll:true});
+    centreThumb('auto');
+  }
+  prev.addEventListener('click',()=>go(cur-1));
+  next.addEventListener('click',()=>go(cur+1));
+  wrap.querySelector('.flipbook__hot--prev').addEventListener('click',()=>go(cur-1));
+  wrap.querySelector('.flipbook__hot--next').addEventListener('click',()=>go(cur+1));
+  ths.forEach((t,k)=>t.addEventListener('click',()=>go(k)));
+  fsBtn.addEventListener('click',()=>setFs(!wrap.classList.contains('is-fs')));
+  const KEYS={ArrowLeft:()=>cur-1,ArrowRight:()=>cur+1,Home:()=>0,End:()=>n-1};
+  stage.addEventListener('keydown',e=>{
+    if(wrap.classList.contains('is-fs')||!KEYS[e.key])return;   // full screen listens on the window
+    e.preventDefault();go(KEYS[e.key]());
+  });
+  window.addEventListener('keydown',e=>{
+    if(!wrap.classList.contains('is-fs'))return;
+    if(e.key==='Escape'){setFs(false);return;}
+    if(KEYS[e.key]){e.preventDefault();go(KEYS[e.key]());}
+  });
+  let x0=null,y0=0;
+  stage.addEventListener('touchstart',e=>{x0=e.touches[0].clientX;y0=e.touches[0].clientY;},{passive:true});
+  stage.addEventListener('touchend',e=>{
+    if(x0===null)return;
+    const dx=e.changedTouches[0].clientX-x0,dy=e.changedTouches[0].clientY-y0;x0=null;
+    if(Math.abs(dx)>40&&Math.abs(dx)>Math.abs(dy))go(cur+(dx<0?1:-1));
+  });
+  base.addEventListener('load',()=>{if(n>1)ready(1);},{once:true});   // the cover is in view: have page 2 ready
+  return wrap;
+}
+
 // month-by-month chart for an end block's `season`: `months` spells one row in
 // the letters of `key`, and `bloom` / `fruit` list the months that get a dot
 function seasonChart(se){
@@ -888,7 +1053,7 @@ if(proj.sections){
   proj.sections.forEach(s=>{
     const sec=document.createElement('section');sec.className='chap wrap';sec.id='c-'+s.key;
     sec.setAttribute('data-screen-label',proj.title+' — '+s.title);
-    const count=s.images&&s.images.length?s.images.length:(s.reserved||0);
+    const count=s.book?s.book.pages.length:s.images&&s.images.length?s.images.length:(s.reserved||0);
     const levelsHTML=s.levels?`<div class="levels reveal">${s.levels.map(l=>`
         <div class="level">
           <div class="level__n"><span>${l.n}</span></div>
@@ -923,6 +1088,8 @@ if(proj.sections){
     if(s.beforeAfter&&s.beforeAfter.length){
       s.beforeAfter.forEach(ba=>sec.appendChild(beforeAfterEl(ba)));
     }
+    // a document to leaf through
+    if(s.book)sec.appendChild(flipbookEl(s.book,proj.title+' — '+s.title));
     // gallery images (full building views) — before the detailed end blocks
     const grid=document.createElement('div');grid.className='gal';
     if(s.images&&s.images.length){s.images.forEach(im=>grid.appendChild(
